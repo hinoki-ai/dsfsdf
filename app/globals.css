@@ -1,0 +1,371 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Base semantic colors */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --radius: 0.75rem;
+
+    /* Brand colors - Amber (inspired by premium whiskey) */
+    --amber-50: 45 100% 97%;
+    --amber-100: 45 100% 94%;
+    --amber-200: 45 100% 89%;
+    --amber-300: 45 100% 83%;
+    --amber-400: 45 100% 75%;
+    --amber-500: 45 100% 67%;
+    --amber-600: 45 100% 60%;
+    --amber-700: 45 100% 53%;
+    --amber-800: 45 100% 46%;
+    --amber-900: 45 100% 39%;
+
+    /* Brand colors - Burgundy (inspired by fine red wines) */
+    --burgundy-50: 330 100% 97%;
+    --burgundy-100: 330 100% 94%;
+    --burgundy-200: 330 100% 89%;
+    --burgundy-300: 330 100% 83%;
+    --burgundy-400: 330 100% 75%;
+    --burgundy-500: 330 100% 67%;
+    --burgundy-600: 330 100% 60%;
+    --burgundy-700: 330 100% 53%;
+    --burgundy-800: 330 100% 46%;
+    --burgundy-900: 330 100% 39%;
+
+    /* Semantic color tokens for alcohol categories */
+    --alcohol-low-bg: var(--amber-100);
+    --alcohol-low-text: var(--amber-800);
+    --alcohol-low-border: var(--amber-200);
+
+    --alcohol-medium-bg: 0 100% 95%;
+    --alcohol-medium-text: 0 100% 30%;
+    --alcohol-medium-border: 0 100% 90%;
+
+    --alcohol-high-bg: 270 100% 95%;
+    --alcohol-high-text: 270 100% 30%;
+    --alcohol-high-border: 270 100% 90%;
+
+    /* Semantic color tokens for status indicators */
+    --status-allowed-bg: 120 100% 95%;
+    --status-allowed-text: 120 100% 30%;
+    --status-allowed-border: 120 100% 90%;
+
+    --status-warning-bg: 45 100% 95%;
+    --status-warning-text: 45 100% 30%;
+    --status-warning-border: 45 100% 90%;
+
+    --status-required-bg: 210 100% 95%;
+    --status-required-text: 210 100% 30%;
+    --status-required-border: 210 100% 90%;
+
+    --status-restricted-bg: 0 100% 95%;
+    --status-restricted-text: 0 100% 30%;
+    --status-restricted-border: 0 100% 90%;
+
+    /* Glass morphism effects */
+    --glass-light-bg: rgba(255, 255, 255, 0.05);
+    --glass-light-border: rgba(255, 255, 255, 0.125);
+    --glass-light-backdrop: blur(16px) saturate(180%);
+
+    --glass-medium-bg: rgba(255, 255, 255, 0.1);
+    --glass-medium-border: rgba(255, 255, 255, 0.2);
+    --glass-medium-backdrop: blur(20px) saturate(200%);
+
+    --glass-strong-bg: rgba(255, 255, 255, 0.15);
+    --glass-strong-border: rgba(255, 255, 255, 0.3);
+    --glass-strong-backdrop: blur(24px) saturate(220%);
+  }
+
+  .light {
+    /* Base semantic colors */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    /* Brand colors - Amber (inspired by premium whiskey) */
+    --amber-50: 45 100% 97%;
+    --amber-100: 45 100% 94%;
+    --amber-200: 45 100% 89%;
+    --amber-300: 45 100% 83%;
+    --amber-400: 45 100% 75%;
+    --amber-500: 45 100% 67%;
+    --amber-600: 45 100% 60%;
+    --amber-700: 45 100% 53%;
+    --amber-800: 45 100% 46%;
+    --amber-900: 45 100% 39%;
+
+    /* Brand colors - Burgundy (inspired by fine red wines) */
+    --burgundy-50: 330 100% 97%;
+    --burgundy-100: 330 100% 94%;
+    --burgundy-200: 330 100% 89%;
+    --burgundy-300: 330 100% 83%;
+    --burgundy-400: 330 100% 75%;
+    --burgundy-500: 330 100% 67%;
+    --burgundy-600: 330 100% 60%;
+    --burgundy-700: 330 100% 53%;
+    --burgundy-800: 330 100% 46%;
+    --burgundy-900: 330 100% 39%;
+
+    /* Semantic color tokens for alcohol categories */
+    --alcohol-low-bg: var(--amber-100);
+    --alcohol-low-text: var(--amber-800);
+    --alcohol-low-border: var(--amber-200);
+
+    --alcohol-medium-bg: 0 100% 95%;
+    --alcohol-medium-text: 0 100% 30%;
+    --alcohol-medium-border: 0 100% 90%;
+
+    --alcohol-high-bg: 270 100% 95%;
+    --alcohol-high-text: 270 100% 30%;
+    --alcohol-high-border: 270 100% 90%;
+
+    /* Semantic color tokens for status indicators */
+    --status-allowed-bg: 120 100% 95%;
+    --status-allowed-text: 120 100% 30%;
+    --status-allowed-border: 120 100% 90%;
+
+    --status-warning-bg: 45 100% 95%;
+    --status-warning-text: 45 100% 30%;
+    --status-warning-border: 45 100% 90%;
+
+    --status-required-bg: 210 100% 95%;
+    --status-required-text: 210 100% 30%;
+    --status-required-border: 210 100% 90%;
+
+    --status-restricted-bg: 0 100% 95%;
+    --status-restricted-text: 0 100% 30%;
+    --status-restricted-border: 0 100% 90%;
+
+    /* Glass morphism effects */
+    --glass-light-bg: rgba(255, 255, 255, 0.8);
+    --glass-light-border: rgba(0, 0, 0, 0.1);
+    --glass-light-backdrop: blur(16px) saturate(180%);
+
+    --glass-medium-bg: rgba(255, 255, 255, 0.9);
+    --glass-medium-border: rgba(0, 0, 0, 0.15);
+    --glass-medium-backdrop: blur(20px) saturate(200%);
+
+    --glass-strong-bg: rgba(255, 255, 255, 0.95);
+    --glass-strong-border: rgba(0, 0, 0, 0.2);
+    --glass-strong-backdrop: blur(24px) saturate(220%);
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-variation-settings: 'opsz' 32;
+  }
+
+  /* Enhanced typography for premium feel */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  /* Enhanced focus states for accessibility */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Smooth scrolling for premium experience */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Enhanced button styles */
+  button {
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+
+  button:hover {
+    transform: translateY(-1px);
+  }
+
+  button:active {
+    transform: translateY(0);
+  }
+
+  /* Wine.com inspired glass morphism */
+  .glass-wine {
+    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Drizly-inspired mobile cards */
+  .mobile-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mobile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Vivino-inspired social features */
+  .social-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+
+  /* Naked Wines crowdfunding style */
+  .crowdfunding-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Majestic Wine click & collect style */
+  .click-collect {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Chilean market inspired colors */
+  .chilean-wine {
+    background: linear-gradient(135deg, #8B0000, #DC143C);
+  }
+
+  .chilean-beer {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+  }
+
+  .chilean-spirits {
+    background: linear-gradient(135deg, #4B0082, #8A2BE2);
+  }
+
+  /* Premium animations inspired by top stores */
+  .wine-float {
+    animation: wine-float 6s ease-in-out infinite;
+  }
+
+  @keyframes wine-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) rotate(1deg); }
+    50% { transform: translateY(-20px) rotate(0deg); }
+    75% { transform: translateY(-10px) rotate(-1deg); }
+  }
+
+  .bottle-glow {
+    position: relative;
+  }
+
+  .bottle-glow::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: glow 4s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+
+  @keyframes glow {
+    from { opacity: 0.5; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+
+  /* Mobile-first premium utilities */
+  .mobile-first {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .touch-optimized {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Chilean UX patterns */
+  .chilean-style {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .chilean-style:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+}
