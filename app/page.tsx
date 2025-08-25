@@ -93,10 +93,10 @@ export default function Home() {
                 { number: '98%', label: t('stats.satisfaction'), icon: Star },
                 { number: '24/7', label: t('stats.support'), icon: Shield }
               ].map((stat, index) => (
-                <div key={index} className="text-center glass-effect rounded-2xl p-6 backdrop-blur-sm border border-white/10 hover:bg-white/5 transition-all duration-300">
-                  <stat.icon className="w-8 h-8 mx-auto mb-3 text-amber-500" />
-                  <div className="text-3xl font-bold mb-1">{stat.number}</div>
-                  <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+                <div key={index} className="text-center glass-effect rounded-2xl p-6 backdrop-blur-sm border border-white/10 hover:bg-white/5 hover:border-amber-400/30 transition-all duration-300 group">
+                  <stat.icon className="w-8 h-8 mx-auto mb-3 text-amber-400 group-hover:text-amber-300 transition-colors" />
+                  <div className="text-3xl font-bold mb-1 text-foreground">{stat.number}</div>
+                  <div className="text-sm text-muted-foreground font-medium group-hover:text-foreground/80 transition-colors">{stat.label}</div>
                 </div>
               ))}
             </div>

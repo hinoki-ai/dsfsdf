@@ -44,8 +44,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Verificando permisos...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-400 mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Verificando permisos...</p>
         </div>
       </div>
     )
@@ -66,30 +66,30 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   ]
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background">
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
-          <div className="absolute inset-0 bg-gray-600 opacity-75"></div>
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
         </div>
       )}
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 glass-effect border-r border-border/40 shadow-premium transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between h-16 px-6 border-b border-border/40">
           <div className="flex items-center space-x-2">
-            <Wine className="h-8 w-8 text-red-600" />
-            <span className="text-xl font-bold text-red-600">ARAMAC Admin</span>
+            <Wine className="h-8 w-8 text-amber-400" />
+            <span className="text-xl font-bold text-amber-400">ARAMAC Admin</span>
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className="lg:hidden text-foreground/70 hover:text-amber-400 hover:bg-amber-400/10"
             onClick={() => setSidebarOpen(false)}
           >
             <X className="h-5 w-5" />
@@ -101,7 +101,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <Link
               key={item.name}
               href={item.href}
-              className="flex items-center px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              className="flex items-center px-4 py-3 text-sm font-medium text-foreground/80 rounded-lg hover:bg-amber-400/10 hover:text-amber-400 transition-all duration-200 hover:scale-105"
               onClick={() => setSidebarOpen(false)}
             >
               <item.icon className="mr-3 h-5 w-5" />
