@@ -1,19 +1,37 @@
 // Divine Parsing Oracle - Advanced i18n System
 // Orchestrates intelligent language detection and translation management
 
-export const locales = ['en', 'es'] as const
+// Get supported locales from environment or use defaults
+const supportedLocalesEnv = process.env.NEXT_PUBLIC_SUPPORTED_LOCALES
+export const locales = supportedLocalesEnv
+  ? supportedLocalesEnv.split(',').map((l: string) => l.trim()) as const
+  : ['en', 'es'] as const
+
 export type Locale = typeof locales[number]
 
-export const defaultLocale: Locale = 'es' // Chilean Spanish as default
+// Get default locale from environment or use Chilean Spanish
+export const defaultLocale: Locale = (process.env.NEXT_PUBLIC_DEFAULT_LOCALE as Locale) || 'es'
 
 // Divine Language Detection Oracle
 export const divineLanguageOracle = {
   // Intelligent locale detection based on user context
   detectLocale: (acceptLanguage: string, userAgent: string, ip?: string): Locale => {
-    // Chilean IP detection
-    const isChileanIP = ip && (ip.includes('190.196.') || ip.includes('200.29.'))
+    // Check if language detection is enabled
+    const enableDetection = process.env.NEXT_PUBLIC_ENABLE_LANGUAGE_DETECTION !== 'false'
 
-    // Chilean Spanish takes precedence
+    if (!enableDetection) {
+      return defaultLocale
+    }
+
+    // Get Chilean IP ranges from environment
+    const chileanIPRanges = process.env.NEXT_PUBLIC_CHILEAN_IP_RANGES
+      ? process.env.NEXT_PUBLIC_CHILEAN_IP_RANGES.split(',').map((range: string) => range.trim())
+      : ['190.196.', '200.29.', '191.112.', '200.75.']
+
+    // Chilean IP detection with configurable ranges
+    const isChileanIP = ip && chileanIPRanges.some(range => ip.includes(range))
+
+    // Chilean Spanish takes precedence for Chilean users
     if (isChileanIP || acceptLanguage.includes('es-CL')) {
       return 'es'
     }
@@ -23,8 +41,8 @@ export const divineLanguageOracle = {
       return 'es'
     }
 
-    // Default to English for international users
-    return 'en'
+    // Default to configured default locale for international users
+    return defaultLocale
   },
 
   // SEO-optimized locale paths

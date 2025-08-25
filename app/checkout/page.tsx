@@ -298,9 +298,9 @@ export default function CheckoutPage() {
                   </div>
 
                   {!cart.ageVerification.isVerified && (
-                    <div className="flex items-center gap-2 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                      <AlertCircle className="w-4 h-4 text-yellow-600" />
-                      <span className="text-sm text-yellow-800">
+                    <div className="flex items-center gap-2 p-3 bg-status-warning-bg rounded-lg border border-status-warning-border">
+                      <AlertCircle className="w-4 h-4 text-status-warning-text" />
+                      <span className="text-sm text-status-warning-text">
                         Se requiere verificación de edad
                       </span>
                     </div>

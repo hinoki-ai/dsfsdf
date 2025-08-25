@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 
 // Divine Parsing Oracle - Advanced i18n Middleware
 const divineParsingOracle = {
-  // Primary language detection with Chilean Spanish preference
+  // Primary language detection with environment-driven configuration
   detectLanguage: (request: NextRequest): string => {
     const acceptLanguage = request.headers.get('accept-language') || ''
     const userAgent = request.headers.get('user-agent') || ''
@@ -15,21 +15,15 @@ const divineParsingOracle = {
       return pathname.startsWith('/es') ? 'es' : 'en'
     }
 
-    // Chilean IP detection (simplified for demo)
+    // Get client IP for geolocation-based detection
     const forwarded = request.headers.get('x-forwarded-for') || ''
-    const isChileanIP = forwarded.includes('190.196.') || forwarded.includes('200.29.')
+    const clientIP = forwarded.split(',')[0]?.trim() || request.ip || ''
 
-    // Chilean Spanish as default for Chilean users
-    if (isChileanIP || acceptLanguage.includes('es-CL')) {
-      return 'es'
-    }
+    // Use the enhanced Divine Language Oracle for intelligent detection
+    // Import the function dynamically to avoid circular dependencies
+    const { divineLanguageOracle } = require('./lib/i18n')
 
-    // Browser language detection with Spanish preference
-    if (acceptLanguage.includes('es')) {
-      return 'es'
-    }
-
-    return 'en'
+    return divineLanguageOracle.detectLocale(acceptLanguage, userAgent, clientIP)
   },
 
   // Advanced locale routing with SEO optimization

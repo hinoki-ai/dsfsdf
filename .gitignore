@@ -10,6 +10,18 @@ pnpm-debug.log*
 out/
 build/
 dist/
+.vercel/
+
+# Build outputs
+*.tsbuildinfo
+
+# Cache directories
+.cache/
+.parcel-cache/
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
 
 # Environment variables
 .env
