@@ -81,7 +81,7 @@ export function ProductCard({ product, onAddToCart, isAgeVerified = false }: Pro
             </Badge>
           )}
           {isChilean && (
-            <Badge className="chilean-style bg-white/90 text-red-600 border-red-200">
+            <Badge className="chilean-style glass-effect text-red-400 border-red-400/30">
               🇨🇱 Chileno
             </Badge>
           )}
@@ -115,7 +115,7 @@ export function ProductCard({ product, onAddToCart, isAgeVerified = false }: Pro
 
         {/* Quick Actions - Wine.com style */}
         <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button size="icon" className="w-8 h-8 glass-wine shadow-lg">
+          <Button size="icon" className="w-8 h-8 glass-effect shadow-lg text-foreground/70 hover:text-red-400 hover:bg-red-400/10">
             <Heart className="w-4 h-4" />
           </Button>
         </div>

@@ -111,16 +111,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </nav>
 
         {/* Regulatory Compliance Status */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border/40">
           <div className="flex items-center space-x-2 mb-2">
-            <Shield className="h-4 w-4 text-green-600" />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+            <Shield className="h-4 w-4 text-green-400" />
+            <span className="text-sm font-medium text-foreground/90">
               Cumplimiento Normativo
             </span>
           </div>
           <div className="flex items-center space-x-1">
-            <CheckCircle className="h-3 w-3 text-green-600" />
-            <span className="text-xs text-gray-600 dark:text-gray-300">
+            <CheckCircle className="h-3 w-3 text-green-400" />
+            <span className="text-xs text-muted-foreground">
               Sistema Operativo
             </span>
           </div>
@@ -130,26 +130,26 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="lg:ml-64">
         {/* Top header */}
-        <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <header className="bg-background/95 backdrop-blur-sm shadow-sm border-b border-border/40">
           <div className="flex items-center justify-between h-16 px-6">
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden text-foreground/70 hover:text-amber-400 hover:bg-amber-400/10"
               onClick={() => setSidebarOpen(true)}
             >
               <Menu className="h-5 w-5" />
             </Button>
 
             <div className="flex items-center space-x-4">
-              <Badge className="bg-green-100 text-green-800">
+              <Badge className="bg-green-500/10 text-green-400 border-green-400/20 hover:bg-green-500/20">
                 <CheckCircle className="w-3 h-3 mr-1" />
                 Sistema Activo
               </Badge>
 
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-gray-600 dark:text-gray-300">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm text-muted-foreground">
                   Administrador
                 </span>
               </div>
