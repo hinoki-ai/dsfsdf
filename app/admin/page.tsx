@@ -128,14 +128,14 @@ export default function AdminDashboard() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "pending": return "bg-yellow-100 text-yellow-800"
-      case "processing": return "bg-blue-100 text-blue-800"
-      case "shipped": return "bg-green-100 text-green-800"
-      case "critical": return "bg-red-100 text-red-800"
-      case "warning": return "bg-yellow-100 text-yellow-800"
-      case "high": return "bg-red-100 text-red-800"
-      case "medium": return "bg-yellow-100 text-yellow-800"
-      case "low": return "bg-green-100 text-green-800"
+      case "pending": return "bg-status-warning-bg text-status-warning-text border-status-warning-border"
+      case "processing": return "bg-status-required-bg text-status-required-text border-status-required-border"
+      case "shipped": return "bg-status-allowed-bg text-status-allowed-text border-status-allowed-border"
+      case "critical": return "bg-status-restricted-bg text-status-restricted-text border-status-restricted-border"
+      case "warning": return "bg-status-warning-bg text-status-warning-text border-status-warning-border"
+      case "high": return "bg-status-restricted-bg text-status-restricted-text border-status-restricted-border"
+      case "medium": return "bg-status-warning-bg text-status-warning-text border-status-warning-border"
+      case "low": return "bg-status-allowed-bg text-status-allowed-text border-status-allowed-border"
       default: return "bg-gray-100 text-gray-800"
     }
   }
@@ -164,7 +164,7 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Badge className="bg-green-100 text-green-800">
+          <Badge className="bg-status-allowed-bg text-status-allowed-text border-status-allowed-border">
             <Shield className="w-3 h-3 mr-1" />
             Sistema Seguro
           </Badge>
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
                 <div className="flex flex-col items-end">
                   <stat.icon className="h-8 w-8 text-gray-400" />
                   <div className={`flex items-center mt-2 ${
-                    stat.trend === "up" ? "text-green-600" : "text-red-600"
+                    stat.trend === "up" ? "text-status-allowed-text" : "text-status-restricted-text"
                   }`}>
                     {stat.trend === "up" ? (
                       <TrendingUp className="w-4 h-4 mr-1" />

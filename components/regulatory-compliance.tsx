@@ -174,13 +174,13 @@ export function RegulatoryCompliance({
   const getStatusColor = (status: DeliveryRestriction["status"]) => {
     switch (status) {
       case "allowed":
-        return "bg-green-100 text-green-800"
+        return "bg-status-allowed-bg text-status-allowed-text border-status-allowed-border"
       case "warning":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-status-warning-bg text-status-warning-text border-status-warning-border"
       case "required":
-        return "bg-blue-100 text-blue-800"
+        return "bg-status-required-bg text-status-required-text border-status-required-border"
       case "restricted":
-        return "bg-red-100 text-red-800"
+        return "bg-status-restricted-bg text-status-restricted-text border-status-restricted-border"
     }
   }
 
@@ -228,12 +228,12 @@ export function RegulatoryCompliance({
         {/* Compliance Status */}
         <div className="flex items-center gap-2">
           {hasBlockingRestrictions ? (
-            <Badge className="bg-red-100 text-red-800">
+            <Badge className="bg-status-restricted-bg text-status-restricted-text border-status-restricted-border">
               <XCircle className="w-3 h-3 mr-1" />
               No Cumple con Regulaciones
             </Badge>
           ) : (
-            <Badge className="bg-green-100 text-green-800">
+            <Badge className="bg-status-allowed-bg text-status-allowed-text border-status-allowed-border">
               <CheckCircle className="w-3 h-3 mr-1" />
               Cumple con Regulaciones
             </Badge>
@@ -247,7 +247,7 @@ export function RegulatoryCompliance({
             {restrictions.map((restriction, index) => (
               <div key={index} className="border rounded-lg p-3">
                 <div className="flex items-start gap-3">
-                  <div className={`mt-0.5 ${getStatusColor(restriction.status)}`}>
+                  <div className={`mt-0.5 p-1 rounded-full ${getStatusColor(restriction.status)}`}>
                     {getStatusIcon(restriction.status)}
                   </div>
                   <div className="flex-1">
