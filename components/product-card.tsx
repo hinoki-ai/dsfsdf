@@ -159,13 +159,13 @@ export function ProductCard({ product, onAddToCart, isAgeVerified = false }: Pro
           {/* Social Features - Vivino inspired */}
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1 social-rating text-xs px-2 py-1">
-                <Star className="w-3 h-3" />
+              <div className="flex items-center gap-1 glass-effect text-amber-400 text-xs px-2 py-1 rounded-full border border-amber-400/20">
+                <Star className="w-3 h-3 fill-current" />
                 4.5 (128)
               </div>
-              <div className="flex items-center gap-1 text-green-600">
+              <div className="flex items-center gap-1 text-green-400">
                 <Truck className="w-3 h-3" />
-                <span className="text-xs click-collect">Envío gratis</span>
+                <span className="text-xs glass-effect px-2 py-1 rounded border border-green-400/20">Envío gratis</span>
               </div>
             </div>
           </div>

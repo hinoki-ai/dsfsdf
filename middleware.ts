@@ -17,7 +17,8 @@ const divineParsingOracle = {
 
     // Get client IP for geolocation-based detection
     const forwarded = request.headers.get('x-forwarded-for') || ''
-    const clientIP = forwarded.split(',')[0]?.trim() || request.ip || ''
+    const realIP = request.headers.get('x-real-ip') || ''
+    const clientIP = forwarded.split(',')[0]?.trim() || realIP || '127.0.0.1'
 
     // Use the enhanced Divine Language Oracle for intelligent detection
     // Import the function dynamically to avoid circular dependencies

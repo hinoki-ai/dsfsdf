@@ -1,11 +1,16 @@
 // Divine Parsing Oracle - Advanced i18n System
 // Orchestrates intelligent language detection and translation management
 
-// Get supported locales from environment or use defaults
+// Define supported locales with proper typing
+const supportedLocalesArray = ['en', 'es'] as const
 const supportedLocalesEnv = process.env.NEXT_PUBLIC_SUPPORTED_LOCALES
+
+// Get supported locales from environment with fallback
 export const locales = supportedLocalesEnv
-  ? supportedLocalesEnv.split(',').map((l: string) => l.trim()) as const
-  : ['en', 'es'] as const
+  ? (supportedLocalesEnv.split(',').map((l: string) => l.trim()).filter(l => 
+      supportedLocalesArray.includes(l as any)
+    ) as readonly string[])
+  : supportedLocalesArray
 
 export type Locale = typeof locales[number]
 
@@ -247,7 +252,7 @@ export const divineTranslationOracle = {
   // Get translation with fallback
   getTranslation: (locale: Locale, key: string, fallback: string = key): string => {
     const keys = key.split('.')
-    let translation: any = messages[locale]
+    let translation: any = messages[locale as keyof typeof messages]
 
     for (const k of keys) {
       if (translation && typeof translation === 'object' && k in translation) {
@@ -267,7 +272,7 @@ export const divineTranslationOracle = {
   // Get all translations for a namespace
   getNamespaceTranslations: (locale: Locale, namespace: string) => {
     const keys = namespace.split('.')
-    let translation: any = messages[locale]
+    let translation: any = messages[locale as keyof typeof messages]
 
     for (const k of keys) {
       if (translation && typeof translation === 'object' && k in translation) {

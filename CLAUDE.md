@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Core Development
+
 - **Development server**: `npm run dev` (default port) or `npm run dev:port3000` (port 3000 specific)
 - **Development with Turbopack**: `npm run dev:turbo` (faster builds)
 - **Build**: `npm run build` (production build)
@@ -12,12 +13,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Lint**: `npm run lint` (ESLint with Next.js rules)
 
 ### Database Operations
+
 - **Convex development**: `npm run convex:dev` (start local Convex server)
 - **Seed database**: `npm run seed` (populate with sample data)
 - **Force seed**: `npm run seed:force` (reset and seed database)
 - **Deploy database**: `npm run convex:deploy` (production deployment)
 
 ### Docker & Deployment
+
 - **Docker build**: `npm run docker:build`
 - **Docker run**: `npm run docker:run`
 - **Development compose**: `docker-compose -f docker-compose.dev.yml up`
@@ -28,6 +31,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Architecture
 
 ### Tech Stack
+
 - **Frontend**: Next.js 15 with App Router + TypeScript + Tailwind CSS 4
 - **Authentication**: Clerk with role-based permissions
 - **Database**: Convex (real-time database with functions)
@@ -40,7 +44,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Key Architectural Patterns
 
 #### Internationalization System
+
 The project uses a custom i18n system called "Divine Parsing Oracle" with:
+
 - Automatic language detection based on IP geolocation and browser preferences
 - Chilean Spanish (es) as default locale for local market
 - Smart routing with `/[locale]/` structure
@@ -48,13 +54,16 @@ The project uses a custom i18n system called "Divine Parsing Oracle" with:
 - Environment-driven configuration for language detection rules
 
 #### Age Verification System
+
 Implements Chilean legal compliance (Law 19.925) with:
+
 - Modal-based age verification required before accessing alcohol products
 - Multiple verification methods supported
 - Privacy-focused data handling with automatic deletion
 - Glass morphism UI design for premium experience
 
 #### Design System
+
 - **Premium Glass Morphism**: Custom backdrop-filter effects with rgba backgrounds
 - **Dark Mode First**: Default dark theme optimized for luxury experience
 - **Mobile-First Responsive**: Touch-optimized interactions and responsive design
@@ -64,6 +73,7 @@ Implements Chilean legal compliance (Law 19.925) with:
 ### File Structure Organization
 
 #### App Router Structure (`/app`)
+
 - `[locale]/`: Internationalized routes (Spanish/English)
   - `productos/`: Product catalog pages
   - `productos/[slug]/`: Individual product pages
@@ -75,6 +85,7 @@ Implements Chilean legal compliance (Law 19.925) with:
 - `checkout/`: Checkout flow
 
 #### Component Architecture (`/components`)
+
 - `ui/`: Reusable design system components based on Radix UI
 - `age-verification.tsx`: Chilean law compliance component
 - `clerk-provider.tsx`: Authentication wrapper
@@ -82,13 +93,16 @@ Implements Chilean legal compliance (Law 19.925) with:
 - `product-*.tsx`: Product-related components with filtering
 
 #### Core Libraries (`/lib`)
+
 - `i18n.ts`: Divine Parsing Oracle i18n system with intelligent detection
 - `utils.ts`: Utility functions including age verification logic
 - `accessibility.ts`: WCAG compliance utilities
 - `color-palette.ts`: Brand color system management
 
 #### Database Layer (`/convex`)
+
 Currently contains only generated files - database schema was removed from tracking but likely includes:
+
 - Product catalog management
 - User authentication integration
 - Shopping cart persistence
@@ -97,6 +111,7 @@ Currently contains only generated files - database schema was removed from track
 ### Configuration Files
 
 #### Next.js Configuration (`next.config.js`)
+
 - Standalone output for Docker deployment
 - Security headers (X-Frame-Options, Content-Security-Policy)
 - Image optimization with custom domains
@@ -104,11 +119,13 @@ Currently contains only generated files - database schema was removed from track
 - Production optimizations with bundle analysis
 
 #### TypeScript Configuration (`tsconfig.json`)
+
 - Path aliases: `@/*` for root, `@/components/*`, `@/lib/*`, `@/convex/*`
 - Strict mode enabled with ES2017 target
 - Next.js plugin integration
 
 #### Tailwind Configuration (`tailwind.config.js`)
+
 - Custom design tokens for glass morphism effects
 - Semantic color system with CSS custom properties
 - Premium animations and transitions
@@ -117,25 +134,30 @@ Currently contains only generated files - database schema was removed from track
 ## Key Development Patterns
 
 ### Age Verification Integration
+
 When working with product pages or alcohol-related content:
+
 - Always check if age verification is required
 - Use the `AgeVerification` component from `@/components/age-verification`
 - Follow Chilean legal requirements (minimum 18 years)
 - Implement proper error states and privacy notices
 
 ### Internationalization Usage
+
 - Use `useTranslation(locale)` hook for component translations
 - Access translations via `divineTranslationOracle.getTranslation()`
 - All user-facing strings must support Spanish/English
 - URLs must follow locale pattern: `/[locale]/page`
 
 ### Design System Consistency
+
 - Use glass morphism classes: `glass-effect`, `glass-medium`, `glass-strong`
 - Follow mobile-first responsive design with custom container system
 - Implement premium animations with custom keyframes
 - Use semantic color tokens for alcohol categories and status indicators
 
 ### Authentication & Authorization
+
 - Protected routes use Clerk middleware with `isProtectedRoute` matcher
 - Admin pages require appropriate role-based permissions
 - Age verification state should persist across sessions
@@ -144,16 +166,19 @@ When working with product pages or alcohol-related content:
 ## Environment Variables Required
 
 ### Core Configuration
+
 - `NEXT_PUBLIC_CONVEX_URL`: Convex database URL
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` + `CLERK_SECRET_KEY`: Authentication
 
 ### Internationalization
+
 - `NEXT_PUBLIC_DEFAULT_LOCALE=es`: Default to Chilean Spanish
 - `NEXT_PUBLIC_SUPPORTED_LOCALES=es,en`: Supported languages
 - `NEXT_PUBLIC_ENABLE_LANGUAGE_DETECTION=true`: Enable smart detection
 - `NEXT_PUBLIC_CHILEAN_IP_RANGES`: IP ranges for geolocation
 
 ### Optional Services
+
 - Stripe keys for payment processing
 - SendGrid for email services
 - Google Analytics for tracking
@@ -161,12 +186,14 @@ When working with product pages or alcohol-related content:
 ## Legal & Compliance Notes
 
 ### Chilean Alcohol Regulations
+
 - Age verification is legally required (Law 19.925)
 - Geographic restrictions may apply for alcohol delivery
 - Proper disclaimers and warnings must be displayed
 - Data privacy compliance with Chilean regulations
 
 ### Accessibility Requirements
+
 - WCAG 2.1 AA compliance targeted
 - Mobile-first responsive design mandatory
 - Screen reader compatibility for age verification
@@ -175,18 +202,21 @@ When working with product pages or alcohol-related content:
 ## Development Notes
 
 ### Before Making Changes
+
 1. Check if Convex development server is running (`npm run convex:dev`)
 2. Verify environment variables are configured (use `./scripts/setup-env.sh`)
 3. Test age verification flow for any alcohol-related changes
 4. Ensure translations exist for both Spanish and English
 
 ### Testing Considerations
+
 - Test age verification with various birth dates
 - Verify locale detection with different IP addresses and browser settings
 - Check responsive design across mobile/tablet/desktop viewports
 - Validate glass morphism effects render correctly across browsers
 
 ### Performance Requirements
+
 - Core Web Vitals optimization is critical
 - Image optimization enabled for product catalog
 - Bundle analysis available via Next.js analyzer

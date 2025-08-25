@@ -26,46 +26,57 @@ This project implements a comprehensive, semantic color tokenization system that
 ## Color Categories
 
 ### Brand Colors
+
 - **Amber**: Inspired by aged whiskey and fine wines
 - **Burgundy**: Inspired by premium red wines and ports
 
 ### Semantic Colors
 
 #### Status Indicators
+
 ```css
 --status-allowed-*    /* Green variants for positive states */
 --status-warning-*    /* Yellow variants for caution states */
 --status-required-*   /* Blue variants for required actions */
 --status-restricted-* /* Red variants for blocked states */
+
 ```
 
 #### Alcohol Categories
+
 ```css
 --alcohol-low-*       /* Amber variants for low ABV (0-5%) */
 --alcohol-medium-*    /* Red variants for medium ABV (5-15%) */
 --alcohol-high-*      /* Purple variants for high ABV (15%+) */
+
 ```
 
 #### Availability States
+
 ```css
 --availability-in-stock    /* Green variants for available items */
 --availability-low-stock   /* Orange variants for limited stock */
 --availability-out-of-stock /* Gray variants for unavailable items */
 --availability-featured    /* Amber variants for featured items */
+
 ```
 
 #### Age Verification
+
 ```css
 --age-verified        /* Green variants for verified users */
 --age-unverified      /* Red variants for unverified users */
 --age-required        /* Amber variants for age requirements */
+
 ```
 
 ### Glass Morphism Effects
+
 ```css
 --glass-light-*       /* Subtle transparency for light backgrounds */
 --glass-medium-*      /* Medium transparency for balanced effects */
 --glass-strong-*      /* Strong transparency for dramatic effects */
+
 ```
 
 ## Usage Examples
@@ -73,34 +84,37 @@ This project implements a comprehensive, semantic color tokenization system that
 ### In Components
 
 #### Status Badges
+
 ```tsx
 // Instead of hard-coded colors
 <Badge className="bg-red-100 text-red-800">Error</Badge>
-
 // Use semantic tokens
 <Badge className="bg-status-restricted-bg text-status-restricted-text border-status-restricted-border">
   Restricted
 </Badge>
+
 ```
 
 #### Alcohol Categories
+
 ```tsx
 // Instead of hard-coded colors
 <Badge className="bg-yellow-100 text-yellow-800">Low ABV</Badge>
-
 // Use semantic tokens
 <Badge className={`${getAlcoholCategoryColor(abv)} border`}>
   {abv}%
 </Badge>
+
 ```
 
 #### Glass Effects
+
 ```tsx
 // Instead of inline styles
 <div className="backdrop-blur-md bg-white/10 border border-white/20">
-
 // Use semantic utilities
 <div className="glass-medium">
+
 ```
 
 ## Accessibility Compliance
@@ -108,7 +122,6 @@ This project implements a comprehensive, semantic color tokenization system that
 ### WCAG 2.1 Standards
 
 All color combinations in this system meet **WCAG AA standards** (4.5:1 contrast ratio for normal text, 3:1 for large text):
-
 - **Status colors**: Green-100/Green-800, Yellow-100/Yellow-800, Blue-100/Blue-800, Red-100/Red-800
 - **Alcohol categories**: Amber-100/Amber-800, Red-100/Red-800, Purple-100/Purple-800
 - **Brand colors**: Full range from 50 (lightest) to 900 (darkest) with proper contrast
@@ -124,21 +137,25 @@ The system includes utility functions for:
 ## Implementation Benefits
 
 ### 1. Consistency
+
 - All colors follow the same naming convention
 - Semantic meaning makes colors predictable
 - Single source of truth prevents color drift
 
 ### 2. Maintainability
+
 - Easy to update brand colors across the entire app
 - Change color schemes without touching individual components
 - Clear documentation for new developers
 
 ### 3. Accessibility
+
 - Built-in compliance with WCAG guidelines
 - Automatic contrast validation
 - Consistent experience for all users
 
 ### 4. Scalability
+
 - Easy to add new semantic color categories
 - Support for different themes and modes
 - Extensible for future brand evolution
@@ -146,13 +163,16 @@ The system includes utility functions for:
 ## Migration Guide
 
 ### Before (Hard-coded colors)
+
 ```tsx
 <Badge className="bg-yellow-100 text-yellow-800">Warning</Badge>
 <Badge className="bg-red-100 text-red-800">Error</Badge>
 <Badge className="bg-green-100 text-green-800">Success</Badge>
+
 ```
 
 ### After (Semantic tokens)
+
 ```tsx
 <Badge className="bg-status-warning-bg text-status-warning-text border-status-warning-border">
   Warning
@@ -163,6 +183,7 @@ The system includes utility functions for:
 <Badge className="bg-status-allowed-bg text-status-allowed-text border-status-allowed-border">
   Success
 </Badge>
+
 ```
 
 ## Best Practices
@@ -179,3 +200,4 @@ The system includes utility functions for:
 - **High contrast mode** for accessibility
 - **Color scheme variations** for different seasons/events
 - **Automated contrast validation** in CI/CD pipeline
+

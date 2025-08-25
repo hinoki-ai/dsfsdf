@@ -5,18 +5,20 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { AdminSidebar } from "@/components/admin-sidebar"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { CheckCircle, TrendingUp } from "lucide-react"
+import { CheckCircle, TrendingUp, AlertTriangle } from "lucide-react"
+import { cookies } from "next/headers"
 
-interface AdminLayoutProps {
+interface ModernAdminLayoutProps {
   children: React.ReactNode
 }
 
-export default function AdminLayout({ children }: AdminLayoutProps) {
+export default function ModernAdminLayout({ children }: ModernAdminLayoutProps) {
   const { userId, isLoaded, isSignedIn } = useAuth()
   const router = useRouter()
   const [mounted, setMounted] = useState(false)
@@ -68,7 +70,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex flex-1 items-center justify-between">
             <div className="flex items-center gap-2">
               <h1 className="text-lg font-semibold text-foreground/90">
-                Panel de Administración - Licorería ARAMAC
+                Panel de Administración
               </h1>
             </div>
             
