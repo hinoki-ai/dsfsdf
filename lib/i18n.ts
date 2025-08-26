@@ -7,8 +7,8 @@ const supportedLocalesEnv = process.env.NEXT_PUBLIC_SUPPORTED_LOCALES
 
 // Get supported locales from environment with fallback
 export const locales = supportedLocalesEnv
-  ? (supportedLocalesEnv.split(',').map((l: string) => l.trim()).filter(l => 
-      supportedLocalesArray.includes(l as any)
+  ? (supportedLocalesEnv.split(',').map((l: string) => l.trim()).filter((l) =>
+      supportedLocalesArray.includes(l as typeof supportedLocalesArray[number])
     ) as readonly string[])
   : supportedLocalesArray
 
@@ -184,7 +184,7 @@ export const messages = {
     // Categories
     categories: {
       title: 'Nuestras Categorías',
-      subtitle: 'Descubre nuestra amplia selección de bebidas alcoholicas',
+      subtitle: 'Descubre nuestra amplia selección de bebidas alcohólicas',
       wine: {
         name: 'Vinos',
         description: 'Selección premium de vinos tintos, blancos y rosados'
@@ -230,7 +230,7 @@ export const messages = {
 
     // Footer
     footer: {
-      description: 'Tu tienda online de confianza para licores y bebidas alcoholicas en Chile.',
+      description: 'Tu tienda online de confianza para licores y bebidas alcohólicas en Chile.',
       categories: 'Categorías',
       services: 'Servicios',
       shipping: 'Envíos',
@@ -252,11 +252,11 @@ export const divineTranslationOracle = {
   // Get translation with fallback
   getTranslation: (locale: Locale, key: string, fallback: string = key): string => {
     const keys = key.split('.')
-    let translation: any = messages[locale as keyof typeof messages]
+    let translation: unknown = messages[locale as keyof typeof messages]
 
     for (const k of keys) {
-      if (translation && typeof translation === 'object' && k in translation) {
-        translation = translation[k]
+      if (translation && typeof translation === 'object' && translation !== null && k in translation) {
+        translation = (translation as Record<string, unknown>)[k]
       } else {
         // Fallback to English or provided fallback
         if (locale !== 'en') {
@@ -272,17 +272,17 @@ export const divineTranslationOracle = {
   // Get all translations for a namespace
   getNamespaceTranslations: (locale: Locale, namespace: string) => {
     const keys = namespace.split('.')
-    let translation: any = messages[locale as keyof typeof messages]
+    let translation: unknown = messages[locale as keyof typeof messages]
 
     for (const k of keys) {
-      if (translation && typeof translation === 'object' && k in translation) {
-        translation = translation[k]
+      if (translation && typeof translation === 'object' && translation !== null && k in translation) {
+        translation = (translation as Record<string, unknown>)[k]
       } else {
         return {}
       }
     }
 
-    return translation || {}
+    return (translation as Record<string, unknown>) || {}
   }
 }
 

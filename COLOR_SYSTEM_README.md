@@ -7,18 +7,21 @@ This project implements a comprehensive, semantic color tokenization system that
 ## Architecture
 
 ### 1. Centralized Color Palette (`lib/color-palette.ts`)
+
 - **Single source of truth** for all colors in the application
 - **Semantic naming** that describes purpose rather than appearance
 - **Utility functions** for consistent color application
 - **Accessibility considerations** built into the design
 
 ### 2. CSS Custom Properties (`app/globals.css`)
+
 - **Brand colors** (amber, burgundy) with full shade ranges
 - **Semantic tokens** for different UI states and components
 - **Glass morphism effects** with consistent opacity values
 - **Light and dark mode support**
 
 ### 3. Tailwind Configuration (`tailwind.config.js`)
+
 - **Semantic color classes** that reference CSS custom properties
 - **Consistent naming** across all components
 - **Glass morphism utilities** for premium UI effects
@@ -122,6 +125,7 @@ This project implements a comprehensive, semantic color tokenization system that
 ### WCAG 2.1 Standards
 
 All color combinations in this system meet **WCAG AA standards** (4.5:1 contrast ratio for normal text, 3:1 for large text):
+
 - **Status colors**: Green-100/Green-800, Yellow-100/Yellow-800, Blue-100/Blue-800, Red-100/Red-800
 - **Alcohol categories**: Amber-100/Amber-800, Red-100/Red-800, Purple-100/Purple-800
 - **Brand colors**: Full range from 50 (lightest) to 900 (darkest) with proper contrast
@@ -129,6 +133,7 @@ All color combinations in this system meet **WCAG AA standards** (4.5:1 contrast
 ### Color Contrast Validation
 
 The system includes utility functions for:
+
 - **Contrast ratio calculation** between any two colors
 - **WCAG compliance checking** for AA and AAA standards
 - **Accessibility reporting** for all semantic combinations
@@ -200,4 +205,3 @@ The system includes utility functions for:
 - **High contrast mode** for accessibility
 - **Color scheme variations** for different seasons/events
 - **Automated contrast validation** in CI/CD pipeline
-

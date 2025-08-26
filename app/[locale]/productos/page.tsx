@@ -16,7 +16,7 @@ import {
 } from "lucide-react"
 
 // Premium Product Card Component
-const ProductCard = ({ product }: { product: any }) => {
+const ProductCard = ({ product }: { product: { id: number; name: string; slug: string; description: string; shortDescription?: string; price: number; compareAtPrice?: number; alcoholData: { abv: number }; images: { url: string; alt: string }[] } }) => {
   return (
     <Card className="group hover:shadow-premium transition-all duration-300 glass-effect border-white/10 hover:border-white/20 backdrop-blur-sm animate-fade-in-up">
       <CardHeader className="p-4">
@@ -145,7 +145,7 @@ export default function ProductsPage() {
                 Productos <span className="bg-gradient-to-r from-amber-500 via-red-500 to-burgundy-500 bg-clip-text text-transparent">Exclusivos</span>
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Descubre nuestra selección curada de las mejores bebidas alcoholicas de Chile y el mundo
+                Descubre nuestra selección curada de las mejores bebidas alcohólicas de Chile y el mundo
               </p>
             </div>
           </div>

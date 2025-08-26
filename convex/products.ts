@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { query, mutation } from "./_generated/server"
 import { Doc, Id } from "./_generated/dataModel"
+import type { Product } from "../types"
 
 // Get all active products
 export const getAll = query({
@@ -60,7 +61,7 @@ export const getFeatured = query({
       .collect()
     
     // Sort by creation date desc
-    products.sort((a: any, b: any) => b.createdAt - a.createdAt)
+    products.sort((a: Product, b: Product) => b.createdAt - a.createdAt)
     
     if (args.limit) {
       return products.slice(0, args.limit)
@@ -116,7 +117,7 @@ export const getByCategory = query({
       .collect()
     
     // Sort by creation date desc
-    products.sort((a: any, b: any) => b.createdAt - a.createdAt)
+    products.sort((a: Product, b: Product) => b.createdAt - a.createdAt)
     
     if (args.limit) {
       return products.slice(0, args.limit)

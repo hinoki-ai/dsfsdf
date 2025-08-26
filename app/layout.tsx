@@ -9,13 +9,16 @@ import { generateSEOMetadata } from '@/components/seo-meta'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = generateSEOMetadata({
-  title: 'Licorería ARAMAC - Vinos, Cervezas y Destilados Premium en Chile',
-  description: 'Tu licorería de confianza en Chile. Amplia selección de vinos, cervezas, destilados y pisco. Entrega a domicilio con verificación de edad. Cumplimiento estricto de la Ley 19.925.',
-  keywords: ['licorería chile', 'vinos chile', 'cerveza chile', 'pisco chile', 'destilados', 'whisky chile', 'licores premium', 'entrega domicilio', 'venta alcohol chile', 'licorería online'],
-  locale: 'es',
-  type: 'website'
-})
+export const metadata: Metadata = {
+  ...generateSEOMetadata({
+    title: 'Licorería ARAMAC - Vinos, Cervezas y Destilados Premium en Chile',
+    description: 'Tu licorería de confianza en Chile. Amplia selección de vinos, cervezas, destilados y pisco. Entrega a domicilio con verificación de edad. Cumplimiento estricto de la Ley 19.925.',
+    keywords: ['licorería chile', 'vinos chile', 'cerveza chile', 'pisco chile', 'destilados', 'whisky chile', 'licores premium', 'entrega domicilio', 'venta alcohol chile', 'licorería online'],
+    locale: 'es',
+    type: 'website'
+  }),
+  metadataBase: new URL('http://localhost:3000')
+}
 
 export default function RootLayout({
   children,
@@ -28,8 +31,8 @@ export default function RootLayout({
         <ResourceHints />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#d97706" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={inter.className}>

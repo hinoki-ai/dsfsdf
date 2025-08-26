@@ -21,6 +21,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Docker & Deployment
 
+
+
 - **Docker build**: `npm run docker:build`
 - **Docker run**: `npm run docker:run`
 - **Development compose**: `docker-compose -f docker-compose.dev.yml up`
@@ -221,3 +223,4 @@ When working with product pages or alcohol-related content:
 - Image optimization enabled for product catalog
 - Bundle analysis available via Next.js analyzer
 - Aggressive caching strategy implemented
+

@@ -20,9 +20,10 @@ import {
   DollarSign,
   Star
 } from "lucide-react"
+import type { ProductFilters } from "../types"
 
 interface ProductFiltersProps {
-  onFiltersChange: (filters: any) => void
+  onFiltersChange: (filters: Partial<ProductFilters>) => void
   categories: Array<{
     _id: string
     name: string
@@ -80,10 +81,10 @@ export function ProductFilters({ onFiltersChange, categories, className }: Produ
 
   const handleAbvChange = (value: number[]) => {
     setAbvRange(value)
-    updateFilters({ abvRange: value })
+    updateFilters({ alcoholRange: value })
   }
 
-  const updateFilters = (newFilters: any) => {
+  const updateFilters = (newFilters: Partial<ProductFilters>) => {
     const filters = {
       search: searchQuery,
       categories: selectedCategories,

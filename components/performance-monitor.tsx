@@ -45,8 +45,9 @@ export function PerformanceMonitor() {
           let clsValue = 0
           const clsObserver = new PerformanceObserver((list) => {
             for (const entry of list.getEntries()) {
-              if (!(entry as any).hadRecentInput) {
-                clsValue += (entry as any).value
+              const layoutShiftEntry = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number }
+              if (!layoutShiftEntry.hadRecentInput && layoutShiftEntry.value !== undefined) {
+                clsValue += layoutShiftEntry.value
               }
             }
             metrics.CLS = clsValue
@@ -57,8 +58,11 @@ export function PerformanceMonitor() {
           // First Input Delay
           const fidObserver = new PerformanceObserver((list) => {
             for (const entry of list.getEntries()) {
-              metrics.FID = (entry as any).processingStart - entry.startTime
-              console.log(`FID: ${((entry as any).processingStart - entry.startTime).toFixed(2)}ms`)
+              const firstInputEntry = entry as PerformanceEntry & { processingStart?: number }
+              if (firstInputEntry.processingStart !== undefined) {
+                metrics.FID = firstInputEntry.processingStart - entry.startTime
+                console.log(`FID: ${(metrics.FID).toFixed(2)}ms`)
+              }
             }
           })
           fidObserver.observe({ type: 'first-input', buffered: true })

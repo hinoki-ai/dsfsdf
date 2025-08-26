@@ -1,6 +1,7 @@
 import { v } from "convex/values"
 import { query, mutation } from "./_generated/server"
 import { Id } from "./_generated/dataModel"
+import type { Cart, CartItem, Product } from "../types"
 
 // Get cart for user or session
 export const getCart = query({
@@ -34,8 +35,8 @@ export const getCart = query({
     const cartWithProducts = {
       ...cart,
       items: await Promise.all(
-        cart.items.map(async (item: any) => {
-          const product = await ctx.db.get(item.productId)
+        cart.items.map(async (item: CartItem) => {
+          const product = await ctx.db.get(item.productId as any);
           return {
             ...item,
             product,
@@ -92,13 +93,13 @@ export const addItem = mutation({
     if (cart) {
       // Update existing cart
       const existingItemIndex = cart.items.findIndex(
-        (item: any) => item.productId === args.productId
+        (item: CartItem) => item.productId === args.productId
       )
-      
+
       let updatedItems
       if (existingItemIndex >= 0) {
         // Update existing item quantity
-        updatedItems = cart.items.map((item: any, index: number) =>
+        updatedItems = cart.items.map((item: CartItem, index: number) =>
           index === existingItemIndex
             ? { ...item, quantity: item.quantity + args.quantity }
             : item
@@ -177,12 +178,12 @@ export const updateItemQuantity = mutation({
     }
     
     const updatedItems = cart.items
-      .map((item: any) =>
+      .map((item: CartItem) =>
         item.productId === args.productId
           ? { ...item, quantity: args.quantity }
           : item
       )
-      .filter((item: any) => item.quantity > 0) // Remove items with 0 quantity
+      .filter((item: CartItem) => item.quantity > 0) // Remove items with 0 quantity
     
     await ctx.db.patch(cart._id, {
       items: updatedItems,
@@ -224,7 +225,7 @@ export const removeItem = mutation({
     }
     
     const updatedItems = cart.items.filter(
-      (item: any) => item.productId !== args.productId
+      (item: CartItem) => item.productId !== args.productId
     )
     
     await ctx.db.patch(cart._id, {

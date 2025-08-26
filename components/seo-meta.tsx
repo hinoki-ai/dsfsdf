@@ -216,7 +216,36 @@ export function generateStructuredData(props: SEOProps & {
 
   // Add product-specific structured data
   if (props.title && props.price) {
-    const productData: any = {
+    const productData: {
+      '@type': 'Product'
+      '@id': string
+      name: string
+      description?: string
+      offers: {
+        '@type': 'Offer'
+        price: number
+        priceCurrency: string
+        availability: string
+        seller: { '@id': string }
+        validFrom: string
+        priceValidUntil: string
+      }
+      aggregateRating: {
+        '@type': 'AggregateRating'
+        ratingValue: string
+        reviewCount: string
+        bestRating: string
+        worstRating: string
+      }
+      audience: {
+        '@type': 'Audience'
+        audienceType: string
+        suggestedMinAge: string
+      }
+      image?: string
+      brand?: { '@type': 'Brand'; name: string }
+      category?: string
+    } = {
       '@type': 'Product',
       '@id': `${props.url}#product`,
       name: props.title,
@@ -261,7 +290,7 @@ export function generateStructuredData(props: SEOProps & {
       productData.category = props.category
     }
 
-    baseStructuredData['@graph'].push(productData)
+    baseStructuredData['@graph'].push(productData as any)
   }
 
   return JSON.stringify(baseStructuredData, null, 2)

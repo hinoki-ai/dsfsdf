@@ -11,6 +11,7 @@
 ## 🌟 **Divine Features Overview**
 
 ### 🎨 **Premium Design System**
+
 - **Glass Morphism Effects** - Modern, translucent UI elements with backdrop blur
 - **Dark Mode Default** - Sophisticated dark theme optimized for luxury experience
 - **Mobile-First Design** - Responsive across all devices with touch-optimized interactions
@@ -18,18 +19,21 @@
 - **Gradient Accents** - Carefully crafted color gradients inspired by premium spirits
 
 ### 🌐 **Divine Parsing Oracle i18n**
+
 - **Intelligent Language Detection** - Automatic locale detection based on user context
 - **Chilean Spanish Priority** - Optimized for Chilean market with legal compliance
 - **Real-time Translation** - Seamless switching between English and Spanish
 - **SEO-Optimized URLs** - Localized routing for better search engine visibility
 
 ### 🛡️ **Age Verification Excellence**
+
 - **Multiple Verification Methods** - Date of birth, ID validation, and credit card verification
 - **Chilean Legal Compliance** - Full adherence to Law 19.925 for alcoholic beverages
 - **Premium UX** - Beautiful, non-intrusive verification flow
 - **Privacy Protection** - Secure data handling with automatic deletion
 
 ### 🏪 **Comprehensive E-Commerce**
+
 - **Product Catalog** - Premium spirits, wines, beers with detailed information
 - **Advanced Filtering** - Search, categories, price ranges, and product attributes
 - **Shopping Cart** - Persistent cart with age verification holds
@@ -37,6 +41,7 @@
 - **Wishlist Management** - Save favorite products for later
 
 ### 📊 **Business Intelligence**
+
 - **Analytics Dashboard** - Track sales, customer behavior, and inventory
 - **Inventory Management** - Real-time stock tracking with low-stock alerts
 - **Customer Insights** - User preferences and purchase patterns
@@ -45,6 +50,7 @@
 ## 🚀 **Getting Started**
 
 ### Prerequisites
+
 ```bash
 Node.js >= 20.18.1
 npm >= 10.8.2
@@ -53,61 +59,68 @@ npm >= 10.8.2
 ### Installation
 
 1. **Clone the repository**
-```bash
-git clone https://github.com/aramac/liquor-store-saas.git
-cd liquor-store-saas
-```
+
+   ```bash
+   git clone https://github.com/aramac/liquor-store-saas.git
+   cd liquor-store-saas
+   ```
 
 2. **Install dependencies**
-```bash
-npm install
-```
+
+   ```bash
+   npm install
+   ```
 
 3. **Environment Setup**
-```bash
-cp .env.example .env.local
-```
 
-Configure the following environment variables:
-```env
-# Database
-NEXT_PUBLIC_CONVEX_URL=your_convex_url
+   ```bash
+   cp .env.example .env.local
+   ```
 
-# Authentication
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_SECRET_KEY=your_clerk_secret_key
+   Configure the following environment variables:
 
-# Payment Processing
-STRIPE_PUBLIC_KEY=your_stripe_public_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
+   ```env
+   # Database
+   NEXT_PUBLIC_CONVEX_URL=your_convex_url
 
-# Email Service
-SENDGRID_API_KEY=your_sendgrid_api_key
+   # Authentication
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   CLERK_SECRET_KEY=your_clerk_secret_key
 
-# Analytics
-GOOGLE_ANALYTICS_ID=your_ga_id
-```
+   # Payment Processing
+   STRIPE_PUBLIC_KEY=your_stripe_public_key
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+
+   # Email Service
+   SENDGRID_API_KEY=your_sendgrid_api_key
+
+   # Analytics
+   GOOGLE_ANALYTICS_ID=your_ga_id
+   ```
 
 4. **Database Setup**
-```bash
-# Start Convex development server
-npm run convex:dev
 
-# Seed the database with premium data
-npm run seed
-```
+   ```bash
+   # Start Convex development server
+   npm run convex:dev
+
+   # Seed the database with premium data
+   npm run seed
+   ```
 
 5. **Start Development Server**
-```bash
-npm run dev:port3000
-```
 
-Visit `http://localhost:3000` to see your world-class liquor store!
+   ```bash
+   npm run dev:port3000
+   ```
+
+   Visit `http://localhost:3000` to see your world-class liquor store!
 
 ## 🏗️ **Architecture**
 
 ### **Tech Stack**
-```
+
+```text
 Frontend: Next.js 15 + TypeScript + Tailwind CSS 4
 Backend: Convex (Real-time Database)
 Authentication: Clerk
@@ -117,7 +130,8 @@ Deployment: Vercel
 ```
 
 ### **Project Structure**
-```
+
+```text
 liquor-store-saas/
 ├── app/                          # Next.js App Router
 │   ├── [locale]/                # Internationalized routes
@@ -145,6 +159,7 @@ liquor-store-saas/
 ## 🎯 **Key Features Deep Dive**
 
 ### **1. Divine Parsing Oracle i18n System**
+
 ```typescript
 // Intelligent language detection
 const divineLanguageOracle = {
@@ -157,6 +172,7 @@ const divineLanguageOracle = {
 ```
 
 ### **2. Premium Age Verification**
+
 ```typescript
 // Multiple verification methods
 const verificationMethods = [
@@ -167,6 +183,7 @@ const verificationMethods = [
 ```
 
 ### **3. Glass Morphism Design System**
+
 ```css
 /* Premium glass effects */
 .glass-effect {
@@ -177,6 +194,7 @@ const verificationMethods = [
 ```
 
 ### **4. Mobile-First Responsive Design**
+
 ```css
 /* Mobile-optimized utilities */
 .mobile-first {
@@ -206,12 +224,14 @@ const verificationMethods = [
 ## 📱 **Mobile Experience**
 
 ### **Touch-Optimized Interactions**
+
 - **Swipe Gestures** - Navigate products with swipe gestures
 - **Pull-to-Refresh** - Refresh product listings
 - **Touch Feedback** - Visual feedback on all interactions
 - **Optimized Forms** - Mobile-friendly input fields and validation
 
 ### **Progressive Web App (PWA)**
+
 - **Offline Capability** - Browse products without internet
 - **Push Notifications** - Order updates and promotions
 - **Installable** - Add to home screen for native experience
@@ -220,12 +240,14 @@ const verificationMethods = [
 ## 🔒 **Security & Compliance**
 
 ### **Chilean Legal Compliance**
+
 - **Age Verification** - Mandatory 18+ verification per Law 19.925
 - **Data Protection** - GDPR compliant with Chilean data laws
 - **Alcohol Sales Restrictions** - Geographic and time-based restrictions
 - **Regulatory Reporting** - Automated compliance reporting
 
 ### **Security Features**
+
 - **End-to-End Encryption** - All sensitive data encrypted
 - **Secure Authentication** - Clerk-powered secure login
 - **Payment Security** - PCI DSS compliant payment processing
@@ -234,11 +256,13 @@ const verificationMethods = [
 ## 📈 **Performance Optimization**
 
 ### **Core Web Vitals Excellence**
+
 - **LCP < 2.5s** - Lightning-fast loading with image optimization
 - **FID < 100ms** - Instant interaction feedback
 - **CLS < 0.1** - Stable layout with skeleton loading
 
 ### **Advanced Optimizations**
+
 - **Image Optimization** - WebP format with responsive images
 - **Code Splitting** - Route-based and component-based splitting
 - **Caching Strategy** - Aggressive caching with service worker
@@ -247,6 +271,7 @@ const verificationMethods = [
 ## 🚀 **Deployment & Production**
 
 ### **Production Commands**
+
 ```bash
 # Build for production
 npm run build
@@ -259,6 +284,7 @@ npm run deploy
 ```
 
 ### **Environment Optimization**
+
 ```bash
 # Performance monitoring
 npm run analyze
@@ -273,10 +299,12 @@ npm run seo-check
 ## 🌍 **Internationalization (i18n)**
 
 ### **Supported Languages**
+
 - **Spanish (Chile)** - Primary language with legal terminology
 - **English** - International customers and SEO
 
 ### **Translation Management**
+
 ```typescript
 // Divine translation oracle usage
 const t = (key: string, fallback?: string) =>
@@ -300,6 +328,7 @@ const t = (key: string, fallback?: string) =>
 ## 🤝 **Contributing**
 
 ### **Development Workflow**
+
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
 3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
@@ -307,6 +336,7 @@ const t = (key: string, fallback?: string) =>
 5. **Open** a Pull Request
 
 ### **Code Standards**
+
 - **TypeScript** - Strict type checking enabled
 - **ESLint** - Code linting with Next.js rules
 - **Prettier** - Automated code formatting
@@ -338,6 +368,6 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Built with ❤️ by ARAMAC Team**
+## Built with ❤️ by ARAMAC Team
 
 *"Creating the world's best liquor store experience, one divine detail at a time."*
