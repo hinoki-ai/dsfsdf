@@ -162,7 +162,7 @@ export function AgeVerification({
             <div className="text-center text-xs text-muted-foreground space-y-2">
               <div className="flex items-center justify-center gap-2">
                 <Shield className="w-3 h-3" />
-                <span>{t('ageVerification.legalNotice', 'Esta verificación es requerida por la ley chilena para la venta de bebidas alcoholicas.')}</span>
+                <span>{t('ageVerification.legalNotice', 'Esta verificación es requerida por la ley chilena para la venta de bebidas alcohólicas.')}</span>
               </div>
               <div className="flex items-center justify-center gap-2">
                 <Globe className="w-3 h-3" />

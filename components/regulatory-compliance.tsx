@@ -78,7 +78,7 @@ export function RegulatoryCompliance({
         title: "Región Restringida",
         description: "La entrega de alcohol está restringida en esta región",
         status: "restricted",
-        details: "Según la ley chilena, no se permite la entrega de bebidas alcoholicas en esta zona."
+        details: "Según la ley chilena, no se permite la entrega de bebidas alcohólicas en esta zona."
       })
     }
 
@@ -131,7 +131,7 @@ export function RegulatoryCompliance({
       newRestrictions.push({
         type: "quantity",
         title: "Límite Total de Productos",
-        description: "Máximo 12 productos alcoholicos por pedido",
+        description: "Máximo 12 productos alcohólicos por pedido",
         status: "restricted",
         details: "Esta limitación está establecida por la legislación chilena para venta responsable."
       })
@@ -267,7 +267,7 @@ export function RegulatoryCompliance({
         <Alert>
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription className="text-sm">
-            <strong>Ley 19.925:</strong> La venta de bebidas alcoholicas está regulada por la legislación chilena.
+            <strong>Ley 19.925:</strong> La venta de bebidas alcohólicas está regulada por la legislación chilena.
             Todas las entregas cumplen con los requisitos de verificación de edad y restricciones regionales.
           </AlertDescription>
         </Alert>
