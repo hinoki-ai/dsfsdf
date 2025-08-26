@@ -22,20 +22,21 @@ import {
 } from "lucide-react"
 
 interface HomePageProps {
-  params: {
+  params: Promise<{
     locale: string
-  }
+  }>
 }
 
 // Mobile-first premium homepage with divine parsing oracle i18n
-export default function Home({ params: { locale } }: HomePageProps) {
+export default async function Home({ params }: HomePageProps) {
+  const { locale } = await params
   // Get translations using divine parsing oracle
   const t = (key: string, fallback?: string) =>
     divineTranslationOracle.getTranslation(locale as any, key, fallback)
 
   return (
     <div className="min-h-screen bg-background mobile-first">
-      <Header locale={locale} />
+      <Header />
 
       {/* Premium Hero Section with Glass Morphism */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
