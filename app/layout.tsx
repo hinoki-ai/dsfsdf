@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     locale: 'es',
     type: 'website'
   }),
-  metadataBase: new URL('http://localhost:3000')
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://liquor.aramac.dev')
 }
 
 export default function RootLayout({

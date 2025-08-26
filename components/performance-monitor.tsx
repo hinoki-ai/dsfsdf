@@ -112,7 +112,7 @@ export function ResourceHints() {
     <>
       {/* DNS prefetch for external domains */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-      <link rel="dns-prefetch" href="//clerk.aramac.dev" />
+      <link rel="dns-prefetch" href="//advanced-bear-55.clerk.accounts.dev" />
       <link rel="dns-prefetch" href="//convex.cloud" />
       
       {/* Preconnect for critical resources */}
