@@ -7,18 +7,21 @@ The **Divine Parsing Oracle** is an advanced, intelligent internationalization s
 ## 🚀 Key Features
 
 ### Intelligent Language Detection
+
 - **Chilean IP Detection**: Automatically detects Chilean users and serves Spanish content
 - **Browser Language Preference**: Respects user's browser language settings
 - **Geographic Intelligence**: Uses IP-based geolocation for optimal language selection
 - **Configurable Detection**: Can be enabled/disabled via environment variables
 
 ### Smart Routing System
+
 - **Locale-Based URLs**: `/es/*` for Spanish, `/en/*` for English
 - **Automatic Redirection**: Redirects users to appropriate locale based on detection
 - **SEO Optimization**: Proper locale handling for search engines
 - **Middleware Integration**: Seamless integration with Next.js middleware
 
 ### Environment-Driven Configuration
+
 - **Flexible Locales**: Support for multiple languages via environment variables
 - **Customizable Detection**: Configurable IP ranges and detection rules
 - **Production Ready**: Optimized for both development and production environments
@@ -52,6 +55,7 @@ Run the automated setup script:
 ```
 
 This script will:
+
 - Create `.env.local` if it doesn't exist
 - Configure i18n environment variables
 - Provide setup instructions
@@ -77,7 +81,7 @@ This script will:
 
 ### Language Detection Flow
 
-```
+```text
 1. Check URL for explicit locale (/es/, /en/)
    ↓
 2. If no explicit locale:
@@ -131,11 +135,13 @@ const fallback = divineTranslationOracle.getTranslation('es', 'custom.key', 'Def
 ## 🌍 Supported Languages
 
 ### Spanish (es)
+
 - **Target**: Chilean Spanish speakers
 - **Features**: Local terminology, regional expressions
 - **Default**: Yes (for Chilean market)
 
 ### English (en)
+
 - **Target**: International users, tourists
 - **Features**: Professional English, clear communication
 - **Default**: No (Spanish prioritized for local market)
@@ -164,11 +170,13 @@ Set `NEXT_PUBLIC_ENABLE_LANGUAGE_DETECTION=false` to always use default locale.
 ## 🚀 Deployment Considerations
 
 ### Production Setup
+
 - Ensure environment variables are properly configured
 - Test language detection with various IP addresses
 - Verify SEO tags are correct for each locale
 
 ### Performance Optimization
+
 - Translations are statically analyzed at build time
 - Middleware adds minimal overhead (~1-2ms)
 - IP detection is cached per request
@@ -176,11 +184,13 @@ Set `NEXT_PUBLIC_ENABLE_LANGUAGE_DETECTION=false` to always use default locale.
 ## 🧪 Testing
 
 ### Manual Testing
+
 1. Visit site with Chilean IP → Should redirect to `/es/`
 2. Visit with international IP → Should detect browser language
 3. Force URLs: `/es/*` and `/en/*` should work directly
 
 ### Automated Testing
+
 ```bash
 # Test language detection
 curl -H "Accept-Language: es-CL" http://localhost:3000
@@ -190,9 +200,11 @@ curl -H "X-Forwarded-For: 190.196.1.1" http://localhost:3000
 ## 📚 API Reference
 
 ### divineLanguageOracle.detectLocale()
+
 Detects the appropriate locale based on user context.
 
 **Parameters:**
+
 - `acceptLanguage` (string): Browser's Accept-Language header
 - `userAgent` (string): Browser's User-Agent header
 - `ip` (string, optional): Client IP address
@@ -200,9 +212,11 @@ Detects the appropriate locale based on user context.
 **Returns:** Locale string ('es' | 'en')
 
 ### divineTranslationOracle.getTranslation()
+
 Retrieves a translation with fallback support.
 
 **Parameters:**
+
 - `locale` (Locale): Target locale
 - `key` (string): Translation key (e.g., 'navigation.home')
 - `fallback` (string, optional): Fallback text if translation missing
@@ -231,6 +245,7 @@ Retrieves a translation with fallback support.
 ### Debug Mode
 
 Enable debug logging by setting:
+
 ```bash
 DEBUG=i18n:*
 ```
@@ -238,6 +253,7 @@ DEBUG=i18n:*
 ## 📞 Support
 
 For issues or questions about the Divine Parsing Oracle system:
+
 - Check this documentation first
 - Review environment configuration
 - Test with the setup script

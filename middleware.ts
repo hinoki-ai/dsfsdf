@@ -1,4 +1,3 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -7,7 +6,6 @@ const divineParsingOracle = {
   // Primary language detection with environment-driven configuration
   detectLanguage: (request: NextRequest): string => {
     const acceptLanguage = request.headers.get('accept-language') || ''
-    const userAgent = request.headers.get('user-agent') || ''
     const pathname = request.nextUrl.pathname
 
     // Check for explicit language in URL
@@ -15,16 +13,18 @@ const divineParsingOracle = {
       return pathname.startsWith('/es') ? 'es' : 'en'
     }
 
-    // Get client IP for geolocation-based detection
-    const forwarded = request.headers.get('x-forwarded-for') || ''
-    const realIP = request.headers.get('x-real-ip') || ''
-    const clientIP = forwarded.split(',')[0]?.trim() || realIP || '127.0.0.1'
+    // Simple language detection from Accept-Language header
+    // Default to Spanish (es) for Chilean market
+    if (acceptLanguage.includes('es') || acceptLanguage.includes('es-CL')) {
+      return 'es'
+    }
+    
+    if (acceptLanguage.includes('en')) {
+      return 'en'
+    }
 
-    // Use the enhanced Divine Language Oracle for intelligent detection
-    // Import the function dynamically to avoid circular dependencies
-    const { divineLanguageOracle } = require('./lib/i18n')
-
-    return divineLanguageOracle.detectLocale(acceptLanguage, userAgent, clientIP)
+    // Default to Spanish for Chilean market
+    return 'es'
   },
 
   // Advanced locale routing with SEO optimization
@@ -52,15 +52,7 @@ const divineParsingOracle = {
   }
 }
 
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  '/myaccount(.*)',
-  '/checkout(.*)',
-  '/cart(.*)',
-  '/orders(.*)'
-])
-
-export default clerkMiddleware(async (auth, req) => {
+export default function middleware(req: NextRequest) {
   // Apply divine parsing oracle for i18n
   const detectedLanguage = divineParsingOracle.detectLanguage(req)
 
@@ -70,13 +62,8 @@ export default clerkMiddleware(async (auth, req) => {
     return localeResponse
   }
 
-  // Apply Clerk middleware for protected routes
-  if (isProtectedRoute(req)) {
-    await auth.protect()
-  }
-
   return NextResponse.next()
-})
+}
 
 export const config = {
   matcher: [

@@ -1,23 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/"
-    }
-  ],
-  "functions": {
-    "app/**/*.tsx": {
-      "runtime": "@vercel/node"
-    }
-  },
-  "regions": ["sfo1"],
   "headers": [
     {
       "source": "/(.*)",

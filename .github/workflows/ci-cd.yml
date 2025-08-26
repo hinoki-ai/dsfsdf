@@ -89,11 +89,10 @@ jobs:
         run: npm ci
 
       - name: Build application
-        run: npm run build
+        run: |
+          npm run build
         env:
           NODE_ENV: production
-          NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -168,11 +167,13 @@ jobs:
 
       - name: Deploy to production server
         uses: appleboy/ssh-action@v1.0.0
+        if: vars.PRODUCTION_HOST != '' && vars.PRODUCTION_USER != ''
         with:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USER }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
-          port: ${{ secrets.PRODUCTION_PORT }}
+          port: ${{ secrets.PRODUCTION_PORT || 22 }}
+          envs: NEXT_PUBLIC_CONVEX_URL,NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,CLERK_SECRET_KEY
           script: |
             # Navigate to project directory
             cd /opt/liquor-aramac
@@ -180,23 +181,18 @@ jobs:
             # Pull latest changes
             git pull origin main
 
-            # Stop existing containers
-            docker-compose down
+            # Update environment variables
+            echo "NODE_ENV=production" > .env.local
+            echo "NEXT_PUBLIC_APP_URL=https://liquor.aramac.dev" >> .env.local
+            echo "NEXT_PUBLIC_CONVEX_URL=$NEXT_PUBLIC_CONVEX_URL" >> .env.local
+            echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" >> .env.local
+            echo "CLERK_SECRET_KEY=$CLERK_SECRET_KEY" >> .env.local
 
-            # Pull latest Docker images
-            docker-compose pull
+            # Make deployment script executable
+            chmod +x deploy.sh
 
-            # Start services with new images
-            docker-compose up -d --build
-
-            # Wait for services to be healthy
-            sleep 30
-
-            # Run database migrations if needed
-            docker-compose exec liquor-store npm run migrate
-
-            # Run health check
-            curl -f https://liquor.aramac.dev/health || exit 1
+            # Run deployment script
+            ./deploy.sh
 
       - name: Run smoke tests
         run: |
@@ -209,7 +205,7 @@ jobs:
 
       - name: Notify deployment status
         uses: 8398a7/action-slack@v3
-        if: always()
+        if: always() && vars.SLACK_WEBHOOK_URL != ''
         with:
           status: ${{ job.status }}
           fields: repo,message,commit,author,action,eventName,ref,workflow
@@ -246,6 +242,7 @@ jobs:
     steps:
       - name: Send failure notification
         uses: 8398a7/action-slack@v3
+        if: vars.SLACK_WEBHOOK_URL != ''
         with:
           status: failure
           fields: repo,message,commit,author,action,eventName,ref,workflow

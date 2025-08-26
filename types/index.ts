@@ -1,7 +1,7 @@
-import { Doc, Id } from "convex/_generated/dataModel";
+import { Doc, Id, TableNames } from "convex/_generated/dataModel";
 
 // Base types
-export type ConvexId<T extends string> = Id<T>;
+export type ConvexId<T extends TableNames> = Id<T>;
 
 // Category types
 export interface Category {
@@ -85,7 +85,7 @@ export interface Product {
 
 // Cart types
 export interface CartItem {
-  productId: string;
+  productId: ConvexId<"products">;
   quantity: number;
   priceAtTime: number;
   addedAt: number;

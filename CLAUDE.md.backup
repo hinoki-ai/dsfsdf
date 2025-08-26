@@ -1,9 +1,7 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Development Commands
-
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 ### Core Development
 
 - **Development server**: `npm run dev` (default port) or `npm run dev:port3000` (port 3000 specific)
@@ -11,12 +9,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Build**: `npm run build` (production build)
 - **Start**: `npm start` (production server)
 - **Lint**: `npm run lint` (ESLint with Next.js rules)
+
 ### Database Operations
 
 - **Convex development**: `npm run convex:dev` (start local Convex server)
 - **Seed database**: `npm run seed` (populate with sample data)
 - **Force seed**: `npm run seed:force` (reset and seed database)
 - **Deploy database**: `npm run convex:deploy` (production deployment)
+
 ### Docker & Deployment
 
 - **Docker build**: `npm run docker:build`
@@ -25,6 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Production compose**: `npm run deploy:docker`
 - **Full deployment**: `npm run deploy:full` (database + docker)
 - **Health check**: `npm run health`
+
 ## Project Architecture
 
 ### Tech Stack
@@ -37,6 +38,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Internationalization**: Custom "Divine Parsing Oracle" i18n system
 - **State Management**: Zustand for client-side state
 - **Icons**: Lucide React + Tabler Icons
+
 ### Key Architectural Patterns
 
 #### Internationalization System
@@ -59,15 +61,13 @@ Implements Chilean legal compliance (Law 19.925) with:
 - Glass morphism UI design for premium experience
 
 #### Design System
+
 - **Premium Glass Morphism**: Custom backdrop-filter effects with rgba backgrounds
-
 - **Dark Mode First**: Default dark theme optimized for luxury experience
-
 - **Mobile-First Responsive**: Touch-optimized interactions and responsive design
-
 - **Custom Color Tokens**: Semantic color system using CSS custom properties
-
 - **Brand Colors**: Amber/burgundy palette inspired by premium spirits
+
 ### File Structure Organization
 
 #### App Router Structure (`/app`)
@@ -128,6 +128,7 @@ Currently contains only generated files - database schema was removed from track
 - Semantic color system with CSS custom properties
 - Premium animations and transitions
 - Mobile-first responsive utilities
+
 ## Key Development Patterns
 
 ### Age Verification Integration
@@ -138,6 +139,7 @@ When working with product pages or alcohol-related content:
 - Use the `AgeVerification` component from `@/components/age-verification`
 - Follow Chilean legal requirements (minimum 18 years)
 - Implement proper error states and privacy notices
+
 ### Internationalization Usage
 
 - Use `useTranslation(locale)` hook for component translations
@@ -151,6 +153,7 @@ When working with product pages or alcohol-related content:
 - Follow mobile-first responsive design with custom container system
 - Implement premium animations with custom keyframes
 - Use semantic color tokens for alcohol categories and status indicators
+
 ### Authentication & Authorization
 
 - Protected routes use Clerk middleware with `isProtectedRoute` matcher
@@ -164,6 +167,7 @@ When working with product pages or alcohol-related content:
 
 - `NEXT_PUBLIC_CONVEX_URL`: Convex database URL
 - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` + `CLERK_SECRET_KEY`: Authentication
+
 ### Internationalization
 
 - `NEXT_PUBLIC_DEFAULT_LOCALE=es`: Default to Chilean Spanish
@@ -185,6 +189,7 @@ When working with product pages or alcohol-related content:
 - Geographic restrictions may apply for alcohol delivery
 - Proper disclaimers and warnings must be displayed
 - Data privacy compliance with Chilean regulations
+
 ### Accessibility Requirements
 
 - WCAG 2.1 AA compliance targeted
@@ -200,6 +205,7 @@ When working with product pages or alcohol-related content:
 2. Verify environment variables are configured (use `./scripts/setup-env.sh`)
 3. Test age verification flow for any alcohol-related changes
 4. Ensure translations exist for both Spanish and English
+
 ### Testing Considerations
 
 - Test age verification with various birth dates
@@ -213,4 +219,3 @@ When working with product pages or alcohol-related content:
 - Image optimization enabled for product catalog
 - Bundle analysis available via Next.js analyzer
 - Aggressive caching strategy implemented
-

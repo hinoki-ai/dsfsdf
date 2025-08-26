@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for Liquor Store SaaS
 # Stage 1: Dependencies
 FROM node:20.18.1-alpine AS deps
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat curl
 WORKDIR /app
 
 # Copy package files
@@ -10,8 +10,8 @@ COPY tsconfig.json ./
 COPY tailwind.config.js ./
 COPY postcss.config.mjs ./
 
-# Install dependencies
-RUN npm ci --only=production --silent
+# Install all dependencies for build
+RUN npm ci --silent
 
 # Stage 2: Builder
 FROM node:20.18.1-alpine AS builder
@@ -30,7 +30,11 @@ RUN npm run build
 FROM node:20.18.1-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Install curl for health checks
+RUN apk add --no-cache curl
 
 # Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
@@ -42,13 +46,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package*.json ./
 
 # Copy Next.js build output
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Copy dependencies
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
-
-# Copy environment template
-COPY --chown=nextjs:nodejs .env.example .env.local
+# Create logs directory
+RUN mkdir -p logs && chown nextjs:nodejs logs
 
 # Switch to non-root user
 USER nextjs
@@ -61,4 +63,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3000/api/health || exit 1
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
