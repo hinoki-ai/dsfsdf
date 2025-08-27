@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { useState } from "react"
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { calculateAge, isOldEnough } from "@/lib/utils"
-import { divineTranslationOracle, defaultLocale } from "@/lib/i18n"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { divineTranslationOracle, defaultLocale, type Locale } from "@/lib/i18n"
 import {
   AlertCircle,
   CheckCircle,
@@ -14,57 +14,262 @@ import {
   Calendar,
   Clock,
   Globe,
-  AlertTriangle
+  AlertTriangle,
+  X
 } from "lucide-react"
+
+// ===========================================
+// CHILEAN COMPLIANCE TYPES & CONSTANTS
+// ===========================================
+
+interface AgeVerificationData {
+  birthDate?: string
+  verificationMethod: 'birthdate' | 'id_document' | 'declined'
+  ipAddress?: string
+  userAgent?: string
+  timestamp: number
+  sessionId: string
+}
+
+interface ChileanRegion {
+  code: string
+  name: string
+  deliveryAllowed: boolean
+  restrictions?: string[]
+}
+
+const CHILEAN_REGIONS: ChileanRegion[] = [
+  { code: 'XV', name: 'Arica y Parinacota', deliveryAllowed: true },
+  { code: 'I', name: 'Tarapacá', deliveryAllowed: true },
+  { code: 'II', name: 'Antofagasta', deliveryAllowed: true },
+  { code: 'III', name: 'Atacama', deliveryAllowed: true },
+  { code: 'IV', name: 'Coquimbo', deliveryAllowed: true },
+  { code: 'V', name: 'Valparaíso', deliveryAllowed: true },
+  { code: 'RM', name: 'Metropolitana', deliveryAllowed: true },
+  { code: 'VI', name: 'O\'Higgins', deliveryAllowed: true },
+  { code: 'VII', name: 'Maule', deliveryAllowed: true },
+  { code: 'XVI', name: 'Ñuble', deliveryAllowed: true },
+  { code: 'VIII', name: 'Biobío', deliveryAllowed: true },
+  { code: 'IX', name: 'Araucanía', deliveryAllowed: true },
+  { code: 'XIV', name: 'Los Ríos', deliveryAllowed: true },
+  { code: 'X', name: 'Los Lagos', deliveryAllowed: true },
+  { code: 'XI', name: 'Aysén', deliveryAllowed: false, restrictions: ['Remote area delivery restrictions'] },
+  { code: 'XII', name: 'Magallanes', deliveryAllowed: false, restrictions: ['Remote area delivery restrictions'] }
+]
+
+const MINIMUM_AGE = 18
+const STORAGE_KEY = 'liquor_age_verification'
+const SESSION_DURATION = 24 * 60 * 60 * 1000 // 24 hours
+
+// Age verification utilities
+const calculateAge = (birthDate: Date): number => {
+  const today = new Date()
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const monthDiff = today.getMonth() - birthDate.getMonth()
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  
+  return age
+}
+
+const isOldEnough = (birthDate: Date, minimumAge: number = MINIMUM_AGE): boolean => {
+  return calculateAge(birthDate) >= minimumAge
+}
+
+// ===========================================
+// ENHANCED AGE VERIFICATION COMPONENT
+// ===========================================
 
 interface AgeVerificationProps {
   onVerified: (dateOfBirth: Date) => void
   onRejected: () => void
   minimumAge?: number
+  locale?: Locale
+  showRegionalInfo?: boolean
+  strictMode?: boolean
 }
 
 export function AgeVerification({
   onVerified,
   onRejected,
-  minimumAge = 18
+  minimumAge = MINIMUM_AGE,
+  locale = defaultLocale,
+  showRegionalInfo = true,
+  strictMode = true
 }: AgeVerificationProps) {
+  const [step, setStep] = useState<'welcome' | 'verify' | 'regional'>('welcome')
   const [dateOfBirth, setDateOfBirth] = useState("")
+  const [selectedRegion, setSelectedRegion] = useState<string>("")
   const [error, setError] = useState("")
   const [isVerifying, setIsVerifying] = useState(false)
+  const [attempts, setAttempts] = useState(0)
+
+  // Check existing verification on mount
+  useEffect(() => {
+    checkExistingVerification()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const checkExistingVerification = () => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      if (stored) {
+        const data: AgeVerificationData = JSON.parse(stored)
+        const now = Date.now()
+        
+        // Check if verification is still valid (24 hours)
+        if (now - data.timestamp < SESSION_DURATION && data.birthDate) {
+          const birthDate = new Date(data.birthDate)
+          if (isOldEnough(birthDate, minimumAge)) {
+            onVerified(birthDate)
+            return
+          }
+        }
+        
+        // Clean expired verification
+        localStorage.removeItem(STORAGE_KEY)
+      }
+    } catch (error) {
+      console.error('Error checking age verification:', error)
+      localStorage.removeItem(STORAGE_KEY)
+    }
+  }
 
   const handleVerify = async () => {
     if (!dateOfBirth) {
-      setError("Por favor ingresa tu fecha de nacimiento")
+      setError(t('ageVerification.errors.birthdateRequired', 'Por favor ingresa tu fecha de nacimiento'))
       return
     }
 
     const birthDate = new Date(dateOfBirth)
     if (isNaN(birthDate.getTime())) {
-      setError("Fecha de nacimiento inválida")
+      setError(t('ageVerification.errors.invalidDate', 'Fecha de nacimiento inválida'))
       return
     }
 
     setIsVerifying(true)
     setError("")
 
-    // Simulate verification delay
+    // Simulate verification delay for better UX
     await new Promise(resolve => setTimeout(resolve, 1000))
 
     const age = calculateAge(birthDate)
 
-    if (isOldEnough(birthDate, minimumAge)) {
-      onVerified(birthDate)
+    if (!isOldEnough(birthDate, minimumAge)) {
+      setAttempts(prev => prev + 1)
+      setError(
+        t('ageVerification.errors.underAge', 
+          `Debes tener al menos ${minimumAge} años para comprar productos alcohólicos. Tu edad actual: ${age} años.`
+        )
+      )
+      
+      // Log failed verification attempt (for compliance)
+      await logVerificationAttempt({
+        birthDate: dateOfBirth,
+        verificationMethod: 'birthdate',
+        ipAddress: await getClientIP(),
+        userAgent: navigator.userAgent,
+        timestamp: Date.now(),
+        sessionId: generateSessionId()
+      }, false)
+
+      if (attempts >= 2 || strictMode) {
+        setTimeout(() => {
+          onRejected()
+        }, 2000)
+      }
+      
+      setIsVerifying(false)
+      return
+    }
+
+    // Successful verification
+    const verificationData: AgeVerificationData = {
+      birthDate: dateOfBirth,
+      verificationMethod: 'birthdate',
+      ipAddress: await getClientIP(),
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      sessionId: generateSessionId()
+    }
+
+    // Store verification (privacy-focused - will auto-expire)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(verificationData))
+    
+    // Log successful verification (for compliance)
+    await logVerificationAttempt(verificationData, true)
+
+    if (showRegionalInfo && !selectedRegion) {
+      setStep('regional')
     } else {
-      setError(`Debes tener al menos ${minimumAge} años para comprar productos alcoholicos. Tu edad actual: ${age} años.`)
-      onRejected()
+      onVerified(birthDate)
     }
 
     setIsVerifying(false)
   }
 
+  const handleRegionalSelection = () => {
+    if (!selectedRegion) {
+      setError(t('ageVerification.errors.regionRequired', 'Selecciona tu región'))
+      return
+    }
+
+    const region = CHILEAN_REGIONS.find(r => r.code === selectedRegion)
+    if (region && !region.deliveryAllowed) {
+      setError(t('ageVerification.errors.regionRestricted', 'Tu región tiene restricciones de entrega'))
+      return
+    }
+
+    if (dateOfBirth) {
+      onVerified(new Date(dateOfBirth))
+    }
+  }
+
+  const handleDecline = async () => {
+    // Log declined verification (for compliance)
+    await logVerificationAttempt({
+      verificationMethod: 'declined',
+      ipAddress: await getClientIP(),
+      userAgent: navigator.userAgent,
+      timestamp: Date.now(),
+      sessionId: generateSessionId()
+    }, false)
+
+    onRejected()
+  }
+
+  // Utility functions
+  const getClientIP = async (): Promise<string> => {
+    try {
+      const response = await fetch('/api/client-ip')
+      const data = await response.json()
+      return data.ip || 'unknown'
+    } catch {
+      return 'unknown'
+    }
+  }
+
+  const generateSessionId = (): string => {
+    return Math.random().toString(36).substring(2) + Date.now().toString(36)
+  }
+
+  const logVerificationAttempt = async (data: AgeVerificationData, success: boolean) => {
+    try {
+      await fetch('/api/compliance/age-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, success })
+      })
+    } catch (error) {
+      console.error('Failed to log verification attempt:', error)
+    }
+  }
+
   // Get translations using divine parsing oracle
   const t = (key: string, fallback?: string) =>
-    divineTranslationOracle.getTranslation(defaultLocale, key, fallback)
+    divineTranslationOracle.getTranslation(locale, key, fallback)
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">

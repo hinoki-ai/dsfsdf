@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licorería ARAMAC - Navigation Replica</title>
+    <style>
+        /* Import Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        /* CSS Custom Properties */
+        :root {
+            /* Base colors */
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --primary: 0 0% 98%;
+            --primary-foreground: 222.2 47.4% 11.2%;
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --border: 217.2 32.6% 17.5%;
+            --ring: 212.7 26.8% 83.9%;
+            --radius: 0.75rem;
+
+            /* Brand colors - Amber */
+            --amber-50: 45 100% 97%;
+            --amber-100: 45 100% 94%;
+            --amber-200: 45 100% 89%;
+            --amber-300: 45 100% 83%;
+            --amber-400: 45 100% 75%;
+            --amber-500: 45 100% 67%;
+            --amber-600: 45 100% 60%;
+            --amber-700: 45 100% 53%;
+            --amber-800: 45 100% 46%;
+            --amber-900: 45 100% 39%;
+
+            /* Brand colors - Burgundy */
+            --burgundy-50: 330 100% 97%;
+            --burgundy-100: 330 100% 94%;
+            --burgundy-200: 330 100% 89%;
+            --burgundy-300: 330 100% 83%;
+            --burgundy-400: 330 100% 75%;
+            --burgundy-500: 330 100% 67%;
+            --burgundy-600: 330 100% 60%;
+            --burgundy-700: 330 100% 53%;
+            --burgundy-800: 330 100% 46%;
+            --burgundy-900: 330 100% 39%;
+
+            /* Glass effects */
+            --glass-light-bg: rgba(255, 255, 255, 0.05);
+            --glass-light-border: rgba(255, 255, 255, 0.125);
+            --glass-light-backdrop: blur(16px) saturate(180%);
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.5;
+        }
+
+        /* Glass effect utility */
+        .glass-effect {
+            backdrop-filter: var(--glass-light-backdrop);
+            background-color: var(--glass-light-bg);
+            border: 1px solid var(--glass-light-border);
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            min-height: 2.5rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: hsl(var(--foreground));
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, hsl(var(--amber-500)), hsl(0 100% 67%));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, hsl(var(--amber-600)), hsl(0 100% 60%));
+        }
+
+        .btn-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            padding: 0;
+        }
+
+        .btn-icon-sm {
+            width: 2rem;
+            height: 2rem;
+            border-radius: var(--radius);
+        }
+
+        /* Badge styles */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+            padding: 0.125rem 0.625rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1rem;
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            position: absolute;
+            top: -0.5rem;
+            right: -0.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            justify-content: center;
+        }
+
+        /* Header styles */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+            border-bottom: 1px solid hsl(var(--border));
+            background-color: hsla(var(--background), 0.95);
+            backdrop-filter: blur(8px);
+        }
+
+        .header-blur {
+            background-color: hsla(var(--background), 0.6);
+            backdrop-filter: blur(12px) saturate(180%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-content {
+            display: flex;
+            height: 4rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Logo styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: hsl(0 100% 67%);
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            color: hsl(0 100% 67%);
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: hsl(0 100% 67%);
+        }
+
+        /* Navigation styles */
+        .nav {
+            display: none;
+        }
+
+        .nav.md-flex {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: hsl(var(--primary));
+        }
+
+        /* Actions section */
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Search button */
+        .search-btn {
+            display: none;
+        }
+
+        .search-btn.sm-flex {
+            display: flex;
+        }
+
+        /* Icon styles */
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .icon-small {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* User section */
+        .user-section {
+            display: none;
+        }
+
+        .user-section.sm-flex {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: flex;
+        }
+
+        .mobile-menu-btn.md-hidden {
+            display: none;
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Responsive design */
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: none;
+            }
+
+            .user-section {
+                display: flex;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .search-btn {
+                display: flex;
+            }
+
+            .user-section {
+                display: flex;
+            }
+        }
+
+        /* Icon SVG components */
+        .wine-icon {
+            width: 2rem;
+            height: 2rem;
+            color: hsl(0 100% 67%);
+        }
+
+        .cart-icon, .wishlist-icon, .search-icon, .user-icon, .menu-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="/" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="/productos" class="nav-link">Productos</a>
+                    <a href="/categorias" class="nav-link">Categorías</a>
+                    <a href="/promociones" class="nav-link">Promociones</a>
+                    <a href="/nosotros" class="nav-link">Sobre Nosotros</a>
+                    <a href="/contacto" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="/wishlist" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="/carrito" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="/sign-in" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="/sign-up" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Demo content to show the header in context -->
+    <main style="padding: 2rem; text-align: center;">
+        <h1 style="margin-bottom: 1rem; color: hsl(var(--foreground));">Navigation Replica</h1>
+        <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">
+            This is an exact HTML replica of the Licorería ARAMAC navigation header.
+        </p>
+        <div style="background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%));
+                    padding: 2rem;
+                    border-radius: var(--radius);
+                    color: white;
+                    max-width: 600px;
+                    margin: 0 auto;">
+            <h2 style="margin-bottom: 1rem;">Premium Liquor Store</h2>
+            <p>Experience our curated selection of fine wines, spirits, and beverages.</p>
+        </div>
+    </main>
+</body>
+</html>

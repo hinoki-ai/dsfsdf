@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Licorería ARAMAC</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .cart-items {
+            background: hsl(var(--background));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            overflow: hidden;
+        }
+
+        .cart-header {
+            background: hsl(var(--secondary));
+            padding: 1.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .cart-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: hsl(var(--foreground));
+        }
+
+        .cart-item {
+            display: flex;
+            padding: 1.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, hsl(var(--amber-100)), hsl(var(--burgundy-100)));
+            border-radius: var(--radius);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-details h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: hsl(var(--foreground));
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: hsl(var(--amber-500));
+            margin-bottom: 0.5rem;
+        }
+
+        .item-meta {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background: hsl(var(--amber-500));
+            border-color: hsl(var(--amber-500));
+            color: white;
+        }
+
+        .quantity-input {
+            width: 3rem;
+            text-align: center;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            border-radius: var(--radius);
+            padding: 0.25rem;
+            font-weight: 600;
+        }
+
+        .remove-btn {
+            margin-left: auto;
+            padding: 0.5rem;
+            border: none;
+            background: transparent;
+            color: hsl(var(--muted-foreground));
+            cursor: pointer;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            background: hsl(0 100% 95%);
+            color: hsl(0 100% 50%);
+        }
+
+        .cart-summary {
+            background: hsl(var(--background));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            padding: 1.5rem;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: hsl(var(--foreground));
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .summary-row.total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: hsl(var(--foreground));
+            border-top: 1px solid hsl(var(--border));
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%));
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .continue-shopping {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: hsl(var(--amber-500));
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .continue-shopping:hover {
+            color: hsl(var(--amber-600));
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .empty-cart-icon {
+            width: 4rem;
+            height: 4rem;
+            color: hsl(var(--muted-foreground));
+            margin: 0 auto 1rem;
+        }
+
+        .empty-cart h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: hsl(var(--foreground));
+        }
+
+        .discount-code {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid hsl(var(--border));
+        }
+
+        .discount-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .discount-field {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--secondary));
+            color: hsl(var(--foreground));
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        .apply-btn {
+            padding: 0.75rem 1rem;
+            background: hsl(var(--secondary));
+            color: hsl(var(--foreground));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .apply-btn:hover {
+            background: hsl(var(--amber-500));
+            border-color: hsl(var(--amber-500));
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .cart-summary {
+                position: static;
+                order: -1;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .quantity-controls {
+                justify-content: center;
+            }
+
+            .remove-btn {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="categorias.html" class="nav-link">Categorías</a>
+                    <a href="promociones.html" class="nav-link">Promociones</a>
+                    <a href="nosotros.html" class="nav-link">Sobre Nosotros</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="carrito.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">3</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="signin.html" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="signup.html" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 style="font-size: 2.5rem; font-weight: 700; text-align: center; margin: 2rem 0; background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Carrito de Compras</h1>
+
+            <div class="cart-container">
+                <!-- Cart Items -->
+                <div class="cart-items">
+                    <div class="cart-header">
+                        <h2>Productos en tu carrito (3)</h2>
+                    </div>
+
+                    <!-- Cart Item 1 -->
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                                <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                                <path d="M11 10v8"/>
+                                <path d="M9 12v6"/>
+                                <path d="M13 8v8"/>
+                            </svg>
+                        </div>
+                        <div class="item-details">
+                            <h3>Whisky Macallan 18 Años</h3>
+                            <p class="item-price">$185.000</p>
+                            <p class="item-meta">Whisky • Escocés • 700ml</p>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-btn">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"></polyline>
+                                <path d="M19,6v14c0,1.1-.9,2-2,2H7c-1.1,0-2-.9-2-2V6m3,0V4c0-1.1.9-2,2-2h4c1.1,0,2,.9,2,2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Cart Item 2 -->
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V6l-3-4z"/>
+                                <path d="M6 2v4"/>
+                                <path d="M6 10v4"/>
+                                <path d="M6 18v2"/>
+                                <path d="M21 15V6l-3-4-3 4v9"/>
+                            </svg>
+                        </div>
+                        <div class="item-details">
+                            <h3>Vino Cabernet Sauvignon</h3>
+                            <p class="item-price">$45.000</p>
+                            <p class="item-meta">Vino • Tinto • 750ml</p>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" class="quantity-input" value="2" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-btn">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"></polyline>
+                                <path d="M19,6v14c0,1.1-.9,2-2,2H7c-1.1,0-2-.9-2-2V6m3,0V4c0-1.1.9-2,2-2h4c1.1,0,2,.9,2,2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Cart Item 3 -->
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 8h14M5 8c0-1.7 1.3-3 3-3h8c1.7 0 3 1.3 3 3v8c0 1.7-1.3 3-3 3H8c-1.7 0-3-1.3-3-3V8z"/>
+                                <path d="M12 12v4"/>
+                                <path d="M9 12v4"/>
+                                <path d="M15 12v4"/>
+                            </svg>
+                        </div>
+                        <div class="item-details">
+                            <h3>Coñac Hennessy VSOP</h3>
+                            <p class="item-price">$89.000</p>
+                            <p class="item-meta">Coñac • Francés • 700ml</p>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-btn">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3,6 5,6 21,6"></polyline>
+                                <path d="M19,6v14c0,1.1-.9,2-2,2H7c-1.1,0-2-.9-2-2V6m3,0V4c0-1.1.9-2,2-2h4c1.1,0,2,.9,2,2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary">
+                    <h3 class="summary-title">Resumen del Pedido</h3>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$319.000</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Envío</span>
+                        <span>$5.000</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>IVA (19%)</span>
+                        <span>$60.610</span>
+                    </div>
+
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>$384.610</span>
+                    </div>
+
+                    <button class="checkout-btn">Proceder al Pago</button>
+
+                    <!-- Discount Code -->
+                    <div class="discount-code">
+                        <h4 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: hsl(var(--foreground));">Código de Descuento</h4>
+                        <div class="discount-input">
+                            <input type="text" class="discount-field" placeholder="Ingresa código de descuento">
+                            <button class="apply-btn">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <a href="productos.html" class="continue-shopping">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5"/>
+                            <path d="M12 19l-7-7 7-7"/>
+                        </svg>
+                        Continuar Comprando
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Licorería ARAMAC</h3>
+                    <p>Tu tienda premium de licores en Chile. Ofrecemos la mejor selección de vinos, whiskies, coñacs y destilados de calidad superior.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="promociones.html">Promociones</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Licorería ARAMAC. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Quantity controls functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityButtons = document.querySelectorAll('.quantity-btn');
+            const quantityInputs = document.querySelectorAll('.quantity-input');
+
+            quantityButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('.quantity-input');
+                    let value = parseInt(input.value);
+
+                    if (this.textContent === '+') {
+                        value++;
+                    } else if (this.textContent === '-' && value > 1) {
+                        value--;
+                    }
+
+                    input.value = value;
+                });
+            });
+
+            quantityInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.value < 1) {
+                        this.value = 1;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

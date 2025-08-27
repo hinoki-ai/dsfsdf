@@ -26,7 +26,14 @@
     "docker:logs": "docker-compose logs -f",
     "health": "curl -f http://localhost:3000/api/health || echo 'Health check failed'",
     "seed": "tsx scripts/seed-database.ts",
-    "seed:force": "tsx scripts/seed-database.ts --force"
+    "seed:force": "tsx scripts/seed-database.ts --force",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:all": "npm run test && npm run test:e2e"
   },
   "keywords": [
     "licoreria",

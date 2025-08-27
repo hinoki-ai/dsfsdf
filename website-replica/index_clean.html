@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Licorería ARAMAC - Tienda de Licores Premium</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="categorias.html" class="nav-link">Categorías</a>
+                    <a href="promociones.html" class="nav-link">Promociones</a>
+                    <a href="nosotros.html" class="nav-link">Sobre Nosotros</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="carrito.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="signin.html" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="signup.html" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" style="background-image: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(220, 38, 38, 0.1)), url('images/banners/hero_wine_collection.jpg'); background-size: cover; background-position: center;">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Descubre los Mejores Licores Premium</h1>
+                    <p class="hero-subtitle">
+                        En Licorería ARAMAC encontrarás una exquisita selección de vinos finos, whiskies premium,
+                        coñacs y destilados de las mejores bodegas del mundo. Calidad, servicio y experiencia incomparable.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="productos.html" class="cta-primary">Explorar Productos</a>
+                        <a href="nosotros.html" class="cta-secondary">Conoce Nuestra Historia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Productos Destacados</h2>
+                <p class="section-subtitle">
+                    Una selección curada de nuestros mejores productos, elegidos por su calidad excepcional
+                    y el reconocimiento de los mejores catadores del mundo.
+                </p>
+
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('images/products/macallan_18.jpg'); background-size: cover; background-position: center;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                                <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                                <path d="M11 10v8"/>
+                                <path d="M9 12v6"/>
+                                <path d="M13 8v8"/>
+                            </svg>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Whisky Macallan 18 Años</h3>
+                            <p class="product-price">$185.000</p>
+                            <p class="product-description">
+                                Un whisky de malta premium con notas de miel, vainilla y roble ahumado.
+                                Envejecido 18 años en barricas de roble europeo.
+                            </p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('images/products/cabernet_sauvignon.jpg'); background-size: cover; background-position: center;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2 3 6v14c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V6l-3-4z"/>
+                                <path d="M6 2v4"/>
+                                <path d="M6 10v4"/>
+                                <path d="M6 18v2"/>
+                                <path d="M21 15V6l-3-4-3 4v9"/>
+                            </svg>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Vino Cabernet Sauvignon</h3>
+                            <p class="product-price">$45.000</p>
+                            <p class="product-description">
+                                Vino tinto de la región de Maipo, Chile. Notas de cassis, chocolate
+                                y taninos suaves. Perfecto para carnes rojas.
+                            </p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('images/products/hennessy_vsop.jpg'); background-size: cover; background-position: center;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 8h14M5 8c0-1.7 1.3-3 3-3h8c1.7 0 3 1.3 3 3v8c0 1.7-1.3 3-3 3H8c-1.7 0-3-1.3-3-3V8z"/>
+                                <path d="M12 12v4"/>
+                                <path d="M9 12v4"/>
+                                <path d="M15 12v4"/>
+                            </svg>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Coñac Hennessy VSOP</h3>
+                            <p class="product-price">$89.000</p>
+                            <p class="product-description">
+                                Coñac premium con 4 años de envejecimiento mínimo. Aroma floral
+                                con toques de vainilla y almendras tostadas.
+                            </p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image" style="background-image: url('images/products/zacapa_23.jpg'); background-size: cover; background-position: center;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 2v20h18"/>
+                                <path d="M8 11V7"/>
+                                <path d="M12 18V9"/>
+                                <path d="M16 16V5"/>
+                            </svg>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Ron Zacapa 23</h3>
+                            <p class="product-price">$125.000</p>
+                            <p class="product-description">
+                                Ron premium guatemalteco madurado 23 años en barricas de roble.
+                                Notas de vainilla, miel y frutas tropicales.
+                            </p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section class="section" style="background: hsl(var(--secondary));">
+            <div class="container">
+                <h2 class="section-title">¿Por Qué Elegirnos?</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                    <div style="text-align: center; padding: 2rem; background: hsl(var(--background)); border-radius: var(--radius); border: 1px solid hsl(var(--border));">
+                        <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--amber-500)); margin-bottom: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Calidad Premium</h3>
+                        <p style="color: hsl(var(--muted-foreground));">Solo trabajamos con las mejores bodegas y destilerías del mundo, garantizando autenticidad y calidad superior.</p>
+                    </div>
+
+                    <div style="text-align: center; padding: 2rem; background: hsl(var(--background)); border-radius: var(--radius); border: 1px solid hsl(var(--border));">
+                        <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--amber-500)); margin-bottom: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="16,8 8,16"/>
+                            <line x1="8" y1="8" x2="16" y2="16"/>
+                        </svg>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Entrega Rápida</h3>
+                        <p style="color: hsl(var(--muted-foreground));">Entrega express en la Región Metropolitana. Servicio de delivery confiable y puntal.</p>
+                    </div>
+
+                    <div style="text-align: center; padding: 2rem; background: hsl(var(--background)); border-radius: var(--radius); border: 1px solid hsl(var(--border));">
+                        <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--amber-500)); margin-bottom: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Asesoramiento</h3>
+                        <p style="color: hsl(var(--muted-foreground));">Nuestro equipo de expertos te guiará en la selección perfecta para cada ocasión.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Licorería ARAMAC</h3>
+                    <p>Tu tienda premium de licores en Chile. Ofrecemos la mejor selección de vinos, whiskies, coñacs y destilados de calidad superior.</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Horarios:</strong><br>
+                        Lunes a Viernes: 9:00 - 20:00<br>
+                        Sábados: 10:00 - 18:00<br>
+                        Domingos: Cerrado
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="promociones.html">Promociones</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Servicios</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Delivery Express</a></li>
+                        <li><a href="#">Asesoramiento Personal</a></li>
+                        <li><a href="#">Regalos Corporativos</a></li>
+                        <li><a href="#">Eventos Especiales</a></li>
+                        <li><a href="#">Cataciones</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>
+                        📍 Av. Providencia 123<br>
+                        Providencia, Santiago<br>
+                        📞 +56 2 2345 6789<br>
+                        ✉️ info@licoreria-aramac.cl
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Licorería ARAMAC. Todos los derechos reservados. | Diseño web premium para experiencias excepcionales.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="image-preloader.js"></script>
+</body>
+</html>

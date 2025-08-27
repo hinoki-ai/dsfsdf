@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promociones - Licorería ARAMAC</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="categorias.html" class="nav-link">Categorías</a>
+                    <a href="promociones.html" class="nav-link">Promociones</a>
+                    <a href="nosotros.html" class="nav-link">Sobre Nosotros</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="carrito.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="signin.html" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="signup.html" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="section">
+            <div class="container">
+                <h1 style="font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 1rem;">Ofertas Especiales</h1>
+                <p style="font-size: 1.1rem; color: hsl(var(--muted-foreground)); text-align: center; max-width: 600px; margin: 0 auto;">
+                    Descubre nuestras promociones exclusivas y ahorra en los mejores licores premium.
+                </p>
+            </div>
+        </section>
+
+        <!-- Featured Offers -->
+        <section style="padding: 0 0 4rem 0;">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                    <div style="background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(var(--burgundy-500))); border-radius: var(--radius); padding: 2rem; color: white; text-align: center;">
+                        <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">¡Oferta del Mes!</h3>
+                        <p style="margin-bottom: 1.5rem;">20% de descuento en toda la línea de whiskies escoceses</p>
+                        <a href="productos.html" class="btn" style="background: white; color: hsl(var(--background));">Ver Productos</a>
+                    </div>
+
+                    <div style="background: hsl(var(--secondary)); border-radius: var(--radius); padding: 2rem; border: 1px solid hsl(var(--border)); text-align: center;">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Compra 2 Lleva 3</h3>
+                        <p style="color: hsl(var(--muted-foreground)); margin-bottom: 1.5rem;">En vinos tintos seleccionados</p>
+                        <a href="productos.html" class="btn btn-primary">Ver Oferta</a>
+                    </div>
+
+                    <div style="background: hsl(var(--secondary)); border-radius: var(--radius); padding: 2rem; border: 1px solid hsl(var(--border)); text-align: center;">
+                        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Envío Gratis</h3>
+                        <p style="color: hsl(var(--muted-foreground)); margin-bottom: 1.5rem;">En compras sobre $50.000</p>
+                        <a href="productos.html" class="btn btn-primary">Comprar Ahora</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Licorería ARAMAC</h3>
+                    <p>Tu tienda premium de licores en Chile. Ofrecemos la mejor selección de vinos, whiskies, coñacs y destilados de calidad superior.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="promociones.html">Promociones</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Licorería ARAMAC. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

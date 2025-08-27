@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Licorería ARAMAC</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .checkout-form {
+            background: hsl(var(--background));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            padding: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: hsl(var(--foreground));
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--secondary));
+            color: hsl(var(--foreground));
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: hsl(var(--amber-500));
+            box-shadow: 0 0 0 2px hsl(var(--amber-500) / 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .shipping-options {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .shipping-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--secondary));
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .shipping-option:hover,
+        .shipping-option.selected {
+            border-color: hsl(var(--amber-500));
+            background: hsl(var(--amber-50));
+        }
+
+        .shipping-radio {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid hsl(var(--border));
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .shipping-option.selected .shipping-radio {
+            border-color: hsl(var(--amber-500));
+        }
+
+        .shipping-option.selected .shipping-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.5rem;
+            height: 0.5rem;
+            background: hsl(var(--amber-500));
+            border-radius: 50%;
+        }
+
+        .shipping-info h4 {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .shipping-price {
+            font-weight: 600;
+            color: hsl(var(--amber-500));
+        }
+
+        .payment-methods {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .payment-method {
+            padding: 1rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background: hsl(var(--secondary));
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .payment-method:hover,
+        .payment-method.selected {
+            border-color: hsl(var(--amber-500));
+            background: hsl(var(--amber-50));
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-icon {
+            width: 2rem;
+            height: 2rem;
+            color: hsl(var(--amber-500));
+        }
+
+        .payment-name {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+
+        .payment-description {
+            color: hsl(var(--muted-foreground));
+            font-size: 0.9rem;
+        }
+
+        .order-summary {
+            background: hsl(var(--background));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            padding: 2rem;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .summary-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: hsl(var(--foreground));
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .item-image {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, hsl(var(--amber-100)), hsl(var(--burgundy-100)));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .item-details h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+
+        .item-details p {
+            font-size: 0.8rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+        }
+
+        .summary-total {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid hsl(var(--border));
+        }
+
+        .summary-total .summary-item {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: hsl(var(--amber-500));
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%));
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .place-order-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .order-notes {
+            background: hsl(var(--amber-50));
+            border: 1px solid hsl(var(--amber-200));
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .order-notes h4 {
+            color: hsl(var(--amber-900));
+            margin-bottom: 0.5rem;
+        }
+
+        .order-notes p {
+            color: hsl(var(--amber-800));
+            font-size: 0.9rem;
+        }
+
+        .terms-acceptance {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: hsl(var(--secondary));
+            border-radius: var(--radius);
+        }
+
+        .terms-checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-top: 0.125rem;
+        }
+
+        .terms-text {
+            font-size: 0.9rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .terms-link {
+            color: hsl(var(--amber-500));
+            text-decoration: none;
+        }
+
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1024px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .order-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-form {
+                padding: 1rem;
+            }
+
+            .order-summary {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="categorias.html" class="nav-link">Categorías</a>
+                    <a href="promociones.html" class="nav-link">Promociones</a>
+                    <a href="nosotros.html" class="nav-link">Sobre Nosotros</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="carrito.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">3</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="signin.html" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="signup.html" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 style="font-size: 2.5rem; font-weight: 700; text-align: center; margin: 2rem 0; background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Finalizar Compra</h1>
+
+            <div class="checkout-container">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <!-- Customer Information -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Información del Cliente
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="firstName">Nombre</label>
+                                <input type="text" id="firstName" name="firstName" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lastName">Apellido</label>
+                                <input type="text" id="lastName" name="lastName" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Teléfono</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Information -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            Información de Envío
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label" for="address">Dirección</label>
+                            <input type="text" id="address" name="address" class="form-input" placeholder="Calle, número, departamento" required>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="city">Ciudad</label>
+                                <input type="text" id="city" name="city" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="region">Región</label>
+                                <select id="region" name="region" class="form-select" required>
+                                    <option value="">Seleccionar región</option>
+                                    <option value="metropolitana">Región Metropolitana</option>
+                                    <option value="valparaiso">Valparaíso</option>
+                                    <option value="biobio">Biobío</option>
+                                    <option value="antofagasta">Antofagasta</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="postalCode">Código Postal</label>
+                            <input type="text" id="postalCode" name="postalCode" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Method -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"></rect>
+                                <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
+                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            </svg>
+                            Método de Envío
+                        </h3>
+                        <div class="shipping-options">
+                            <div class="shipping-option selected">
+                                <div class="shipping-radio"></div>
+                                <div class="shipping-info">
+                                    <h4>Envío Estándar</h4>
+                                    <p>Entrega en 3-5 días hábiles</p>
+                                    <span class="shipping-price">$5.000</span>
+                                </div>
+                            </div>
+                            <div class="shipping-option">
+                                <div class="shipping-radio"></div>
+                                <div class="shipping-info">
+                                    <h4>Envío Express</h4>
+                                    <p>Entrega en 1-2 días hábiles</p>
+                                    <span class="shipping-price">$8.000</span>
+                                </div>
+                            </div>
+                            <div class="shipping-option">
+                                <div class="shipping-radio"></div>
+                                <div class="shipping-info">
+                                    <h4>Retiro en Tienda</h4>
+                                    <p>Disponible en 24 horas</p>
+                                    <span class="shipping-price">Gratis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                            Método de Pago
+                        </h3>
+                        <div class="payment-methods">
+                            <div class="payment-method selected">
+                                <div class="payment-header">
+                                    <svg class="payment-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                    <span class="payment-name">Tarjeta de Crédito/Débito</span>
+                                </div>
+                                <p class="payment-description">Visa, Mastercard, American Express</p>
+                            </div>
+                            <div class="payment-method">
+                                <div class="payment-header">
+                                    <svg class="payment-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                    <span class="payment-name">Transferencia Bancaria</span>
+                                </div>
+                                <p class="payment-description">Pago directo a cuenta bancaria</p>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Form -->
+                        <div id="cardForm" class="form-section" style="margin-top: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label" for="cardNumber">Número de Tarjeta</label>
+                                <input type="text" id="cardNumber" name="cardNumber" class="form-input" placeholder="1234 5678 9012 3456" required>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="expiryDate">Fecha de Expiración</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" class="form-input" placeholder="MM/YY" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" class="form-input" placeholder="123" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="cardName">Nombre en la Tarjeta</label>
+                                <input type="text" id="cardName" name="cardName" class="form-input" placeholder="Como aparece en la tarjeta" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Notes -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M9 12l2 2 4-4"/>
+                                <path d="M21 3l-7 7"/>
+                            </svg>
+                            Notas del Pedido (Opcional)
+                        </h3>
+                        <div class="form-group">
+                            <textarea id="orderNotes" name="orderNotes" class="form-textarea" placeholder="Instrucciones especiales para el envío, dedicatorias, etc."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="form-section">
+                        <div class="terms-acceptance">
+                            <input type="checkbox" id="termsAccept" name="termsAccept" class="terms-checkbox" required>
+                            <label for="termsAccept" class="terms-text">
+                                Acepto los <a href="#" class="terms-link">términos y condiciones</a> y la <a href="#" class="terms-link">política de privacidad</a>.
+                                También confirmo que soy mayor de 18 años para adquirir bebidas alcohólicas.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3 class="summary-title">Resumen del Pedido</h3>
+
+                    <div class="summary-item">
+                        <div class="item-info">
+                            <div class="item-image">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                                    <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                                    <path d="M11 10v8"/>
+                                    <path d="M9 12v6"/>
+                                    <path d="M13 8v8"/>
+                                </svg>
+                            </div>
+                            <div class="item-details">
+                                <h4>Whisky Macallan 18 Años</h4>
+                                <p>Cantidad: 1</p>
+                            </div>
+                        </div>
+                        <span class="item-price">$185.000</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="item-info">
+                            <div class="item-image">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 2 3 6v14c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V6l-3-4z"/>
+                                    <path d="M6 2v4"/>
+                                    <path d="M6 10v4"/>
+                                    <path d="M6 18v2"/>
+                                    <path d="M21 15V6l-3-4-3 4v9"/>
+                                </svg>
+                            </div>
+                            <div class="item-details">
+                                <h4>Vino Cabernet Sauvignon</h4>
+                                <p>Cantidad: 2</p>
+                            </div>
+                        </div>
+                        <span class="item-price">$90.000</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="item-info">
+                            <div class="item-image">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 8h14M5 8c0-1.7 1.3-3 3-3h8c1.7 0 3 1.3 3 3v8c0 1.7-1.3 3-3 3H8c-1.7 0-3-1.3-3-3V8z"/>
+                                    <path d="M12 12v4"/>
+                                    <path d="M9 12v4"/>
+                                    <path d="M15 12v4"/>
+                                </svg>
+                            </div>
+                            <div class="item-details">
+                                <h4>Coñac Hennessy VSOP</h4>
+                                <p>Cantidad: 1</p>
+                            </div>
+                        </div>
+                        <span class="item-price">$89.000</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Subtotal</span>
+                        <span>$364.000</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Envío (Estándar)</span>
+                        <span>$5.000</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>IVA (19%)</span>
+                        <span>$69.210</span>
+                    </div>
+
+                    <div class="summary-total">
+                        <div class="summary-item">
+                            <span>Total</span>
+                            <span>$438.210</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="place-order-btn" id="placeOrderBtn">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline; margin-right: 0.5rem;">
+                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                            <line x1="1" y1="10" x2="23" y2="10"></line>
+                        </svg>
+                        Realizar Pedido
+                    </button>
+
+                    <div class="order-notes">
+                        <h4>🔒 Compra Segura</h4>
+                        <p>Tus datos están protegidos con encriptación SSL. Procesamos los pagos de forma segura y confidencial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Licorería ARAMAC</h3>
+                    <p>Tu tienda premium de licores en Chile. Ofrecemos la mejor selección de vinos, whiskies, coñacs y destilados de calidad superior.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="promociones.html">Promociones</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Licorería ARAMAC. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Form validation and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const shippingOptions = document.querySelectorAll('.shipping-option');
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const termsCheckbox = document.getElementById('termsAccept');
+            const placeOrderBtn = document.getElementById('placeOrderBtn');
+            const form = document.querySelector('.checkout-form');
+
+            // Shipping options selection
+            shippingOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    shippingOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Payment methods selection
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    paymentMethods.forEach(mth => mth.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+
+            // Enable/disable place order button based on terms acceptance
+            termsCheckbox.addEventListener('change', function() {
+                placeOrderBtn.disabled = !this.checked;
+            });
+
+            // Form submission
+            placeOrderBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (!termsCheckbox.checked) {
+                    alert('Por favor acepta los términos y condiciones.');
+                    return;
+                }
+
+                // Basic form validation
+                const requiredFields = form.querySelectorAll('input[required]');
+                let isValid = true;
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.style.borderColor = 'hsl(0 100% 50%)';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = 'hsl(var(--border))';
+                    }
+                });
+
+                if (isValid) {
+                    alert('¡Pedido realizado con éxito! Recibirás un correo de confirmación.');
+                    // In a real application, this would submit to a server
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Por favor completa todos los campos requeridos.');
+                }
+            });
+
+            // Real-time form validation
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        this.style.borderColor = 'hsl(var(--border))';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

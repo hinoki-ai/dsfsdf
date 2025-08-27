@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Licorería ARAMAC</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .filters {
+            background: hsl(var(--secondary));
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: hsl(var(--amber-500));
+            border-color: hsl(var(--amber-500));
+            color: white;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .price-input {
+            width: 100px;
+            padding: 0.5rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid hsl(var(--border));
+            background: hsl(var(--background));
+            color: hsl(var(--foreground));
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .product-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(0,0,0,0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-actions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            color: hsl(var(--background));
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .product-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: hsl(var(--amber-500));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .star {
+            width: 1rem;
+            height: 1rem;
+            color: hsl(var(--amber-500));
+        }
+
+        .availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .availability.in-stock {
+            color: hsl(120 100% 50%);
+        }
+
+        .availability.low-stock {
+            color: hsl(45 100% 50%);
+        }
+
+        .availability.out-of-stock {
+            color: hsl(0 100% 50%);
+        }
+
+        @media (min-width: 768px) {
+            .filters {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .filter-group {
+                margin-bottom: 0;
+            }
+
+            .products-header {
+                flex-direction: row;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .filters {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="categorias.html" class="nav-link">Categorías</a>
+                    <a href="promociones.html" class="nav-link">Promociones</a>
+                    <a href="nosotros.html" class="nav-link">Sobre Nosotros</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="carrito.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="signin.html" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="signup.html" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="section">
+            <div class="container">
+                <h1 style="font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 1rem;">Nuestros Productos</h1>
+                <p style="font-size: 1.1rem; color: hsl(var(--muted-foreground)); text-align: center; max-width: 600px; margin: 0 auto;">
+                    Explora nuestra amplia selección de licores premium, cuidadosamente seleccionados por nuestros expertos.
+                </p>
+            </div>
+        </section>
+
+        <!-- Filters Section -->
+        <section style="padding: 0 0 2rem 0;">
+            <div class="container">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label class="filter-label">Categoría</label>
+                        <div class="filter-options">
+                            <button class="filter-btn active">Todos</button>
+                            <button class="filter-btn">Vinos</button>
+                            <button class="filter-btn">Whiskies</button>
+                            <button class="filter-btn">Coñacs</button>
+                            <button class="filter-btn">Rones</button>
+                            <button class="filter-btn">Vodkas</button>
+                            <button class="filter-btn">Gins</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Precio</label>
+                        <div class="price-range">
+                            <input type="number" class="price-input" placeholder="Min" min="0">
+                            <span style="color: hsl(var(--muted-foreground));">-</span>
+                            <input type="number" class="price-input" placeholder="Max" min="0">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Disponibilidad</label>
+                        <div class="filter-options">
+                            <button class="filter-btn">En Stock</button>
+                            <button class="filter-btn">Agotado</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Ordenar por</label>
+                        <select class="sort-select">
+                            <option>Precio: Menor a Mayor</option>
+                            <option>Precio: Mayor a Menor</option>
+                            <option>Nombre: A-Z</option>
+                            <option>Nombre: Z-A</option>
+                            <option>Más Vendidos</option>
+                            <option>Más Nuevos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+        <section style="padding: 0 0 4rem 0;">
+            <div class="container">
+                <div class="products-header">
+                    <p style="color: hsl(var(--muted-foreground));">Mostrando <strong>24</strong> productos</p>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <button class="btn btn-ghost" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Grid
+                        </button>
+                        <button class="btn btn-ghost" style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="4" x2="20" y1="6" y2="6"></line>
+                                <line x1="4" x2="20" y1="12" y2="12"></line>
+                                <line x1="4" x2="20" y1="18" y2="18"></line>
+                            </svg>
+                            List
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div style="width: 100%; height: 200px; background: linear-gradient(135deg, hsl(var(--amber-100)), hsl(var(--burgundy-100))); display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                                    <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                                    <path d="M11 10v8"/>
+                                    <path d="M9 12v6"/>
+                                    <path d="M13 8v8"/>
+                                </svg>
+                            </div>
+                            <div class="product-category">Whisky</div>
+                            <div class="product-overlay">
+                                <div class="product-actions">
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="8" cy="21" r="1"></circle>
+                                            <circle cx="19" cy="21" r="1"></circle>
+                                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8"/>
+                                            <circle cx="12" cy="12" r="3"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="product-rating">
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <span style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); margin-left: 0.25rem;">(4.5)</span>
+                            </div>
+                            <h3 class="product-title">Whisky Macallan 18 Años</h3>
+                <div class="product-image" style="background-image: url('images/products/macallan_18.jpg'); background-size: cover; background-position: center;">
+                            <p class="product-price">$185.000</p>
+                            <p class="product-description">
+                                Un whisky de malta premium con notas de miel, vainilla y roble ahumado.
+                                Envejecido 18 años en barricas de roble europeo.
+                            </p>
+                            <div class="availability in-stock" style="margin-bottom: 1rem;">
+                                <svg class="icon" style="width: 1rem; height: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="16,8 8,16"></polyline>
+                                    <line x1="8" y1="8" x2="16" y2="16"></line>
+                                </svg>
+                                En Stock
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div style="width: 100%; height: 200px; background: linear-gradient(135deg, hsl(var(--burgundy-100)), hsl(var(--amber-100))); display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 2 3 6v14c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V6l-3-4z"/>
+                                    <path d="M6 2v4"/>
+                                    <path d="M6 10v4"/>
+                                    <path d="M6 18v2"/>
+                                    <path d="M21 15V6l-3-4-3 4v9"/>
+                                </svg>
+                            </div>
+                            <div class="product-category">Vino</div>
+                            <div class="product-overlay">
+                                <div class="product-actions">
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="8" cy="21" r="1"></circle>
+                                            <circle cx="19" cy="21" r="1"></circle>
+                                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8"/>
+                                            <circle cx="12" cy="12" r="3"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="product-rating">
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <span style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); margin-left: 0.25rem;">(5.0)</span>
+                            </div>
+                            <h3 class="product-title">Vino Cabernet Sauvignon</h3>
+                <div class="product-image" style="background-image: url('images/products/cabernet_sauvignon.jpg'); background-size: cover; background-position: center;">
+                            <p class="product-price">$45.000</p>
+                            <p class="product-description">
+                                Vino tinto de la región de Maipo, Chile. Notas de cassis, chocolate
+                                y taninos suaves. Perfecto para carnes rojas.
+                            </p>
+                            <div class="availability in-stock" style="margin-bottom: 1rem;">
+                                <svg class="icon" style="width: 1rem; height: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="16,8 8,16"></polyline>
+                                    <line x1="8" y1="8" x2="16" y2="16"></line>
+                                </svg>
+                                En Stock
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Add more products here with similar structure -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div style="width: 100%; height: 200px; background: linear-gradient(135deg, hsl(var(--amber-200)), hsl(var(--burgundy-200))); display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 8h14M5 8c0-1.7 1.3-3 3-3h8c1.7 0 3 1.3 3 3v8c0 1.7-1.3 3-3 3H8c-1.7 0-3-1.3-3-3V8z"/>
+                                    <path d="M12 12v4"/>
+                                    <path d="M9 12v4"/>
+                                    <path d="M15 12v4"/>
+                                </svg>
+                            </div>
+                            <div class="product-category">Coñac</div>
+                            <div class="product-overlay">
+                                <div class="product-actions">
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="8" cy="21" r="1"></circle>
+                                            <circle cx="19" cy="21" r="1"></circle>
+                                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8"/>
+                                            <circle cx="12" cy="12" r="3"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="product-rating">
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                                </svg>
+                                <span style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); margin-left: 0.25rem;">(4.2)</span>
+                            </div>
+                            <h3 class="product-title">Coñac Hennessy VSOP</h3>
+                <div class="product-image" style="background-image: url('images/products/hennessy_vsop.jpg'); background-size: cover; background-position: center;">
+                            <p class="product-price">$89.000</p>
+                            <p class="product-description">
+                                Coñac premium con 4 años de envejecimiento mínimo. Aroma floral
+                                con toques de vainilla y almendras tostadas.
+                            </p>
+                            <div class="availability in-stock" style="margin-bottom: 1rem;">
+                                <svg class="icon" style="width: 1rem; height: 1rem;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="16,8 8,16"></polyline>
+                                    <line x1="8" y1="8" x2="16" y2="16"></line>
+                                </svg>
+                                En Stock
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <!-- Continue with more products... -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div style="width: 100%; height: 200px; background: linear-gradient(135deg, hsl(var(--burgundy-200)), hsl(var(--amber-200))); display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 2v20h18"/>
+                                    <path d="M8 11V7"/>
+                                    <path d="M12 18V9"/>
+                                    <path d="M16 16V5"/>
+                                </svg>
+                            </div>
+                            <div class="product-category">Ron</div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Ron Zacapa 23</h3>
+                <div class="product-image" style="background-image: url('images/products/zacapa_23.jpg'); background-size: cover; background-position: center;">
+                            <p class="product-price">$125.000</p>
+                            <p class="product-description">Ron premium guatemalteco madurado 23 años en barricas de roble.</p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div style="width: 100%; height: 200px; background: linear-gradient(135deg, hsl(var(--amber-300)), hsl(var(--burgundy-300))); display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 2 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6l-3-4z"/>
+                                    <path d="M3 6h18"/>
+                                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                                </svg>
+                            </div>
+                            <div class="product-category">Vodka</div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Vodka Belvedere</h3>
+                            <p class="product-price">$95.000</p>
+                            <p class="product-description">Vodka premium polaco, cinco veces destilado y filtrado.</p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <div style="width: 100%; height: 200px; background: linear-gradient(135deg, hsl(var(--burgundy-300)), hsl(var(--amber-300))); display: flex; align-items: center; justify-content: center;">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                            </div>
+                            <div class="product-category">Gin</div>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <h3 class="product-title">Gin Tanqueray London Dry</h3>
+                            <p class="product-price">$75.000</p>
+                            <p class="product-description">Gin premium con notas de enebro, cítricos y hierbas aromáticas.</p>
+                            <button class="btn btn-primary" style="width: 100%;">Agregar al Carrito</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: center; margin-top: 3rem; gap: 0.5rem;">
+                    <button class="btn btn-ghost">← Anterior</button>
+                    <button class="btn btn-primary">1</button>
+                    <button class="btn btn-ghost">2</button>
+                    <button class="btn btn-ghost">3</button>
+                    <button class="btn btn-ghost">4</button>
+                    <button class="btn btn-ghost">5</button>
+                    <button class="btn btn-ghost">Siguiente →</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Licorería ARAMAC</h3>
+                    <p>Tu tienda premium de licores en Chile. Ofrecemos la mejor selección de vinos, whiskies, coñacs y destilados de calidad superior.</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Horarios:</strong><br>
+                        Lunes a Viernes: 9:00 - 20:00<br>
+                        Sábados: 10:00 - 18:00<br>
+                        Domingos: Cerrado
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="promociones.html">Promociones</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Servicios</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Delivery Express</a></li>
+                        <li><a href="#">Asesoramiento Personal</a></li>
+                        <li><a href="#">Regalos Corporativos</a></li>
+                        <li><a href="#">Eventos Especiales</a></li>
+                        <li><a href="#">Cataciones</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>
+                        📍 Av. Providencia 123<br>
+                        Providencia, Santiago<br>
+                        📞 +56 2 2345 6789<br>
+                        ✉️ info@licoreria-aramac.cl
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Licorería ARAMAC. Todos los derechos reservados. | Diseño web premium para experiencias excepcionales.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html><script src='image-preloader.js'></script>

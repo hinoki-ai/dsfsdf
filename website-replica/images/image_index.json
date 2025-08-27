@@ -1,0 +1,108 @@
+{
+  "products": [
+    "unsplash_cognac_8.jpg",
+    "casillero_del_diablo.jpg",
+    "veuve_clicquot.jpg",
+    "ciroc.jpg",
+    "unsplash_whisky_7.jpg",
+    "unsplash_cognac_9.jpg",
+    "unsplash_wine_1.jpg",
+    "remy_martin.jpg",
+    "unsplash_whisky_5.jpg",
+    "hennessy_vsop.jpg",
+    "zacapa_23.jpg",
+    "unsplash_whisky_6.jpg",
+    "courvoisier.jpg",
+    "tanqueray_gin.jpg",
+    "unsplash_cognac_10.jpg",
+    "jack_daniels.jpg",
+    "unsplash_wine_2.jpg",
+    "moet_chandon.jpg",
+    "unsplash_whiskey_4.jpg",
+    "mount_gay.jpg",
+    "macallan_18.jpg",
+    "bombay_sapphire.jpg",
+    "unsplash_whiskey_3.jpg",
+    "concha_y_toro.jpg",
+    "cabernet_sauvignon.jpg",
+    "havana_club.jpg",
+    "santa_rita.jpg",
+    "hendricks_gin.jpg"
+  ],
+  "categories": {
+    "vodka": [
+      "vodka_1.jpg",
+      "grey_goose.jpg",
+      "belvedere.jpg",
+      "smirnoff.jpg",
+      "absolut.jpg"
+    ],
+    "cognac": [
+      "cognac_4.jpg",
+      "cognac_1.jpg",
+      "martell.jpg",
+      "cognac_2.jpg",
+      "courvoisier.jpg",
+      "hennessy.jpg",
+      "cognac_3.jpg",
+      "remy.jpg",
+      "cognac_5.jpg"
+    ],
+    "champagne": [
+      "moet.jpg",
+      "champagne_1.jpg",
+      "veuve_clicquot.jpg",
+      "krug.jpg",
+      "champagne_2.jpg",
+      "dom_perignon.jpg"
+    ],
+    "rum": [
+      "malibu.jpg",
+      "havana.jpg",
+      "rum_2.jpg",
+      "mount_gay.jpg",
+      "rum_1.jpg",
+      "rum_3.jpg",
+      "bacardi.jpg"
+    ],
+    "wine": [
+      "wine_3.jpg",
+      "wine_4.jpg",
+      "wine_5.jpg",
+      "chardonnay.jpg",
+      "wine_1.jpg",
+      "cabernet.jpg",
+      "merlot.jpg",
+      "wine_2.jpg",
+      "pinot.jpg"
+    ],
+    "gin": [
+      "hendrick.jpg",
+      "bombay.jpg",
+      "gin_2.jpg",
+      "tanqueray.jpg",
+      "gin_1.jpg",
+      "beefeater.jpg",
+      "gin_3.jpg"
+    ],
+    "whiskey": [
+      "whiskey_4.jpg",
+      "whiskey_5.jpg",
+      "scotch.jpg",
+      "canadian.jpg",
+      "bourbon.jpg",
+      "whiskey_3.jpg",
+      "whiskey_2.jpg",
+      "irish.jpg",
+      "whiskey_1.jpg"
+    ]
+  },
+  "banners": [
+    "hero_wine_collection.jpg",
+    "banner_3.jpg",
+    "banner_1.jpg",
+    "hero_wine_tasting.jpg",
+    "banner_2.jpg",
+    "hero_whiskey_bar.jpg"
+  ]
+}

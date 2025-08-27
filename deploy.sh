@@ -1,181 +1,124 @@
 #!/bin/bash
-# Production deployment script for Liquor ARAMAC
+
+# Liquor Store Deployment Script
+# This script handles production deployment with health checks
 
 set -e  # Exit on any error
 
+echo "🚀 Starting Liquor Store Deployment..."
+
 # Configuration
-PROJECT_NAME="liquor-aramac"
-DOCKER_IMAGE="ghcr.io/kuromatsu/liquor:latest"
-HEALTH_ENDPOINT="https://liquor.aramac.dev/api/health"
-MAX_WAIT_TIME=120
+CONTAINER_NAME="liquor-aramac-app"
+IMAGE_NAME="ghcr.io/kuromatsu/liquor:latest"
+HEALTH_URL="http://localhost:3000/api/health"
+MAX_RETRIES=30
+RETRY_INTERVAL=10
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-# Logging functions
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
-}
-
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
-
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
-
-# Check prerequisites
-check_prerequisites() {
-    log_info "Checking prerequisites..."
-    
-    # Check if docker is installed
-    if ! command -v docker &> /dev/null; then
-        log_error "Docker is not installed"
-        exit 1
-    fi
-    
-    # Check if docker-compose is installed
-    if ! command -v docker-compose &> /dev/null; then
-        log_error "Docker Compose is not installed"
-        exit 1
-    fi
-    
-    # Check if environment file exists
-    if [ ! -f .env.local ]; then
-        log_warning ".env.local not found, using env.example"
-        cp env.example .env.local
-    fi
-    
-    log_success "Prerequisites check passed"
-}
-
-# Build the application
-build_app() {
-    log_info "Building Next.js application..."
-    npm run build
-    log_success "Application built successfully"
-}
-
-# Deploy Convex database
-deploy_convex() {
-    log_info "Deploying Convex database..."
-    if npm run convex:deploy; then
-        log_success "Convex database deployed successfully"
-    else
-        log_warning "Convex deployment failed or skipped"
-    fi
-}
-
-# Deploy with Docker Compose
-deploy_containers() {
-    log_info "Stopping existing containers..."
-    docker-compose -f docker-compose.prod.yml down || true
-    
-    log_info "Pulling latest images..."
-    docker-compose -f docker-compose.prod.yml pull || log_warning "Pull failed, will build locally"
-    
-    log_info "Starting containers..."
-    docker-compose -f docker-compose.prod.yml up -d --build
-}
-
-# Wait for services to be healthy
-wait_for_health() {
-    log_info "Waiting for services to be healthy..."
-    
-    local wait_time=0
-    while [ $wait_time -lt $MAX_WAIT_TIME ]; do
-        if curl -f -s "$HEALTH_ENDPOINT" > /dev/null 2>&1; then
-            log_success "Health check passed"
+# Function to check if container is healthy
+check_health() {
+    echo "🏥 Checking application health..."
+    for i in $(seq 1 $MAX_RETRIES); do
+        if curl -f "$HEALTH_URL" &>/dev/null; then
+            echo "✅ Application is healthy!"
             return 0
         fi
-        
-        sleep 5
-        wait_time=$((wait_time + 5))
-        log_info "Waiting... ($wait_time/${MAX_WAIT_TIME}s)"
+        echo "⏳ Waiting for application to start ($i/$MAX_RETRIES)..."
+        sleep $RETRY_INTERVAL
     done
-    
-    log_error "Health check failed after ${MAX_WAIT_TIME} seconds"
+    echo "❌ Health check failed after $MAX_RETRIES attempts"
     return 1
 }
 
-# Run smoke tests
-run_smoke_tests() {
-    log_info "Running smoke tests..."
-    
-    # Test main endpoints
-    local endpoints=("/" "/productos" "/api/health")
-    local base_url="https://liquor.aramac.dev"
-    
-    for endpoint in "${endpoints[@]}"; do
-        local url="${base_url}${endpoint}"
-        if curl -f -s "$url" > /dev/null 2>&1; then
-            log_success "✓ $url"
-        else
-            log_error "✗ $url"
-            return 1
-        fi
-    done
-    
-    log_success "All smoke tests passed"
-}
-
-# Rollback function
+# Function to rollback on failure
 rollback() {
-    log_warning "Rolling back deployment..."
-    docker-compose -f docker-compose.prod.yml down
-    # Add rollback logic here (e.g., restore previous image)
-    log_info "Rollback completed"
-}
-
-# Main deployment function
-main() {
-    log_info "Starting deployment of $PROJECT_NAME..."
-    
-    # Trap errors and rollback
-    trap 'log_error "Deployment failed! Rolling back..."; rollback; exit 1' ERR
-    
-    check_prerequisites
-    build_app
-    deploy_convex
-    deploy_containers
-    
-    if wait_for_health; then
-        if run_smoke_tests; then
-            log_success "🚀 Deployment completed successfully!"
-            log_info "Application is running at: https://liquor.aramac.dev"
-        else
-            log_error "Smoke tests failed"
-            rollback
-            exit 1
-        fi
+    echo "🔄 Rolling back to previous version..."
+    if docker ps -a --filter "name=${CONTAINER_NAME}_backup" --format "{{.Names}}" | grep -q "${CONTAINER_NAME}_backup"; then
+        docker stop $CONTAINER_NAME 2>/dev/null || true
+        docker rm $CONTAINER_NAME 2>/dev/null || true
+        docker rename "${CONTAINER_NAME}_backup" $CONTAINER_NAME
+        docker start $CONTAINER_NAME
+        echo "✅ Rollback completed"
     else
-        log_error "Health checks failed"
-        rollback
-        exit 1
+        echo "⚠️ No backup container found for rollback"
     fi
 }
 
-# Handle command line arguments
-case "${1:-}" in
-    --check-health)
-        wait_for_health
-        ;;
-    --smoke-test)
-        run_smoke_tests
-        ;;
-    --rollback)
+# Main deployment process
+main() {
+    echo "📋 Pre-deployment checks..."
+    
+    # Check if Docker is running
+    if ! docker info &>/dev/null; then
+        echo "❌ Docker is not running or accessible"
+        exit 1
+    fi
+
+    # Check if required environment variables are set
+    if [ -z "$NEXT_PUBLIC_CONVEX_URL" ]; then
+        echo "⚠️ Warning: NEXT_PUBLIC_CONVEX_URL not set in environment"
+    fi
+
+    echo "🛑 Stopping existing containers..."
+    docker-compose -f docker-compose.prod.yml down --remove-orphans || true
+
+    # Backup existing container if it exists
+    if docker ps -a --filter "name=$CONTAINER_NAME" --format "{{.Names}}" | grep -q "$CONTAINER_NAME"; then
+        echo "💾 Creating backup of current container..."
+        docker stop $CONTAINER_NAME 2>/dev/null || true
+        docker rename $CONTAINER_NAME "${CONTAINER_NAME}_backup" 2>/dev/null || true
+    fi
+
+    echo "🏗️ Building and starting new containers..."
+    if ! docker-compose -f docker-compose.prod.yml up -d --build; then
+        echo "❌ Failed to start containers"
         rollback
-        ;;
-    *)
-        main
-        ;;
-esac
+        exit 1
+    fi
+
+    echo "⏳ Waiting for containers to be ready..."
+    sleep 20
+
+    # Health check
+    if ! check_health; then
+        echo "❌ Deployment failed - health check unsuccessful"
+        rollback
+        exit 1
+    fi
+
+    # Cleanup backup container on successful deployment
+    if docker ps -a --filter "name=${CONTAINER_NAME}_backup" --format "{{.Names}}" | grep -q "${CONTAINER_NAME}_backup"; then
+        echo "🗑️ Cleaning up backup container..."
+        docker rm "${CONTAINER_NAME}_backup" 2>/dev/null || true
+    fi
+
+    # Final validation
+    echo "🧪 Running final validation tests..."
+    
+    # Test key endpoints
+    TEST_URLS=(
+        "http://localhost:3000/api/health"
+        "http://localhost:3000/"
+        "http://localhost:3000/es"
+    )
+
+    for url in "${TEST_URLS[@]}"; do
+        if ! curl -f -s "$url" > /dev/null; then
+            echo "⚠️ Warning: $url is not responding correctly"
+        else
+            echo "✅ $url is responding"
+        fi
+    done
+
+    echo "🎉 Deployment completed successfully!"
+    echo "📊 Application Status:"
+    docker ps --filter "name=$CONTAINER_NAME" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+    
+    echo "🔗 Application URL: https://liquor.aramac.dev"
+    echo "🏥 Health Check: $HEALTH_URL"
+}
+
+# Trap to ensure cleanup on script exit
+trap 'echo "🛑 Deployment script interrupted"' INT TERM
+
+# Execute main function
+main "$@"

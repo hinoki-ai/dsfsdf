@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - Licorería ARAMAC</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, hsl(var(--amber-500) / 0.1), hsl(var(--burgundy-500) / 0.1));
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .story-section {
+            padding: 4rem 0;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .story-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: hsl(var(--foreground));
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 1rem;
+        }
+
+        .story-image {
+            height: 400px;
+            background: linear-gradient(135deg, hsl(var(--amber-200)), hsl(var(--burgundy-200)));
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: hsl(var(--secondary));
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: hsl(var(--amber-500));
+        }
+
+        .value-icon {
+            width: 4rem;
+            height: 4rem;
+            color: hsl(var(--amber-500));
+            margin: 0 auto 1.5rem;
+        }
+
+        .value-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: hsl(var(--foreground));
+        }
+
+        .value-description {
+            color: hsl(var(--muted-foreground));
+            line-height: 1.6;
+        }
+
+        .stats-section {
+            background: hsl(var(--secondary));
+            padding: 4rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: hsl(var(--amber-500));
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: hsl(var(--foreground));
+            font-weight: 600;
+        }
+
+        .stat-description {
+            color: hsl(var(--muted-foreground));
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .team-section {
+            padding: 4rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: hsl(var(--background));
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid hsl(var(--border));
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-image {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, hsl(var(--amber-300)), hsl(var(--burgundy-300)));
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .member-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: hsl(var(--foreground));
+        }
+
+        .member-role {
+            color: hsl(var(--amber-500));
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .member-description {
+            color: hsl(var(--muted-foreground));
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(var(--burgundy-500)));
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .timeline {
+            margin: 4rem 0;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: hsl(var(--secondary));
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+        }
+
+        .timeline-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: right;
+        }
+
+        .timeline-year {
+            font-size: 3rem;
+            font-weight: 700;
+            color: hsl(var(--amber-500));
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: hsl(var(--foreground));
+        }
+
+        .timeline-description {
+            color: hsl(var(--muted-foreground));
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .story-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                text-align: center !important;
+            }
+
+            .timeline-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header header-blur">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <svg class="wine-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                        <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                        <path d="M11 10v8"/>
+                        <path d="M9 12v6"/>
+                        <path d="M13 8v8"/>
+                    </svg>
+                    <span class="logo-text">Licorería ARAMAC</span>
+                </a>
+
+                <!-- Navigation -->
+                <nav class="nav md-flex">
+                    <a href="productos.html" class="nav-link">Productos</a>
+                    <a href="categorias.html" class="nav-link">Categorías</a>
+                    <a href="promociones.html" class="nav-link">Promociones</a>
+                    <a href="nosotros.html" class="nav-link">Sobre Nosotros</a>
+                    <a href="contacto.html" class="nav-link">Contacto</a>
+                </nav>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <!-- Search -->
+                    <button class="btn btn-ghost btn-icon-sm search-btn sm-flex">
+                        <svg class="search-icon icon" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <span class="sr-only">Buscar</span>
+                    </button>
+
+                    <!-- Wishlist -->
+                    <a href="wishlist.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="wishlist-icon icon" viewBox="0 0 24 24">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Lista de deseos</span>
+                    </a>
+
+                    <!-- Cart -->
+                    <a href="carrito.html" class="btn btn-ghost btn-icon-sm">
+                        <svg class="cart-icon icon" viewBox="0 0 24 24">
+                            <circle cx="8" cy="21" r="1"></circle>
+                            <circle cx="19" cy="21" r="1"></circle>
+                            <path d="m2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                        </svg>
+                        <span class="badge">0</span>
+                        <span class="sr-only">Carrito de compras</span>
+                    </a>
+
+                    <!-- User Account -->
+                    <div class="user-section sm-flex">
+                        <a href="signin.html" class="btn btn-ghost">
+                            <svg class="user-icon icon icon-small" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Iniciar Sesión
+                        </a>
+                        <a href="signup.html" class="btn btn-primary">
+                            Registrarse
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu -->
+                    <button class="btn btn-ghost btn-icon-sm mobile-menu-btn md-hidden">
+                        <svg class="menu-icon icon" viewBox="0 0 24 24">
+                            <line x1="4" x2="20" y1="12" y2="12"></line>
+                            <line x1="4" x2="20" y1="6" y2="6"></line>
+                            <line x1="4" x2="20" y1="18" y2="18"></line>
+                        </svg>
+                        <span class="sr-only">Menú</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Nuestra Historia</h1>
+                <p style="font-size: 1.2rem; color: hsl(var(--muted-foreground)); max-width: 600px; margin: 0 auto;">
+                    Desde 1985, Licorería ARAMAC ha sido sinónimo de calidad, pasión y dedicación por los mejores licores del mundo.
+                </p>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section">
+            <div class="container">
+                <div class="story-content">
+                    <div class="story-text">
+                        <h2>Nuestros Orígenes</h2>
+                        <p>
+                            Todo comenzó en 1985 cuando nuestro fundador, Don Alejandro Ramírez, abrió las puertas de la primera
+                            Licorería ARAMAC en el corazón de Providencia, Santiago. Con una visión clara de democratizar el acceso
+                            a los mejores licores del mundo, Don Alejandro comenzó importando directamente desde las bodegas más
+                            prestigiosas de Europa y América.
+                        </p>
+                        <p>
+                            Lo que empezó como una pequeña tienda familiar, se ha convertido en la referencia indiscutible de
+                            licores premium en Chile. Tres generaciones después, mantenemos vivo el legado de calidad y servicio
+                            excepcional que nos ha caracterizado desde el primer día.
+                        </p>
+                        <p>
+                            Hoy, Licorería ARAMAC no solo es una tienda, sino un destino para los amantes del buen beber,
+                            un lugar donde la tradición se encuentra con la innovación, y donde cada botella cuenta una historia.
+                        </p>
+                    </div>
+                    <div class="story-image">
+                        <svg class="icon" style="width: 8rem; height: 8rem; color: hsl(var(--amber-600));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M7 2h10c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2z"/>
+                            <path d="M7 6v14c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2V6"/>
+                            <path d="M11 10v8"/>
+                            <path d="M9 12v6"/>
+                            <path d="M13 8v8"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1985</div>
+                            <h3 class="timeline-title">Los Primeros Pasos</h3>
+                            <p class="timeline-description">
+                                Fundación de Licorería ARAMAC en Providencia. Comenzamos con una selección de 150 productos
+                                importados directamente desde las mejores bodegas de Europa.
+                            </p>
+                        </div>
+                        <div class="story-image" style="height: 200px;">
+                            <svg class="icon" style="width: 4rem; height: 4rem; color: hsl(var(--amber-600));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">1995</div>
+                            <h3 class="timeline-title">Expansión y Crecimiento</h3>
+                            <p class="timeline-description">
+                                Inauguración de nuestra segunda sucursal en Las Condes. Implementamos el primer sistema
+                                de cataciones y eventos para clientes premium.
+                            </p>
+                        </div>
+                        <div class="story-image" style="height: 200px;">
+                            <svg class="icon" style="width: 4rem; height: 4rem; color: hsl(var(--amber-600));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">2005</div>
+                            <h3 class="timeline-title">Innovación Digital</h3>
+                            <p class="timeline-description">
+                                Lanzamiento de nuestro primer sitio web y sistema de pedidos en línea.
+                                Comenzamos a ofrecer delivery express en toda la Región Metropolitana.
+                            </p>
+                        </div>
+                        <div class="story-image" style="height: 200px;">
+                            <svg class="icon" style="width: 4rem; height: 4rem; color: hsl(var(--amber-600));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                <line x1="8" y1="21" x2="16" y2="21"></line>
+                                <line x1="12" y1="17" x2="12" y2="21"></line>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-year">2020</div>
+                            <h3 class="timeline-title">Nuevos Horizontes</h3>
+                            <p class="timeline-description">
+                                Renovación completa de nuestras instalaciones con showroom premium y sala de cataciones.
+                                Lanzamiento de nuestra app móvil y servicio de asesoría virtual.
+                            </p>
+                        </div>
+                        <div class="story-image" style="height: 200px;">
+                            <svg class="icon" style="width: 4rem; height: 4rem; color: hsl(var(--amber-600));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="section" style="background: hsl(var(--secondary));">
+            <div class="container">
+                <h2 class="section-title" style="background: linear-gradient(135deg, hsl(var(--amber-500)), hsl(0 100% 67%)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Nuestros Valores</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <svg class="value-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        <h3 class="value-title">Calidad Premium</h3>
+                        <p class="value-description">
+                            Solo trabajamos con los mejores proveedores y bodegas del mundo.
+                            Cada producto en nuestro catálogo cumple con los más altos estándares de calidad.
+                        </p>
+                    </div>
+
+                    <div class="value-card">
+                        <svg class="value-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <h3 class="value-title">Servicio Personalizado</h3>
+                        <p class="value-description">
+                            Nuestros expertos te guían en la selección perfecta para cada ocasión,
+                            desde recomendaciones personalizadas hasta asesoría en cataciones.
+                        </p>
+                    </div>
+
+                    <div class="value-card">
+                        <svg class="value-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="16,8 8,16"/>
+                            <line x1="8" y1="8" x2="16" y2="16"/>
+                        </svg>
+                        <h3 class="value-title">Transparencia</h3>
+                        <p class="value-description">
+                            Creemos en la honestidad total. Proporcionamos información detallada sobre
+                            origen, proceso de elaboración y características de cada producto.
+                        </p>
+                    </div>
+
+                    <div class="value-card">
+                        <svg class="value-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        <h3 class="value-title">Pasión por la Excelencia</h3>
+                        <p class="value-description">
+                            Vivimos por el mundo de los licores finos. Nuestra pasión nos impulsa
+                            a buscar constantemente las mejores experiencias para nuestros clientes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="container">
+                <h2 class="section-title">ARAMAC en Números</h2>
+                <div class="stats-grid">
+                    <div>
+                        <span class="stat-number">39</span>
+                        <span class="stat-label">Años de Experiencia</span>
+                        <p class="stat-description">Desde 1985 compartiendo las mejores experiencias</p>
+                    </div>
+                    <div>
+                        <span class="stat-number">5000+</span>
+                        <span class="stat-label">Productos Únicos</span>
+                        <p class="stat-description">La más amplia selección de licores premium</p>
+                    </div>
+                    <div>
+                        <span class="stat-number">25</span>
+                        <span class="stat-label">Países Representados</span>
+                        <p class="stat-description">Importamos desde las mejores bodegas del mundo</p>
+                    </div>
+                    <div>
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Clientes Satisfechos</span>
+                        <p class="stat-description">Familias que confían en nuestra experiencia</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="container">
+                <h2 class="section-title">Nuestro Equipo</h2>
+                <p class="section-subtitle">
+                    Conoce al equipo de apasionados expertos que hacen de Licorería ARAMAC un lugar especial.
+                </p>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image">
+                            <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--foreground));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3 class="member-name">María José Ramírez</h3>
+                        <p class="member-role">Directora General</p>
+                        <p class="member-description">
+                            Tercera generación familiar, María José combina la tradición familiar con
+                            la visión moderna del negocio. Especialista en vinos tintos y relaciones con proveedores.
+                        </p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--foreground));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3 class="member-name">Carlos Mendoza</h3>
+                        <p class="member-role">Maestro Catador</p>
+                        <p class="member-description">
+                            Con más de 20 años de experiencia, Carlos es nuestro experto en whiskies y coñacs.
+                            Certificado por la Asociación Chilena de Catadores Profesionales.
+                        </p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--foreground));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3 class="member-name">Isabella Torres</h3>
+                        <p class="member-role">Especialista en Vinos</p>
+                        <p class="member-description">
+                            Sommelier certificada con especialización en vinos chilenos y europeos.
+                            Organiza nuestras cataciones mensuales y eventos especiales.
+                        </p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <svg class="icon" style="width: 3rem; height: 3rem; color: hsl(var(--foreground));" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3 class="member-name">Andrés González</h3>
+                        <p class="member-role">Gerente de Operaciones</p>
+                        <p class="member-description">
+                            Encargado de mantener nuestros altos estándares de servicio y logística.
+                            Asegura que cada pedido llegue en perfectas condiciones a nuestros clientes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 class="cta-title">¿Listo para una Experiencia Premium?</h2>
+                <p class="cta-description">
+                    Visítanos y descubre por qué miles de clientes eligen Licorería ARAMAC para sus momentos especiales.
+                    Te esperamos con los brazos abiertos y una copa en la mano.
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="contacto.html" class="btn" style="background: white; color: hsl(var(--background)); padding: 1rem 2rem; font-weight: 600;">Contáctanos</a>
+                    <a href="productos.html" class="btn" style="background: transparent; color: white; border: 2px solid white; padding: 1rem 2rem; font-weight: 600;">Ver Productos</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Licorería ARAMAC</h3>
+                    <p>Tu tienda premium de licores en Chile. Ofrecemos la mejor selección de vinos, whiskies, coñacs y destilados de calidad superior.</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Horarios:</strong><br>
+                        Lunes a Viernes: 9:00 - 20:00<br>
+                        Sábados: 10:00 - 18:00<br>
+                        Domingos: Cerrado
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="productos.html">Productos</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="promociones.html">Promociones</a></li>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Servicios</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Delivery Express</a></li>
+                        <li><a href="#">Asesoramiento Personal</a></li>
+                        <li><a href="#">Regalos Corporativos</a></li>
+                        <li><a href="#">Eventos Especiales</a></li>
+                        <li><a href="#">Cataciones</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>
+                        📍 Av. Providencia 123<br>
+                        Providencia, Santiago<br>
+                        📞 +56 2 2345 6789<br>
+                        ✉️ info@licoreria-aramac.cl
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Licorería ARAMAC. Todos los derechos reservados. | Diseño web premium para experiencias excepcionales.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
