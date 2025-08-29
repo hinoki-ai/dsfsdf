@@ -46,20 +46,21 @@ rollback() {
 # Main deployment process
 main() {
     echo "📋 Pre-deployment checks..."
-    
+
+    # Check if .env.production file exists
+    if [ ! -f ".env.production" ]; then
+        echo "❌ Error: .env.production file not found"
+        exit 1
+    fi
+
     # Check if Docker is running
     if ! docker info &>/dev/null; then
         echo "❌ Docker is not running or accessible"
         exit 1
     fi
 
-    # Check if required environment variables are set
-    if [ -z "$NEXT_PUBLIC_CONVEX_URL" ]; then
-        echo "⚠️ Warning: NEXT_PUBLIC_CONVEX_URL not set in environment"
-    fi
-
     echo "🛑 Stopping existing containers..."
-    docker-compose -f docker-compose.prod.yml down --remove-orphans || true
+    docker-compose -f docker-compose.prod.yml --env-file .env.production down --remove-orphans || true
 
     # Backup existing container if it exists
     if docker ps -a --filter "name=$CONTAINER_NAME" --format "{{.Names}}" | grep -q "$CONTAINER_NAME"; then
@@ -69,7 +70,7 @@ main() {
     fi
 
     echo "🏗️ Building and starting new containers..."
-    if ! docker-compose -f docker-compose.prod.yml up -d --build; then
+    if ! docker-compose -f docker-compose.prod.yml --env-file .env.production up -d --build; then
         echo "❌ Failed to start containers"
         rollback
         exit 1

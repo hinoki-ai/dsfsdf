@@ -2,7 +2,7 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useI18n } from "@/lib/i18n"
+import { getTranslation } from "@/lib/i18n"
 import {
   Wine,
   Beer,
@@ -21,11 +21,10 @@ import {
   Play
 } from "lucide-react"
 
-"use client"
-
 // Mobile-first premium homepage with divine parsing oracle i18n
-export default function Home() {
-  const t = useI18n()
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = (key: string) => getTranslation(locale as any, key)
 
   return (
     <div className="min-h-screen bg-background mobile-first">

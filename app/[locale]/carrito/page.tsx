@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { AgeVerification, AgeVerifiedBadge } from "@/components/age-verification"
 import { formatPrice } from "@/lib/utils"
-import { useI18n } from "@/lib/i18n"
+import { useI18n } from "@/components/providers/i18n-provider"
 import { Trash2, Plus, Minus, ShoppingBag, AlertCircle } from "lucide-react"
 
 interface CartItem {

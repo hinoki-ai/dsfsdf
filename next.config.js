@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Standard build output for Vercel deployment
+  // Docker deployment output configuration
+  output: 'standalone',
 
   // Temporarily disable build errors for deployment (like working projects)
   eslint: {
@@ -10,8 +11,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  // Production domain configuration
-  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://liquor.aramac.dev' : '',
+  // Production domain configuration - disabled for standalone deployment
+  // assetPrefix: process.env.NODE_ENV === 'production' ? 'https://liquor.aramac.dev' : '',
 
   images: {
     domains: ['avatars.githubusercontent.com', 'liquor.aramac.dev'],

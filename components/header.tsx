@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useAuth, UserButton } from "@clerk/nextjs"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useI18n } from "@/lib/i18n"
+import { useI18n } from "@/components/providers/i18n-provider"
 import {
   ShoppingCart,
   User,

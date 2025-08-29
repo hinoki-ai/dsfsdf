@@ -10,7 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useRouter, usePathname } from 'next/navigation'
-import { locales, type Locale, useI18n, useCurrentLocale, useChangeLocale } from '@/lib/i18n'
+import { locales, type Locale } from '@/lib/i18n'
+import { useI18n, useCurrentLocale, useChangeLocale } from '@/components/providers/i18n-provider'
 
 const languageNames: Record<Locale, string> = {
   en: 'English',

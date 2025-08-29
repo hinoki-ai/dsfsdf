@@ -10,8 +10,12 @@ export function ClerkProviderWrapper({
 }) {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-  if (!publishableKey) {
-    // For development builds without Clerk configuration
+  if (!publishableKey || 
+      publishableKey === 'pk_test_placeholder' || 
+      publishableKey === 'pk_test_51234567890abcdef1234567890abcdef1234567890' ||
+      publishableKey.length < 10) {
+    // For development builds without Clerk configuration or with placeholder keys
+    console.log('Clerk not configured or using placeholder keys, skipping authentication')
     return <>{children}</>
   }
 
