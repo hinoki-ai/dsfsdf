@@ -73,6 +73,17 @@ This project implements a comprehensive, semantic color tokenization system that
 
 ```
 
+#### Gradients
+
+```css
+--gradient-primary    /* Amber to Burgundy gradient */
+--gradient-secondary  /* Amber to Red gradient */
+--gradient-accent     /* Burgundy to Purple gradient */
+--gradient-background /* Subtle background gradient */
+--gradient-glass      /* Glass morphism gradient */
+
+```
+
 ### Glass Morphism Effects
 
 ```css
@@ -98,7 +109,7 @@ This project implements a comprehensive, semantic color tokenization system that
 
 ```
 
-#### Alcohol Categories
+#### Alcohol Category Examples
 
 ```tsx
 // Instead of hard-coded colors
@@ -117,6 +128,41 @@ This project implements a comprehensive, semantic color tokenization system that
 <div className="backdrop-blur-md bg-white/10 border border-white/20">
 // Use semantic utilities
 <div className="glass-medium">
+
+```
+
+#### Utility Functions
+
+```tsx
+// Use helper functions for dynamic color application
+import {
+  getAlcoholColorClasses,
+  getStatusColorClasses,
+  getAvailabilityColorClasses,
+  getAgeVerificationColorClasses
+} from '@/lib/color-palette'
+
+// Alcohol strength based on ABV
+const alcoholClasses = getAlcoholColorClasses(product.abv)
+<div className={`${alcoholClasses.bg} ${alcoholClasses.text}`}>
+  {product.abv}% ABV
+</div>
+
+// Status indicators
+const statusClasses = getStatusColorClasses('allowed')
+<Badge className={`${statusClasses.bg} ${statusClasses.text}`}>
+  Verified
+</Badge>
+
+// Availability status
+const availabilityClasses = getAvailabilityColorClasses('inStock')
+<span className={`${availabilityClasses.text}`}>In Stock</span>
+
+// Age verification status
+const ageClasses = getAgeVerificationColorClasses('verified')
+<div className={`${ageClasses.bg} ${ageClasses.border} border rounded p-2`}>
+  Age Verified
+</div>
 
 ```
 

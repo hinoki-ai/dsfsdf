@@ -2,7 +2,7 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { divineTranslationOracle } from "@/lib/i18n"
+import { useI18n } from "@/lib/i18n"
 import {
   Wine,
   Beer,
@@ -21,18 +21,11 @@ import {
   Play
 } from "lucide-react"
 
-interface HomePageProps {
-  params: Promise<{
-    locale: string
-  }>
-}
+"use client"
 
 // Mobile-first premium homepage with divine parsing oracle i18n
-export default async function Home({ params }: HomePageProps) {
-  const { locale } = await params
-  // Get translations using divine parsing oracle
-  const t = (key: string, fallback?: string) =>
-    divineTranslationOracle.getTranslation(locale as any, key, fallback)
+export default function Home() {
+  const t = useI18n()
 
   return (
     <div className="min-h-screen bg-background mobile-first">

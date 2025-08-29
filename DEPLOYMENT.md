@@ -16,18 +16,21 @@ This guide provides comprehensive instructions for deploying the Liquor Store Sa
 ### Development Environment
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd liquor-store-saas
    ```
 
 2. **Set up environment variables**
+
    ```bash
    cp env.example .env.local
    # Edit .env.local with your configuration
    ```
 
 3. **Start development environment**
+
    ```bash
    # Using Docker Compose (recommended)
    docker-compose -f docker-compose.dev.yml up -d
@@ -38,25 +41,28 @@ This guide provides comprehensive instructions for deploying the Liquor Store Sa
    ```
 
 4. **Access the application**
-   - Main app: http://localhost:3000
-   - Admin panel: http://localhost:3000/admin
-   - MailHog (email testing): http://localhost:8025
-   - Adminer (database): http://localhost:8080
+   - Main app: [http://localhost:3000](http://localhost:3000)
+   - Admin panel: [http://localhost:3000/admin](http://localhost:3000/admin)
+   - MailHog (email testing): [http://localhost:8025](http://localhost:8025)
+   - Adminer (database): [http://localhost:8080](http://localhost:8080)
 
 ### Production Environment
 
 1. **Configure production environment**
+
    ```bash
    cp env.example .env.local
    # Fill in production values
    ```
 
 2. **Deploy with Docker Compose**
+
    ```bash
    docker-compose up -d --build
    ```
 
 3. **Set up SSL certificates**
+
    ```bash
    # Using Let's Encrypt
    certbot --nginx -d liquor.aramac.dev -d www.liquor.aramac.dev
@@ -68,16 +74,16 @@ This guide provides comprehensive instructions for deploying the Liquor Store Sa
 
 ```bash
 # Build and start all services
-docker-compose up -d --build
+docker-compose -f docker-compose.prod.yml up -d --build
 
 # View logs
-docker-compose logs -f liquor-store
+docker-compose -f docker-compose.prod.yml logs -f liquor-store
 
 # Scale services (if needed)
-docker-compose up -d --scale liquor-store=3
+docker-compose -f docker-compose.prod.yml up -d --scale liquor-store=3
 
 # Update application
-docker-compose pull && docker-compose up -d --build
+docker-compose -f docker-compose.prod.yml pull && docker-compose -f docker-compose.prod.yml up -d --build
 ```
 
 ### Development Setup
@@ -89,7 +95,11 @@ docker-compose -f docker-compose.dev.yml up -d
 # View development logs
 docker-compose -f docker-compose.dev.yml logs -f liquor-store-dev
 
-# Access development database
+# Or use npm scripts for simpler development
+npm run convex:dev      # Start Convex development server
+npm run dev:port3000    # Start Next.js development server
+
+# Access development database (if using Docker)
 docker-compose -f docker-compose.dev.yml exec postgres-dev psql -U liquor_dev -d liquor_store_dev
 ```
 
@@ -143,6 +153,7 @@ Password: ${GRAFANA_PASSWORD}
 ### Application Metrics
 
 The application exposes metrics on `/api/metrics` for:
+
 - Response times
 - Error rates
 - User activity
@@ -190,6 +201,7 @@ sudo ufw --force enable
 ### Security Headers
 
 The application includes comprehensive security headers:
+
 - Content Security Policy (CSP)
 - X-Frame-Options
 - X-Content-Type-Options
@@ -234,6 +246,7 @@ location /_next/static/ {
 ### Common Issues
 
 1. **Application won't start**
+
    ```bash
    # Check logs
    docker-compose logs liquor-store
@@ -246,6 +259,7 @@ location /_next/static/ {
    ```
 
 2. **Database connection issues**
+
    ```bash
    # Test database connection
    docker-compose exec postgres pg_isready -U liquor_user -d liquor_store
@@ -255,6 +269,7 @@ location /_next/static/ {
    ```
 
 3. **SSL certificate issues**
+
    ```bash
    # Renew certificates manually
    sudo certbot renew
@@ -287,6 +302,7 @@ docker-compose exec postgres tail -f /var/log/postgresql/postgresql-15-main.log
 ## 🤝 Support
 
 For deployment issues or questions:
+
 - Check the logs: `docker-compose logs`
 - Verify configuration files
 - Test with development setup first
@@ -294,6 +310,6 @@ For deployment issues or questions:
 
 ---
 
-**Last Updated**: December 2024
+**Last Updated**: January 2025
 **Version**: 1.0.0
 **Environment**: Production Ready

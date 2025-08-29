@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { AgeVerification, AgeVerifiedBadge } from "@/components/age-verification"
 import { formatPrice } from "@/lib/utils"
+import { useI18n } from "@/lib/i18n"
 import { Trash2, Plus, Minus, ShoppingBag, AlertCircle } from "lucide-react"
 
 interface CartItem {
@@ -47,6 +48,7 @@ interface Cart {
 
 export default function CartPage() {
   const { userId, isSignedIn } = useAuth()
+  const t = useI18n()
   const [cart, setCart] = useState<Cart | null>(null)
   const [products, setProducts] = useState<Record<string, Product>>({})
   const [loading, setLoading] = useState(true)
@@ -194,7 +196,7 @@ export default function CartPage() {
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Cargando carrito...</p>
+              <p className="text-gray-600">{t('common.loading')}</p>
             </div>
           </div>
         </div>
@@ -210,13 +212,13 @@ export default function CartPage() {
           <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
             <ShoppingBag className="h-16 w-16 text-gray-400 mb-4" />
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Tu carrito está vacío
+              {t('cart.empty')}
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Agrega algunos productos para comenzar tu compra
+              {t('cart.emptySubtitle')}
             </p>
             <Button asChild>
-              Ver Productos
+              {t('cart.continueShopping')}
             </Button>
           </div>
         </div>
@@ -232,7 +234,7 @@ export default function CartPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Carrito de Compras
+              {t('cart.title')}
             </h1>
             {cart.ageVerification.isVerified && (
               <AgeVerifiedBadge />

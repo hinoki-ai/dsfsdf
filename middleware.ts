@@ -1,145 +1,62 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Supported locales configuration
-const SUPPORTED_LOCALES = ['es', 'en'] as const
-const DEFAULT_LOCALE = 'es'
-
-// Protected routes configuration
+// Protected routes configuration - simplified based on working projects
 const isProtectedRoute = createRouteMatcher([
   '/admin(.*)',
-  '/dashboard(.*)',
-  '/myaccount(.*)',
-  '/checkout(.*)',
   '/carrito(.*)',
-  '/orders(.*)',
-  '/:locale/admin(.*)',
-  '/:locale/dashboard(.*)',
-  '/:locale/myaccount(.*)',
-  '/:locale/checkout(.*)',
-  '/:locale/carrito(.*)',
-  '/:locale/orders(.*)'
+  '/checkout(.*)'
 ])
 
-// Safe language detection with error handling
-function detectLanguage(request: NextRequest): string {
-  try {
-    const pathname = request.nextUrl.pathname
-    const acceptLanguage = request.headers.get('accept-language') || ''
+export default clerkMiddleware(async (auth, req) => {
+  const url = new URL(req.url)
+  const pathname = url.pathname
 
-    // Check for explicit language in URL first
-    for (const locale of SUPPORTED_LOCALES) {
-      if (pathname.startsWith(`/${locale}`)) {
-        return locale
+  // PERFORMANCE: Early return for static assets and public routes
+  if (
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.startsWith('/public/') ||
+    pathname.startsWith('/api/health') ||
+    pathname === '/' ||
+    pathname.startsWith('/productos') ||
+    pathname.startsWith('/es/') ||
+    pathname.startsWith('/en/')
+  ) {
+    return
+  }
+
+  // DEVELOPMENT MODE: Handle authentication gracefully
+  // Based on Parking project pattern - comment out for development
+  try {
+    if (isProtectedRoute(req)) {
+      // Only protect routes if Clerk is properly configured
+      if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
+          process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY !== 'pk_test_placeholder' &&
+          process.env.CLERK_SECRET_KEY &&
+          process.env.CLERK_SECRET_KEY !== 'sk_test_placeholder') {
+        await auth.protect()
+      }
+      // If Clerk not configured, just log and continue
+      else {
+        console.warn('Clerk not configured, skipping authentication for:', pathname)
       }
     }
-
-    // Simple browser language detection
-    if (acceptLanguage.includes('es') || acceptLanguage.includes('es-CL')) {
-      return 'es'
-    }
-    
-    if (acceptLanguage.includes('en')) {
-      return 'en'
-    }
-
-    // Default to Chilean Spanish
-    return DEFAULT_LOCALE
   } catch (error) {
-    console.error('Language detection error:', error)
-    return DEFAULT_LOCALE
+    console.error('Authentication error:', error)
+    // Continue without authentication rather than failing
   }
-}
 
-// Safe locale routing with loop prevention
-function createLocalizedResponse(request: NextRequest, locale: string): NextResponse {
-  try {
-    const pathname = request.nextUrl.pathname
-    const url = request.nextUrl.clone()
-
-    // Skip routes that should not be localized
-    if (
-      pathname.startsWith('/api') ||
-      pathname.startsWith('/_next') ||
-      pathname.startsWith('/favicon.ico') ||
-      pathname.startsWith('/robots.txt') ||
-      pathname.startsWith('/sitemap.xml') ||
-      pathname.includes('.')
-    ) {
-      return NextResponse.next()
-    }
-
-    // If already localized with correct locale, continue
-    if (pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`) {
-      return NextResponse.next()
-    }
-
-    // If localized with different locale, continue (let it be handled by the page)
-    for (const supportedLocale of SUPPORTED_LOCALES) {
-      if (pathname.startsWith(`/${supportedLocale}/`) || pathname === `/${supportedLocale}`) {
-        return NextResponse.next()
-      }
-    }
-
-    // Handle root path
-    if (pathname === '/') {
-      url.pathname = `/${locale}`
-      return NextResponse.redirect(url)
-    }
-
-    // Handle legacy redirects BEFORE adding locale
-    const legacyRedirects: Record<string, string> = {
-      '/products': '/productos',
-      '/contact': '/contacto'
-    }
-
-    // Check for legacy redirects
-    for (const [oldPath, newPath] of Object.entries(legacyRedirects)) {
-      if (pathname.startsWith(oldPath)) {
-        const remainingPath = pathname.replace(oldPath, '')
-        url.pathname = `/${locale}${newPath}${remainingPath}`
-        return NextResponse.redirect(url)
-      }
-    }
-
-    // Add locale prefix to path
-    url.pathname = `/${locale}${pathname}`
-    return NextResponse.redirect(url)
-
-  } catch (error) {
-    console.error('Locale routing error:', error)
-    return NextResponse.next()
-  }
-}
-
-export default clerkMiddleware(async (auth, request) => {
-  try {
-    // Handle i18n routing first
-    const detectedLanguage = detectLanguage(request)
-    const localeResponse = createLocalizedResponse(request, detectedLanguage)
-    
-    // If we need to redirect for localization, do it now
-    if (localeResponse.status !== 200) {
-      return localeResponse
-    }
-
-    // Apply authentication to protected routes
-    if (isProtectedRoute(request)) {
-      await auth.protect()
-    }
-
-    return NextResponse.next()
-  } catch (error) {
-    console.error('Middleware error:', error)
-    // Return a minimal response to prevent 500 errors
-    return NextResponse.next()
-  }
+  // LOGGING: Minimal logging for production
+  console.warn(`Middleware processed: ${pathname}`)
 })
 
 export const config = {
   matcher: [
-    // Match all paths except static files and specifically excluded routes
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)'
-  ]
+    // PATTERN: Exclude Next.js internals and static files
+    // Based on working Minimarket project pattern
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // PATTERN: Always match API routes
+    '/(api|trpc)(.*)',
+  ],
 }

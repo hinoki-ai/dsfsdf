@@ -3,7 +3,9 @@ version: '3.8'
 services:
   # Next.js Application
   liquor-store:
-    image: ghcr.io/kuromatsu/liquor:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: liquor-aramac-app
     restart: unless-stopped
     ports:

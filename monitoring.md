@@ -5,12 +5,14 @@
 The deployment is now **production-ready** with the following improvements:
 
 ### ✅ Fixed Issues
+
 - **CI/CD Pipeline**: Fixed environment variable handling and deployment scripts
 - **Docker Configuration**: Optimized multi-stage builds and health checks
 - **Build Process**: All builds passing with TypeScript and ESLint checks
 - **Health Monitoring**: Comprehensive health endpoints and smoke tests
 
 ### ✅ New Features
+
 - **Automated Deployment**: `./deploy.sh` script with rollback capability
 - **Development Setup**: `./dev-setup.sh` for easy local development
 - **Performance Monitoring**: Lighthouse CI integration
@@ -19,11 +21,13 @@ The deployment is now **production-ready** with the following improvements:
 ## 🔍 Monitoring Endpoints
 
 ### Health Check
+
 ```bash
 curl https://liquor.aramac.dev/api/health
 ```
 
 Expected Response:
+
 ```json
 {
   "status": "healthy",
@@ -41,6 +45,7 @@ Expected Response:
 ```
 
 ### Performance Metrics
+
 - **Build Size**: ~101 kB shared JS chunks
 - **Load Time Target**: <3s on 3G, <1s on WiFi
 - **Core Web Vitals**: LCP <2.5s, FID <100ms, CLS <0.1
@@ -49,46 +54,58 @@ Expected Response:
 ## 🚀 Deployment Commands
 
 ### Quick Deploy
+
 ```bash
 ./deploy.sh
 ```
 
 ### Development Setup
+
 ```bash
 ./dev-setup.sh
 ```
 
 ### Manual Commands
+
 ```bash
 # Build and test
 npm run build
 npm run lint
 npx tsc --noEmit
 
-# Deploy Convex
+# Deploy Convex functions
 npm run convex:deploy
 
 # Deploy with Docker
-npm run deploy:prod
+npm run deploy:docker
+npm run deploy:full     # Full deployment (Convex + Docker)
 
 # Health check
 npm run health
+
+# Docker operations
+npm run docker:build
+npm run docker:run
+npm run docker:logs
 ```
 
 ## 📊 Performance Optimization
 
 ### Lighthouse Configuration
+
 - Performance: >80% score target
 - Accessibility: >90% score requirement
 - Best Practices: >90% score target
 - SEO: >90% score target
 
 ### Bundle Analysis
+
 - Total First Load JS: 143 kB (excellent)
 - Middleware: 33.2 kB
 - Optimized chunks with tree-shaking
 
 ### Core Web Vitals Targets
+
 - **LCP**: <3000ms
 - **FCP**: <2000ms
 - **CLS**: <0.1
@@ -96,12 +113,14 @@ npm run health
 ## 🔧 Container Health Monitoring
 
 ### Docker Health Checks
+
 - Interval: 30s
 - Timeout: 10s
 - Retries: 3
 - Start period: 40s
 
 ### Service Dependencies
+
 - App depends on Redis health
 - Proper graceful shutdowns
 - Automatic restarts on failure
@@ -109,11 +128,13 @@ npm run health
 ## 🛡️ Security Features
 
 ### Headers
+
 - X-Frame-Options: DENY
 - X-Content-Type-Options: nosniff
 - Referrer-Policy: strict-origin-when-cross-origin
 
 ### Environment Security
+
 - No secrets in code
 - Proper environment variable handling
 - Production-safe configurations
@@ -121,12 +142,14 @@ npm run health
 ## 📈 Monitoring Recommendations
 
 ### Immediate Actions
+
 1. **Deploy**: `./deploy.sh` ✅
 2. **Test Health**: Check all endpoints ✅
 3. **Monitor Performance**: Lighthouse CI reports ✅
 4. **Verify Security**: SSL/TLS and headers ✅
 
 ### Ongoing Monitoring
+
 - Daily health checks
 - Weekly performance audits
 - Monthly security scans
@@ -135,6 +158,7 @@ npm run health
 ## 🚨 Troubleshooting
 
 ### Deployment Issues
+
 ```bash
 # Check logs
 docker-compose -f docker-compose.prod.yml logs -f
@@ -147,6 +171,7 @@ docker-compose -f docker-compose.prod.yml logs -f
 ```
 
 ### Performance Issues
+
 ```bash
 # Run smoke tests
 ./deploy.sh --smoke-test
@@ -161,6 +186,7 @@ npx @next/bundle-analyzer
 ## 🎯 Success Metrics
 
 ### Deployment Ready ✅
+
 - All builds passing
 - TypeScript checks clean
 - ESLint warnings: 0
@@ -168,12 +194,14 @@ npx @next/bundle-analyzer
 - CI/CD pipeline optimized
 
 ### Performance Ready ✅
+
 - Bundle size optimized
 - Core Web Vitals configured
 - Lighthouse CI integrated
 - Health monitoring active
 
 ### Production Ready ✅
+
 - Docker containers optimized
 - Security headers configured
 - Environment variables secure
@@ -184,3 +212,8 @@ npx @next/bundle-analyzer
 ## 🤖 Generated with [Claude Code](https://claude.ai/code)
 
 This monitoring setup ensures your Liquor ARAMAC deployment runs flawlessly in production.
+
+---
+
+**Last Updated**: January 2025
+**Version**: 1.0.0

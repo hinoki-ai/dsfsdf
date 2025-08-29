@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useAuth, UserButton } from "@clerk/nextjs"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useI18n } from "@/lib/i18n"
 import {
   ShoppingCart,
   User,
@@ -20,6 +21,7 @@ interface HeaderProps {
 
 export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
   const { isSignedIn } = useAuth()
+  const t = useI18n()
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -36,31 +38,31 @@ export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
             href="/productos"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Productos
+            {t('nav.products')}
           </Link>
           <Link
             href="/categorias"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Categorías
+            {t('nav.categories')}
           </Link>
           <Link
             href="/promociones"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Promociones
+            {t('nav.promotions')}
           </Link>
           <Link
             href="/nosotros"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Sobre Nosotros
+            {t('nav.about')}
           </Link>
           <Link
             href="/contacto"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Contacto
+            {t('nav.contact')}
           </Link>
         </nav>
 
@@ -69,7 +71,7 @@ export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
           {/* Search */}
           <Button variant="ghost" size="icon" className="hidden sm:flex">
             <Search className="h-5 w-5" />
-            <span className="sr-only">Buscar</span>
+            <span className="sr-only">{t('nav.search')}</span>
           </Button>
 
           {/* Wishlist */}
@@ -81,7 +83,7 @@ export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
                   {wishlistCount}
                 </Badge>
               )}
-              <span className="sr-only">Lista de deseos</span>
+              <span className="sr-only">{t('nav.wishlist')}</span>
             </Button>
           </Link>
 
@@ -94,7 +96,7 @@ export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
                   {cartItemCount}
                 </Badge>
               )}
-              <span className="sr-only">Carrito de compras</span>
+              <span className="sr-only">{t('nav.cart')}</span>
             </Button>
           </Link>
 
@@ -113,12 +115,12 @@ export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
               <Link href="/sign-in">
                 <Button variant="ghost" size="sm">
                   <User className="h-4 w-4 mr-2" />
-                  Iniciar Sesión
+                  {t('nav.login')}
                 </Button>
               </Link>
               <Link href="/sign-up">
                 <Button size="sm">
-                  Registrarse
+                  {t('nav.register')}
                 </Button>
               </Link>
             </div>
@@ -127,7 +129,7 @@ export function Header({ cartItemCount = 0, wishlistCount = 0 }: HeaderProps) {
           {/* Mobile Menu */}
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-5 w-5" />
-            <span className="sr-only">Menú</span>
+            <span className="sr-only">{t('common.menu', { defaultValue: 'Menu' })}</span>
           </Button>
         </div>
       </div>

@@ -1,18 +1,11 @@
-// Divine Parsing Oracle - Advanced i18n System
-// Orchestrates intelligent language detection and translation management
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
-// Define supported locales with proper typing
-const supportedLocalesArray = ['en', 'es'] as const
-const supportedLocalesEnv = process.env.NEXT_PUBLIC_SUPPORTED_LOCALES
+// Locales supported by the liquor platform
+export const locales = ['en', 'es'] as const
+export type Locale = (typeof locales)[number]
 
-// Get supported locales from environment with fallback
-export const locales = supportedLocalesEnv
-  ? (supportedLocalesEnv.split(',').map((l: string) => l.trim()).filter((l) =>
-      supportedLocalesArray.includes(l as typeof supportedLocalesArray[number])
-    ) as readonly string[])
-  : supportedLocalesArray
-
-export type Locale = typeof locales[number]
+// Type for nested translation objects
+type TranslationValue = string | string[] | { [key: string]: TranslationValue }
 
 // Get default locale from environment or use Chilean Spanish
 export const defaultLocale: Locale = (process.env.NEXT_PUBLIC_DEFAULT_LOCALE as Locale) || 'es'
@@ -62,11 +55,11 @@ export const divineLanguageOracle = {
   }
 }
 
-// Translation messages with divine parsing optimization
-export const messages = {
+// Divine Parsing Oracle - Complete Liquor Store EN/ES translations
+const translations = {
   en: {
-    // Navigation
-    navigation: {
+    // Navigation & Global
+    nav: {
       home: 'Home',
       products: 'Products',
       categories: 'Categories',
@@ -77,7 +70,8 @@ export const messages = {
       wishlist: 'Wishlist',
       login: 'Login',
       register: 'Register',
-      logout: 'Logout'
+      logout: 'Logout',
+      languageToggle: 'Toggle language',
     },
 
     // Hero Section
@@ -129,35 +123,114 @@ export const messages = {
       }
     },
 
-    // Stats
-    stats: {
-      products: '1000+ Products',
-      clients: '5000+ Clients',
-      satisfaction: '98% Satisfaction',
-      support: '24/7 Support'
+    // Cart & Checkout
+    cart: {
+      title: 'Shopping Cart',
+      empty: 'Your cart is empty',
+      emptySubtitle: 'Add some products to get started',
+      continueShopping: 'Continue Shopping',
+      subtotal: 'Subtotal',
+      delivery: 'Delivery',
+      tax: 'Tax',
+      total: 'Total',
+      checkout: 'Proceed to Checkout',
+      remove: 'Remove',
+      quantity: 'Quantity',
+      addMore: 'Add More Items',
+    },
+
+    // Age Verification
+    ageVerification: {
+      title: 'Age Verification Required',
+      subtitle: 'You must be 18+ to purchase alcoholic beverages',
+      description: 'Please verify your age to continue shopping',
+      verify: 'Verify Age',
+      verified: 'Age Verified',
+      failed: 'Verification Failed',
+      legalNotice: 'By law 19.925, alcohol sales are restricted to adults 18+'
+    },
+
+    // Admin Panel
+    admin: {
+      title: 'Admin Panel',
+      dashboard: 'Dashboard',
+      products: 'Products',
+      inventory: 'Inventory',
+      orders: 'Orders',
+      categories: 'Categories',
+      customers: 'Customers',
+      analytics: 'Analytics',
+      settings: 'Settings'
+    },
+
+    // Common UI Elements
+    common: {
+      loading: 'Loading...',
+      error: 'Something went wrong',
+      retry: 'Try Again',
+      save: 'Save',
+      cancel: 'Cancel',
+      edit: 'Edit',
+      delete: 'Delete',
+      confirm: 'Confirm',
+      close: 'Close',
+      next: 'Next',
+      previous: 'Previous',
+      viewAll: 'View All',
+      learnMore: 'Learn More',
+      addToCart: 'Add to Cart',
+      buyNow: 'Buy Now',
+      viewDetails: 'View Details',
+      search: 'Search',
+      filter: 'Filter',
+      sort: 'Sort by',
+      price: 'Price',
+      category: 'Category',
+      brand: 'Brand',
+      availability: 'Availability',
+      inStock: 'In Stock',
+      outOfStock: 'Out of Stock',
+      onSale: 'On Sale',
+      new: 'New',
+      featured: 'Featured',
+      bestseller: 'Bestseller',
+      menu: 'Menu',
     },
 
     // Footer
     footer: {
       description: 'Your trusted online store for liquors and alcoholic beverages in Chile.',
+      quickLinks: 'Quick Links',
       categories: 'Categories',
-      services: 'Services',
-      shipping: 'Shipping',
+      customerService: 'Customer Service',
+      aboutUs: 'About Us',
+      contact: 'Contact',
+      shipping: 'Shipping Info',
       returns: 'Returns',
-      support: 'Support',
+      warranty: 'Warranty',
       faq: 'FAQ',
-      legal: 'Legal',
       terms: 'Terms & Conditions',
       privacy: 'Privacy Policy',
       agePolicy: 'Age Policy',
-      contact: 'Contact',
-      rights: 'All rights reserved.'
-    }
+      followUs: 'Follow Us',
+      newsletter: 'Newsletter',
+      subscribe: 'Subscribe',
+      emailPlaceholder: 'Enter your email',
+      copyright: 'All rights reserved.',
+      designedBy: 'Designed by ΛRΛMΛC'
+    },
+
+    // SEO & Meta
+    meta: {
+      title: 'Licorería ARAMAC | Premium Liquor Store Chile',
+      description: 'Premium alcoholic beverages with secure delivery. Age verification and compliance with Chilean Law 19.925.',
+      keywords: 'licoreria, alcohol, wine, beer, spirits, chile, delivery, premium, aramac',
+    },
   },
 
   es: {
-    // Navigation
-    navigation: {
+    // Navigation & Global
+    nav: {
       home: 'Inicio',
       products: 'Productos',
       categories: 'Categorías',
@@ -168,7 +241,8 @@ export const messages = {
       wishlist: 'Lista de Deseos',
       login: 'Iniciar Sesión',
       register: 'Registrarse',
-      logout: 'Cerrar Sesión'
+      logout: 'Cerrar Sesión',
+      languageToggle: 'Cambiar idioma',
     },
 
     // Hero Section
@@ -220,74 +294,214 @@ export const messages = {
       }
     },
 
-    // Stats
-    stats: {
-      products: '1000+ Productos',
-      clients: '5000+ Clientes',
-      satisfaction: '98% Satisfacción',
-      support: '24/7 Soporte'
+    // Cart & Checkout
+    cart: {
+      title: 'Carrito de Compras',
+      empty: 'Tu carrito está vacío',
+      emptySubtitle: 'Agregá algunos productos para comenzar',
+      continueShopping: 'Seguir Comprando',
+      subtotal: 'Subtotal',
+      delivery: 'Entrega',
+      tax: 'Impuestos',
+      total: 'Total',
+      checkout: 'Proceder al Pago',
+      remove: 'Eliminar',
+      quantity: 'Cantidad',
+      addMore: 'Agregar Más Artículos',
+    },
+
+    // Age Verification
+    ageVerification: {
+      title: 'Verificación de Edad Obligatoria',
+      subtitle: 'Debes tener 18+ para comprar bebidas alcohólicas',
+      description: 'Por favor verifica tu edad para continuar comprando',
+      verify: 'Verificar Edad',
+      verified: 'Edad Verificada',
+      failed: 'Verificación Fallida',
+      legalNotice: 'Por ley 19.925, la venta de alcohol está restringida a mayores de 18 años'
+    },
+
+    // Admin Panel
+    admin: {
+      title: 'Panel de Administración',
+      dashboard: 'Panel',
+      products: 'Productos',
+      inventory: 'Inventario',
+      orders: 'Pedidos',
+      categories: 'Categorías',
+      customers: 'Clientes',
+      analytics: 'Análisis',
+      settings: 'Configuración'
+    },
+
+    // Common UI Elements
+    common: {
+      loading: 'Cargando...',
+      error: 'Algo salió mal',
+      retry: 'Intentar de Nuevo',
+      save: 'Guardar',
+      cancel: 'Cancelar',
+      edit: 'Editar',
+      delete: 'Eliminar',
+      confirm: 'Confirmar',
+      close: 'Cerrar',
+      next: 'Siguiente',
+      previous: 'Anterior',
+      viewAll: 'Ver Todo',
+      learnMore: 'Saber Más',
+      addToCart: 'Agregar al Carrito',
+      buyNow: 'Comprar Ahora',
+      viewDetails: 'Ver Detalles',
+      search: 'Buscar',
+      filter: 'Filtrar',
+      sort: 'Ordenar por',
+      price: 'Precio',
+      category: 'Categoría',
+      brand: 'Marca',
+      availability: 'Disponibilidad',
+      inStock: 'En Stock',
+      outOfStock: 'Sin Stock',
+      onSale: 'En Oferta',
+      new: 'Nuevo',
+      featured: 'Destacado',
+      bestseller: 'Más Vendido',
+      menu: 'Menú',
     },
 
     // Footer
     footer: {
       description: 'Tu tienda online de confianza para licores y bebidas alcohólicas en Chile.',
+      quickLinks: 'Enlaces Rápidos',
       categories: 'Categorías',
-      services: 'Servicios',
-      shipping: 'Envíos',
+      customerService: 'Servicio al Cliente',
+      aboutUs: 'Sobre Nosotros',
+      contact: 'Contacto',
+      shipping: 'Información de Entrega',
       returns: 'Devoluciones',
-      support: 'Soporte',
+      warranty: 'Garantía',
       faq: 'Preguntas Frecuentes',
-      legal: 'Legal',
       terms: 'Términos y Condiciones',
       privacy: 'Política de Privacidad',
       agePolicy: 'Política de Edad',
-      contact: 'Contacto',
-      rights: 'Todos los derechos reservados.'
-    }
-  }
-} as const
+      followUs: 'Síguenos',
+      newsletter: 'Newsletter',
+      subscribe: 'Suscribirse',
+      emailPlaceholder: 'Ingresa tu email',
+      copyright: 'Todos los derechos reservados.',
+      designedBy: 'Diseñado por ΛRΛMΛC'
+    },
 
-// Divine Translation Oracle - Intelligent translation management
-export const divineTranslationOracle = {
-  // Get translation with fallback
-  getTranslation: (locale: Locale, key: string, fallback: string = key): string => {
-    const keys = key.split('.')
-    let translation: unknown = messages[locale as keyof typeof messages]
-
-    for (const k of keys) {
-      if (translation && typeof translation === 'object' && translation !== null && k in translation) {
-        translation = (translation as Record<string, unknown>)[k]
-      } else {
-        // Fallback to English or provided fallback
-        if (locale !== 'en') {
-          return divineTranslationOracle.getTranslation('en', key, fallback)
-        }
-        return fallback
-      }
-    }
-
-    return typeof translation === 'string' ? translation : fallback
+    // SEO & Meta
+    meta: {
+      title: 'Licorería ARAMAC | Licorería Premium Chile',
+      description: 'Bebidas alcohólicas premium con entrega segura. Verificación de edad y cumplimiento con Ley 19.925.',
+      keywords: 'licoreria, alcohol, vino, cerveza, licores, chile, entrega, premium, aramac',
+    },
   },
+} satisfies Record<Locale, { [key: string]: TranslationValue }>
 
-  // Get all translations for a namespace
-  getNamespaceTranslations: (locale: Locale, namespace: string) => {
-    const keys = namespace.split('.')
-    let translation: unknown = messages[locale as keyof typeof messages]
-
-    for (const k of keys) {
-      if (translation && typeof translation === 'object' && translation !== null && k in translation) {
-        translation = (translation as Record<string, unknown>)[k]
-      } else {
-        return {}
-      }
-    }
-
-    return (translation as Record<string, unknown>) || {}
-  }
+// i18n Context
+interface I18nContextType {
+  locale: Locale
+  t: (key: string, options?: { defaultValue?: string }) => string
+  changeLocale: (newLocale: Locale) => void
 }
 
-// Hook for using translations
-export const useTranslation = (locale: Locale) => ({
-  t: (key: string, fallback?: string) => divineTranslationOracle.getTranslation(locale, key, fallback),
-  tNamespace: (namespace: string) => divineTranslationOracle.getNamespaceTranslations(locale, namespace)
-})
+const I18nContext = createContext<I18nContextType | undefined>(undefined)
+
+// Provider component that manages locale state
+export function I18nProviderClient({ children, locale: initialLocale }: { children: React.ReactNode, locale: Locale }) {
+  const [locale, setLocale] = useState<Locale>(initialLocale)
+
+  // Update locale when initialLocale changes (for SSR/hydration)
+  useEffect(() => {
+    setLocale(initialLocale)
+  }, [initialLocale])
+
+  const t = (key: string, options?: { defaultValue?: string }): string => {
+    const keys = key.split('.')
+    let value: TranslationValue = translations[locale]
+
+    for (const k of keys) {
+      value = (value as { [key: string]: TranslationValue })?.[k]
+    }
+
+    // Always return a string for React components
+    if (typeof value === 'string') {
+      return value
+    }
+    return options?.defaultValue || key
+  }
+
+  const changeLocale = (newLocale: Locale) => {
+    setLocale(newLocale)
+    // Set cookie for persistence
+    document.cookie = `aramac-liquor-locale=${newLocale}; path=/; max-age=${365 * 24 * 60 * 60}`
+  }
+
+  return (
+    <I18nContext.Provider value={{ locale, t, changeLocale }}>
+      {children}
+    </I18nContext.Provider>
+  )
+}
+
+// Hook to use current locale
+export function useCurrentLocale(): Locale {
+  const context = useContext(I18nContext)
+  if (!context) {
+    throw new Error('useCurrentLocale must be used within I18nProviderClient')
+  }
+  return context.locale
+}
+
+// Hook to get translation function
+export function useI18n() {
+  const context = useContext(I18nContext)
+  if (!context) {
+    throw new Error('useI18n must be used within I18nProviderClient')
+  }
+  return context.t
+}
+
+// Hook to change locale
+export function useChangeLocale() {
+  const context = useContext(I18nContext)
+  if (!context) {
+    throw new Error('useChangeLocale must be used within I18nProviderClient')
+  }
+  return context.changeLocale
+}
+
+// Scoped i18n (same as useI18n for now)
+export const useScopedI18n = useI18n
+
+// Get direction for locale (for RTL support if needed)
+export function getDirection(_locale: Locale): 'ltr' | 'rtl' {
+  return 'ltr' // All supported locales are LTR
+}
+
+// Format currency based on locale
+export function formatCurrency(amount: number, locale: Locale): string {
+  if (locale === 'es') {
+    return new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency: 'CLP',
+      minimumFractionDigits: 0,
+    }).format(amount)
+  }
+
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount)
+}
+
+// Format date based on locale
+export function formatDate(date: Date, locale: Locale): string {
+  return new Intl.DateTimeFormat(locale === 'es' ? 'es-CL' : 'en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date)
+}

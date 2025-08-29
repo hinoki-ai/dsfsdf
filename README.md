@@ -2,11 +2,13 @@
 
 > **"The Best Liquor Store SaaS in the World"** - Built with cutting-edge technology, divine design, and unparalleled user experience.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-cyan)](https://tailwindcss.com/)
-[![Convex](https://img.shields.io/badge/Convex-Database-orange)](https://convex.dev/)
-[![Clerk](https://img.shields.io/badge/Clerk-Authentication-purple)](https://clerk.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.5-black)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0.0-blue)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.12-cyan)](https://tailwindcss.com/)
+[![Convex](https://img.shields.io/badge/Convex-1.26.1-orange)](https://convex.dev/)
+[![Clerk](https://img.shields.io/badge/Clerk-6.31.4-purple)](https://clerk.com/)
+
 ## 🌟 **Divine Features Overview**
 
 ### 🎨 **Premium Design System**
@@ -53,6 +55,7 @@
 ```bash
 Node.js >= 20.18.1
 npm >= 10.8.2
+pnpm >= 8.0.0 (optional, for faster installs)
 ```
 
 ### Installation
@@ -120,12 +123,14 @@ npm >= 10.8.2
 ### **Tech Stack**
 
 ```text
-Frontend: Next.js 15 + TypeScript + Tailwind CSS 4
-Backend: Convex (Real-time Database)
-Authentication: Clerk
-Payments: Stripe
-Email: SendGrid
-Deployment: Vercel
+Frontend: Next.js 15.3.5 + React 19.0.0 + TypeScript 5.9.2
+Styling: Tailwind CSS 4.1.12 + Radix UI Components
+Backend: Convex 1.26.1 (Real-time Database)
+Authentication: Clerk 6.31.4
+UI Components: Radix UI + Lucide React Icons
+Forms: React Hook Form + Zod Validation
+Internationalization: Custom i18n System
+Deployment: Vercel/Docker
 ```
 
 ### **Project Structure**
@@ -135,24 +140,46 @@ liquor-store-saas/
 ├── app/                          # Next.js App Router
 │   ├── [locale]/                # Internationalized routes
 │   │   ├── productos/          # Product catalog
-│   │   └── productos/[slug]/   # Product details
+│   │   │   ├── [slug]/         # Product details pages
+│   │   │   └── page.tsx        # Products listing
+│   │   └── page.tsx            # Homepage
+│   ├── admin/                   # Admin panel
+│   │   ├── inventario/         # Inventory management
+│   │   ├── productos/          # Product management
+│   │   ├── pedidos/            # Order management
+│   │   ├── layout.tsx          # Admin layout
+│   │   └── page.tsx            # Admin dashboard
+│   ├── api/                     # API routes
+│   │   ├── client-ip/          # Client IP detection
+│   │   ├── compliance/         # Compliance endpoints
+│   │   └── health/             # Health check endpoint
+│   ├── carrito/                # Shopping cart
+│   ├── checkout/               # Checkout process
 │   ├── globals.css             # Premium styling
 │   ├── layout.tsx              # Root layout
 │   └── page.tsx                # Homepage
 ├── components/                  # Reusable components
-│   ├── ui/                     # Design system components
+│   ├── ui/                     # Design system (Radix UI)
 │   ├── age-verification.tsx    # Age verification system
-│   └── header.tsx              # Navigation header
-├── convex/                     # Database functions
+│   ├── header.tsx              # Navigation header
+│   ├── product-card.tsx        # Product display component
+│   ├── product-filters.tsx     # Product filtering
+│   └── regulatory-compliance.tsx # Compliance components
+├── convex/                     # Database functions & schema
+│   ├── _generated/             # Auto-generated types
+│   ├── cart.ts                 # Shopping cart operations
 │   ├── categories.ts           # Category management
 │   ├── products.ts             # Product management
-│   ├── users.ts                # User management
-│   └── schema.ts               # Database schema
-├── lib/                        # Utilities
-│   ├── i18n.ts                 # Divine parsing oracle
-│   └── utils.ts                # Helper functions
-├── scripts/                    # Database seeding
-└── middleware.ts               # i18n routing
+│   ├── schema.ts               # Database schema
+│   └── seed.ts                 # Database seeding
+├── lib/                        # Utilities & configurations
+│   ├── i18n.ts                 # Internationalization system
+│   ├── utils.ts                # Helper functions
+│   ├── analytics.ts            # Analytics utilities
+│   └── color-palette.ts        # Color system
+├── scripts/                    # Database seeding scripts
+├── types/                      # TypeScript type definitions
+└── middleware.ts               # Authentication & routing
 ```
 
 ## 🎯 **Key Features Deep Dive**
@@ -192,7 +219,28 @@ const verificationMethods = [
 }
 ```
 
-### **4. Mobile-First Responsive Design**
+### **4. Comprehensive Database Schema**
+
+```typescript
+// Core Entities
+- Categories: Product categorization with i18n support
+- Products: Full product catalog with alcohol-specific data
+- Carts: Shopping cart with age verification
+- Orders: Complete order management system
+- UserProfiles: Extended user data with preferences
+- AgeVerifications: Chilean compliance tracking
+- InventoryLogs: Stock movement tracking
+
+// Key Features:
+- Real-time inventory management
+- Multi-language product information
+- Age verification compliance logging
+- Comprehensive order tracking
+- User preference management
+- Chilean regional delivery support
+```
+
+### **5. Mobile-First Responsive Design**
 
 ```css
 /* Mobile-optimized utilities */
@@ -269,30 +317,55 @@ const verificationMethods = [
 
 ## 🚀 **Deployment & Production**
 
-### **Production Commands**
+### **Available Scripts**
 
 ```bash
-# Build for production
-npm run build
+# Development
+npm run dev              # Start development server
+npm run dev:turbo        # Start with Turbopack
+npm run dev:port3000     # Start on port 3000
 
-# Start production server
-npm run start
+# Building
+npm run build           # Build for production
+npm start               # Start production server
 
-# Deploy to production
-npm run deploy
+# Database
+npm run convex:dev      # Start Convex development server
+npm run convex:deploy   # Deploy Convex functions
+npm run seed            # Seed database with sample data
+npm run seed:force      # Force reseed database
+
+# Testing
+npm test                # Run Jest tests
+npm run test:watch      # Run tests in watch mode
+npm run test:coverage   # Run tests with coverage
+npm run test:e2e        # Run E2E tests
+npm run test:all        # Run all tests
+
+# Deployment
+npm run deploy:docker   # Deploy with Docker
+npm run deploy:full     # Full deployment (Convex + Docker)
+npm run health          # Health check
+
+# Code Quality
+npm run lint            # Run ESLint
 ```
 
 ### **Environment Optimization**
 
 ```bash
+# Docker operations
+npm run docker:build    # Build Docker image
+npm run docker:run      # Run Docker container
+npm run docker:stop     # Stop Docker containers
+npm run docker:logs     # View Docker logs
+
 # Performance monitoring
-npm run analyze
+npm run health          # Check application health
 
-# Bundle size analysis
-npm run bundle-analyze
-
-# SEO score checking
-npm run seo-check
+# Database operations
+npm run convex:dev      # Start Convex in development
+npm run convex:deploy   # Deploy Convex functions
 ```
 
 ## 🌍 **Internationalization (i18n)**
@@ -368,5 +441,41 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 - **Open Source Community** - For the tools that make this possible
 
 ---
+
+## 📊 **Database Schema Overview**
+
+The application uses Convex as the real-time database with the following core entities:
+
+- **Categories**: Product categorization with multilingual support
+- **Products**: Comprehensive product catalog with alcohol-specific data (ABV, volume, origin, etc.)
+- **Carts**: Shopping cart functionality with age verification status
+- **Orders**: Complete order lifecycle management with Chilean compliance
+- **UserProfiles**: Extended user information and preferences
+- **AgeVerifications**: Chilean legal compliance logging (Law 19.925)
+- **InventoryLogs**: Real-time inventory tracking and adjustments
+
+## 🔧 **Development Commands Reference**
+
+```bash
+# Quick development start
+npm run dev:port3000
+
+# Full development stack
+npm run convex:dev      # Terminal 1
+npm run dev            # Terminal 2
+
+# Database management
+npm run seed           # Populate with sample data
+npm run convex:deploy  # Deploy schema changes
+
+# Testing suite
+npm run test:all       # Complete test coverage
+```
+
 ## Built with ❤️ by ARAMAC Team
+
 ### *"Creating the world's best liquor store experience, one divine detail at a time."*
+
+**Last Updated**: January 2025
+**Version**: 0.1.0
+**Status**: Production Ready
